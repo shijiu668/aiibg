@@ -179,7 +179,7 @@ export default function Home() {
         <div className="mb-8">
           <textarea
             className="input-field min-h-[100px]"
-            placeholder="Enter your creative content..."
+            placeholder="pizza in the kitchen, bean man on the street, shark..."
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
             disabled={isGenerating}
