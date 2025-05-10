@@ -6,12 +6,12 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "AI Italian Brainrot Generator",
-  description: "Use AI technology to generate Italian Brainrot images, text and voice content. Enter your creativity and get unique Italian-style generated content.",
+  description: "Generate Italian Brainrot images, text and voice content using AI technology. Enter your creativity and get unique Italian-style generated content.",
   keywords: "AI generation, Italian style, brainrot, image generation, voice generation, text generation, AI art",
   authors: [{ name: "AI Creative Studio" }],
   openGraph: {
     title: "AI Italian Brainrot Generator",
-    description: "Use AI technology to generate Italian Brainrot images, text and voice content. Enter your creativity and get unique Italian-style generated content.",
+    description: "Generate Italian Brainrot images, text and voice content using AI technology. Enter your creativity and get unique Italian-style generated content.",
     url: "https://italianbrainrots.org",
     siteName: "AI Italian Brainrot Generator",
     locale: "en",
