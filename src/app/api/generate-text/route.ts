@@ -62,7 +62,7 @@ export async function POST(request: Request) {
           "meta/llama-3-8b-instruct:85039bcd347e9a023447537264c91c90375f901b4ece7a81f4bd8fe97acb968c",
           {
             input: {
-              prompt: `Please generate a paragraph in Italian tongue twister about "${prompt}". Make it in a quirky, surreal style known as "Italian brainrot". The paragraph should be about 30 words.`,
+              prompt: `Please generate a paragraph in Italian tongue twister about "${prompt}". Make it in a quirky, surreal style known as "Italian brainrot". The paragraph should be about 20 words.`,
               system_prompt: ""
             }
           }
