@@ -12,7 +12,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const enhancedPrompt = `${prompt}, anthropomorphic, 3D render, hyperrealism, character design with bulging eyes, standing pose, without any expression, vibrant colors, tiny detailed arms and legs with round fingers, italian brainrot style, PIXAR style, soft shadows, studio lighting quality, subsurface scattering, ray tracing, 8k render, octane render, Blender 3D, Dreamworks animation style, perfect composition, professionally animated, trending on Artstation.`;
+    const enhancedPrompt = `${prompt}, anthropomorphic, 3D render, chaotic composition, hyperrealism, character design with bulging eyes, standing pose, without any expression, vibrant colors, tiny detailed arms and legs with round fingers, italian brainrot style, PIXAR style, soft shadows, studio lighting quality, subsurface scattering, ray tracing, 8k render, octane render, Blender 3D, Dreamworks animation style, perfect composition, professionally animated, trending on Artstation.`;
     
     const replicate = new Replicate({
       auth: process.env.REPLICATE_API_TOKEN,
