@@ -401,9 +401,20 @@ export default function Home() {
           >
             RightAI Tools Directory
           </a>
-        </div>
 
-      </footer>
+          <span className="mx-2">•</span>
+          <a
+            href="https://aijustworks.com"
+            title="AI Just Works"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-600 hover:text-purple-600 transition-colors"
+          >
+            AI Just Works
+          </a>
+      </div>
+      
+    </footer >
     </main >
   );
 }
