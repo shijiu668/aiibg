@@ -412,9 +412,20 @@ export default function Home() {
           >
             AI Just Works
           </a>
-      </div>
-      
-    </footer >
+
+          <span className="mx-2">•</span>
+          <a
+            href="https://SeekAIs.com/"
+            title="SeekAIs"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-600 hover:text-purple-600 transition-colors"
+          >
+            SeekAIs - AI Tools Directory
+          </a>
+        </div>
+
+      </footer >
     </main >
   );
 }
