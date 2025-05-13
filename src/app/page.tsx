@@ -378,6 +378,20 @@ export default function Home() {
 
       <footer className="text-center text-gray-500 text-sm" style={{ marginTop: "4rem", marginBottom: "2rem" }}>
         <p>© {new Date().getFullYear()} AI Italian Brainrot Generator. All rights reserved.</p>
+
+        <div style={{ marginTop: "1rem" }} className="flex justify-center items-center">
+          <span className="mr-1">Friendly Links</span>
+          <a
+            title="All The Best AI Tools"
+            href="https://allinai.tools"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-600 hover:text-purple-600 transition-colors"
+          >
+            All in AI Tools
+          </a>
+        </div>
+
       </footer>
     </main>
   );
