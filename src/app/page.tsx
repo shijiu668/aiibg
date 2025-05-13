@@ -390,9 +390,20 @@ export default function Home() {
           >
             All in AI Tools
           </a>
+
+          <span className="mx-2">•</span>
+          <a
+            href="https://right-ai.com/"
+            title="RightAI Tools Directory"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-600 hover:text-purple-600 transition-colors"
+          >
+            RightAI Tools Directory
+          </a>
         </div>
 
       </footer>
-    </main>
+    </main >
   );
 }
