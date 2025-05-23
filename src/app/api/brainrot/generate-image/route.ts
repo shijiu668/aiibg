@@ -12,7 +12,8 @@ export async function POST(request: Request) {
       );
     }
 
-    const enhancedPrompt = `${prompt}`;
+    // 直接使用传入的prompt，不再额外添加内容
+    console.log("使用处理后的提示词生成图片:", prompt.substring(0, 100) + "...");
     
     const replicate = new Replicate({
       auth: process.env.REPLICATE_API_TOKEN,
@@ -23,7 +24,7 @@ export async function POST(request: Request) {
       {
         input: {
           seed: Math.floor(Math.random() * 4294967296),
-          prompt: enhancedPrompt,
+          prompt: prompt, // 直接使用传入的处理后的提示词
           width: 1024,
           height: 1024,
           scheduler: "K_EULER",
