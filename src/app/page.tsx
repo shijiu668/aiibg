@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { BeatLoader } from "react-spinners";
-
+import Link from "next/link";
 export default function Home() {
   const [prompt, setPrompt] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
@@ -167,8 +167,27 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center italian-flag-gradient" style={{ padding: "3rem 1rem 1rem 1rem" }}>
-      <div className="z-10 max-w-5xl w-full items-center justify-center text-center">
+    <main className="flex min-h-screen flex-col items-center italian-flag-gradient">
+      {/* 导航栏 */}
+      <nav className="w-full bg-white/80 backdrop-blur-sm shadow-sm sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 py-3">
+          <div className="flex justify-between items-center">
+            <Link href="/" className="text-xl font-bold gradient-text">
+              AI Italian Brainrot
+            </Link>
+            <div className="flex space-x-6">
+              <Link href="/" className="text-gray-700 hover:text-purple-600 transition-colors">
+                Home
+              </Link>
+              <Link href="/italian-brainrot-generator" className="text-gray-700 hover:text-purple-600 transition-colors">
+                Italian Brainrot Generator 2.0
+              </Link>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div className="z-10 max-w-5xl w-full items-center justify-center text-center" style={{ padding: "3rem 1rem 1rem 1rem" }}>
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 gradient-text">
           AI Italian Brainrot Generator
         </h1>
