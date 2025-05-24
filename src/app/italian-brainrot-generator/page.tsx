@@ -208,6 +208,9 @@ export default function ItalianBrainrotGenerator() {
                             <Link href="/italian-brainrot-generator" className="text-gray-700 hover:text-orange-600 transition-colors font-medium">
                                 Italian Brainrot Generator 2.0
                             </Link>
+                            <Link href="/italian-brainrot-clicker" className="text-gray-700 hover:text-purple-600 transition-colors">
+                                Italian Brainrot Clicker
+                            </Link>
                         </div>
                     </div>
                 </div>
