@@ -13,6 +13,8 @@ export default function PdfToBrainrot() {
     const [selectedBackgroundMusic, setSelectedBackgroundMusic] = useState("");
     const [isGenerating, setIsGenerating] = useState(false);
     const [generationStep, setGenerationStep] = useState("");
+    const [progress, setProgress] = useState(0);
+    const [progressTimer, setProgressTimer] = useState<NodeJS.Timeout | null>(null);
     const [finalVideoUrl, setFinalVideoUrl] = useState("");
     const [error, setError] = useState("");
 
@@ -220,6 +222,39 @@ export default function PdfToBrainrot() {
         }
     };
 
+    // 清除之前的定时器
+    const clearProgressTimer = () => {
+        if (progressTimer) {
+            clearInterval(progressTimer);
+            setProgressTimer(null);
+        }
+    };
+
+    const setProgressAndClear = (newProgress: number) => {
+        clearProgressTimer();
+        setProgress(newProgress);
+    };
+
+    // 启动自动进度增长
+    const startProgressIncrement = (currentProgress: number, maxProgress: number) => {
+        clearProgressTimer();
+        let currentValue = currentProgress;
+        const timer = setInterval(() => {
+            setProgress(prev => {
+                // 确保进度不会倒退
+                if (prev < currentValue) {
+                    return currentValue;
+                }
+                currentValue = prev + 1;
+                if (currentValue >= maxProgress - 1) {
+                    clearInterval(timer);
+                    return maxProgress - 1;
+                }
+                return currentValue;
+            });
+        }, 1000);
+        setProgressTimer(timer);
+    };
     // Main generation function
     const handleGenerate = async () => {
         if (!pdfFile || !selectedVideoTemplate || !selectedBackgroundMusic) {
@@ -230,30 +265,45 @@ export default function PdfToBrainrot() {
         setIsGenerating(true);
         setError("");
         setFinalVideoUrl("");
+        setProgress(0);
+        if (progressTimer) {
+            clearInterval(progressTimer);
+            setProgressTimer(null);
+        }
 
         try {
+
+
             // Step 1: Extract text from PDF
             setGenerationStep("Extracting text from PDF...");
+            setProgress(10);
+            startProgressIncrement(10, 30);
             const pdfText = await extractTextFromPdf(pdfFile);
 
-            // 在这里添加调试代码：
-            console.log("PDF extracted text:", pdfText);
-            console.log("PDF text length:", pdfText.length);
-
             // Step 2: Generate brainrot text
+            setProgressAndClear(30);
             setGenerationStep("Generating brainrot content...");
+            startProgressIncrement(30, 60);
             const brainrotText = await generateBrainrotText(pdfText);
 
             // Step 3: Generate audio
+            setProgressAndClear(60);
             setGenerationStep("Generating audio narration...");
+            startProgressIncrement(60, 80);
             const audioUrl = await generateAudio(brainrotText, selectedAudioTemplate);
 
             // Step 4: Merge video components
+            clearProgressTimer();
+            setProgress(80);
+            startProgressIncrement(80, 100);
             const finalVideo = await mergeVideoComponents(
                 selectedVideoTemplate,
                 audioUrl,
                 selectedBackgroundMusic
             );
+
+            clearProgressTimer();
+            setProgress(100);
 
             setFinalVideoUrl(finalVideo);
             setGenerationStep("Video generation completed!");
@@ -262,6 +312,10 @@ export default function PdfToBrainrot() {
             setError(err.message || "Video generation failed");
         } finally {
             setIsGenerating(false);
+            if (progressTimer) {
+                clearInterval(progressTimer);
+                setProgressTimer(null);
+            }
         }
     };
 
@@ -445,6 +499,13 @@ export default function PdfToBrainrot() {
                             <div className="flex flex-col justify-center items-center bg-gray-100 rounded-lg h-96">
                                 <BeatLoader color="#ea580c" size={12} />
                                 <p className="text-gray-600 mt-4">{generationStep}</p>
+                                <div className="w-64 bg-gray-200 rounded-full h-2 mt-4">
+                                    <div
+                                        className="bg-orange-500 h-2 rounded-full transition-all duration-500 ease-out"
+                                        style={{ width: `${progress}%` }}
+                                    ></div>
+                                </div>
+                                <p className="text-sm text-gray-500 mt-2">{progress}%</p>
                             </div>
                         ) : finalVideoUrl ? (
                             <div>
