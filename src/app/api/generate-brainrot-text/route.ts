@@ -37,7 +37,7 @@ export async function POST(request: Request) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer sk-JH380KfiI12qwZQFfVaFgy8KsBM0nUbBASgZwJ4uA21QvTab'
+                'Authorization': `Bearer ${process.env.TEXT_GENERATION_API_KEY}`
             },
             body: JSON.stringify(requestBody)
         });

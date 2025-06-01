@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     }
     
     const replicate = new Replicate({
-      auth: process.env.REPLICATE_API_TOKEN || 'r8_Aw8ZVhfYkGUGA8g3MV6Q8eOyPe32gNp0Jd0ah',
+      auth: process.env.REPLICATE_API_TOKEN,
     });
 
     const input = {
