@@ -179,7 +179,7 @@ export default function PdfToBrainrot() {
         backgroundMusicId: string
     ): Promise<string> => {
         try {
-            setGenerationStep("Merging video components...");
+
 
             // Initialize FFmpeg
             const ffmpeg = new FFmpeg();
@@ -485,7 +485,7 @@ export default function PdfToBrainrot() {
                         {isGenerating ? (
                             <div className="flex flex-col justify-center items-center bg-gray-100 rounded-lg h-96">
                                 <BeatLoader color="#ea580c" size={12} />
-                                <p className="text-gray-600 mt-4">{generationStep}</p>
+                                <p className="text-gray-600 mt-4 whitespace-pre-line text-center">{generationStep}</p>
 
                                 {/* Progress Bar */}
                                 <div className="w-64 mt-6">
