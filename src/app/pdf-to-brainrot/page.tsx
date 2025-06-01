@@ -14,7 +14,6 @@ export default function PdfToBrainrot() {
     const [isGenerating, setIsGenerating] = useState(false);
     const [generationStep, setGenerationStep] = useState("");
     const [progress, setProgress] = useState(0);
-    const [progressTimer, setProgressTimer] = useState<NodeJS.Timeout | null>(null);
     const [finalVideoUrl, setFinalVideoUrl] = useState("");
     const [error, setError] = useState("");
 
@@ -222,39 +221,39 @@ export default function PdfToBrainrot() {
         }
     };
 
-    // 清除之前的定时器
-    const clearProgressTimer = () => {
-        if (progressTimer) {
-            clearInterval(progressTimer);
-            setProgressTimer(null);
+
+    // Main generation function
+    // Progress interval management
+    const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+    // Function to start progress increment
+    const startProgressIncrement = (startValue: number, maxValue: number) => {
+        setProgress(startValue);
+        if (progressIntervalRef.current) {
+            clearInterval(progressIntervalRef.current);
+        }
+
+        progressIntervalRef.current = setInterval(() => {
+            setProgress(prev => {
+                if (prev >= maxValue) {
+                    if (progressIntervalRef.current) {
+                        clearInterval(progressIntervalRef.current);
+                    }
+                    return maxValue;
+                }
+                return prev + 1;
+            });
+        }, 1000);
+    };
+
+    // Function to stop progress increment
+    const stopProgressIncrement = () => {
+        if (progressIntervalRef.current) {
+            clearInterval(progressIntervalRef.current);
+            progressIntervalRef.current = null;
         }
     };
 
-    const setProgressAndClear = (newProgress: number) => {
-        clearProgressTimer();
-        setProgress(newProgress);
-    };
-
-    // 启动自动进度增长
-    const startProgressIncrement = (currentProgress: number, maxProgress: number) => {
-        clearProgressTimer();
-        let currentValue = currentProgress;
-        const timer = setInterval(() => {
-            setProgress(prev => {
-                // 确保进度不会倒退
-                if (prev < currentValue) {
-                    return currentValue;
-                }
-                currentValue = prev + 1;
-                if (currentValue >= maxProgress - 1) {
-                    clearInterval(timer);
-                    return maxProgress - 1;
-                }
-                return currentValue;
-            });
-        }, 1000);
-        setProgressTimer(timer);
-    };
     // Main generation function
     const handleGenerate = async () => {
         if (!pdfFile || !selectedVideoTemplate || !selectedBackgroundMusic) {
@@ -266,58 +265,46 @@ export default function PdfToBrainrot() {
         setError("");
         setFinalVideoUrl("");
         setProgress(0);
-        if (progressTimer) {
-            clearInterval(progressTimer);
-            setProgressTimer(null);
-        }
 
         try {
-
-
             // Step 1: Extract text from PDF
             setGenerationStep("Extracting text from PDF...");
-            setProgress(10);
-            startProgressIncrement(10, 30);
+            startProgressIncrement(0, 29);
             const pdfText = await extractTextFromPdf(pdfFile);
+            stopProgressIncrement();
 
             // Step 2: Generate brainrot text
-            setProgressAndClear(30);
             setGenerationStep("Generating brainrot content...");
-            startProgressIncrement(30, 60);
+            startProgressIncrement(30, 59);
             const brainrotText = await generateBrainrotText(pdfText);
+            stopProgressIncrement();
 
             // Step 3: Generate audio
-            setProgressAndClear(60);
             setGenerationStep("Generating audio narration...");
-            startProgressIncrement(60, 80);
+            startProgressIncrement(60, 79);
             const audioUrl = await generateAudio(brainrotText, selectedAudioTemplate);
+            stopProgressIncrement();
 
             // Step 4: Merge video components
-            clearProgressTimer();
-            setProgress(80);
-            startProgressIncrement(80, 100);
+            setGenerationStep("Merging video components...");
+            startProgressIncrement(80, 99);
             const finalVideo = await mergeVideoComponents(
                 selectedVideoTemplate,
                 audioUrl,
                 selectedBackgroundMusic
             );
-
-            clearProgressTimer();
+            stopProgressIncrement();
             setProgress(100);
-
             setFinalVideoUrl(finalVideo);
             setGenerationStep("Video generation completed!");
         } catch (err: any) {
             console.error("Generation error:", err);
             setError(err.message || "Video generation failed");
+            stopProgressIncrement();
         } finally {
             setIsGenerating(false);
-            if (progressTimer) {
-                clearInterval(progressTimer);
-                setProgressTimer(null);
-            }
         }
-    };
+    }
 
     return (
         <main className="flex min-h-screen flex-col items-center orange-flag-gradient">
@@ -499,13 +486,20 @@ export default function PdfToBrainrot() {
                             <div className="flex flex-col justify-center items-center bg-gray-100 rounded-lg h-96">
                                 <BeatLoader color="#ea580c" size={12} />
                                 <p className="text-gray-600 mt-4">{generationStep}</p>
-                                <div className="w-64 bg-gray-200 rounded-full h-2 mt-4">
-                                    <div
-                                        className="bg-orange-500 h-2 rounded-full transition-all duration-500 ease-out"
-                                        style={{ width: `${progress}%` }}
-                                    ></div>
+
+                                {/* Progress Bar */}
+                                <div className="w-64 mt-6">
+                                    <div className="flex justify-between text-sm text-gray-600 mb-2">
+                                        <span>Progress</span>
+                                        <span>{progress}%</span>
+                                    </div>
+                                    <div className="w-full bg-gray-200 rounded-full h-2">
+                                        <div
+                                            className="bg-orange-600 h-2 rounded-full transition-all duration-300 ease-out"
+                                            style={{ width: `${progress}%` }}
+                                        ></div>
+                                    </div>
                                 </div>
-                                <p className="text-sm text-gray-500 mt-2">{progress}%</p>
                             </div>
                         ) : finalVideoUrl ? (
                             <div>
