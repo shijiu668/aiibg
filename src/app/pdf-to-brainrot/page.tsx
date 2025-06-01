@@ -286,7 +286,7 @@ export default function PdfToBrainrot() {
             stopProgressIncrement();
 
             // Step 4: Merge video components
-            setGenerationStep("Merging video components...");
+            setGenerationStep("Video rendering...\nThis process may take 3-5 minutes for the first time.");
             startProgressIncrement(80, 99);
             const finalVideo = await mergeVideoComponents(
                 selectedVideoTemplate,
