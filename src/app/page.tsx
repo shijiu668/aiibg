@@ -182,6 +182,9 @@ export default function Home() {
               <Link href="/italian-brainrot-generator" className="text-gray-700 hover:text-purple-600 transition-colors">
                 Italian Brainrot Generator 2.0
               </Link>
+              <Link href="/pdf-to-brainrot" className="text-gray-700 hover:text-purple-600 transition-colors">
+                PDF to Brainrot
+              </Link>
               <Link href="/italian-brainrot-clicker" className="text-gray-700 hover:text-purple-600 transition-colors">
                 Italian Brainrot Clicker
               </Link>
