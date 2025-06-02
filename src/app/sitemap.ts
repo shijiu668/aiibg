@@ -15,6 +15,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: 'https://italianbrainrots.org/pdf-to-brainrot',
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
       url: 'https://italianbrainrots.org/italian-brainrot-clicker',
       lastModified: new Date(),
       changeFrequency: 'weekly',
