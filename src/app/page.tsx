@@ -198,7 +198,7 @@ export default function Home() {
                   </svg>
                 </span>
                 {showAIToolsDropdown && (
-                  <div className="absolute top-6 left-0 w-56 z-50">
+                  <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-56 z-50">
                     <div className="h-4 w-full"></div>
                     <div className="bg-white rounded-lg shadow-lg border border-gray-200 py-3">
                       <Link
