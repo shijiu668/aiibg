@@ -8,6 +8,8 @@ export const metadata: Metadata = {
     title: "PDF to Brainrot: Transform PDFs to Brainrot Video With AI",
     description: "Convert PDF documents into engaging brainrot-style videos instantly. Upload PDFs, customize templates, and generate viral content with AI-powered PDF to brainrot technology.",
     url: "https://italianbrainrots.org/pdf-to-brainrot",
+    locale: "en",
+    type: "website",
   },
 };
 
