@@ -18,6 +18,7 @@ export default function ItalianBrainrotGenerator() {
     const [audioUrl, setAudioUrl] = useState("");
     const [audioLoading, setAudioLoading] = useState(false);
     const [audioError, setAudioError] = useState("");
+    const [showAIToolsDropdown, setShowAIToolsDropdown] = useState(false);
 
     const [error, setError] = useState("");
     const audioRef = useRef<HTMLAudioElement>(null);
@@ -205,15 +206,43 @@ export default function ItalianBrainrotGenerator() {
                             <Link href="/" className="text-gray-700 hover:text-purple-600 transition-colors">
                                 Home
                             </Link>
-                            <Link href="/italian-brainrot-generator" className="text-gray-700 hover:text-orange-600 transition-colors font-medium">
+                            <Link href="/italian-brainrot-generator" className="text-gray-700 hover:text-purple-600 transition-colors">
                                 Italian Brainrot Generator 2.0
                             </Link>
                             <Link href="/pdf-to-brainrot" className="text-gray-700 hover:text-purple-600 transition-colors">
                                 PDF to Brainrot
                             </Link>
-                            <Link href="/italian-brainrot-clicker" className="text-gray-700 hover:text-purple-600 transition-colors">
-                                Italian Brainrot Clicker
-                            </Link>
+                            <div
+                                className="relative"
+                                onMouseEnter={() => setShowAIToolsDropdown(true)}
+                                onMouseLeave={() => setShowAIToolsDropdown(false)}
+                            >
+                                <span className="text-gray-700 hover:text-purple-600 transition-colors cursor-pointer">
+                                    AI Tools
+                                    <svg className="ml-1 w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </span>
+                                {showAIToolsDropdown && (
+                                    <div className="absolute top-6 left-0 w-56 z-50">
+                                        <div className="h-4 w-full"></div>
+                                        <div className="bg-white rounded-lg shadow-lg border border-gray-200 py-3">
+                                            <Link
+                                                href="/brainrot-voice-generator"
+                                                className="block px-4 py-3 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors"
+                                            >
+                                                Brainrot Voice Generator
+                                            </Link>
+                                            <Link
+                                                href="/italian-brainrot-clicker"
+                                                className="block px-4 py-3 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors"
+                                            >
+                                                Italian Brainrot Clicker
+                                            </Link>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>

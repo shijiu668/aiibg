@@ -89,6 +89,34 @@ body {
     @apply bg-white rounded-xl shadow-md transition-all duration-300 hover:shadow-lg border border-orange-100;
     padding: 1.5rem;
   }
+
+  :root {
+    --blue-primary: 59, 130, 246;
+    --blue-secondary: 37, 99, 235;
+  }
+
+  .gradient-text-blue {
+    background: linear-gradient(135deg, rgb(var(--blue-primary)), rgb(var(--blue-secondary)));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .btn-blue {
+    @apply rounded-lg font-medium text-white shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, rgb(var(--blue-primary)), rgb(var(--blue-secondary)));
+  }
+
+  .input-field-blue {
+    @apply w-full border border-blue-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition-all duration-300;
+    padding: 1rem;
+  }
+
+  .result-container-blue {
+    @apply bg-white rounded-xl shadow-md transition-all duration-300 hover:shadow-lg border border-blue-100;
+    padding: 1.5rem;
+  }
 }
 
 .italian-flag-gradient {
@@ -115,6 +143,10 @@ body {
 
   .input-field,
   .input-field-orange {
+    padding: 0.75rem;
+  }
+
+  .input-field-blue {
     padding: 0.75rem;
   }
 }
