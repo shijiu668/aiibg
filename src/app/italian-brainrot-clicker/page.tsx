@@ -30,7 +30,7 @@ export default function ItalianBrainrotClicker() {
                                 onMouseLeave={() => setShowAIToolsDropdown(false)}
                             >
                                 <span className="text-gray-700 hover:text-purple-600 transition-colors cursor-pointer">
-                                    AI Tools
+                                    AI Brainrot Tools
                                     <svg className="ml-1 w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                     </svg>
@@ -40,6 +40,12 @@ export default function ItalianBrainrotClicker() {
                                         <div className="h-4 w-full"></div>
                                         <div className="bg-white rounded-lg shadow-lg border border-gray-200 py-3">
                                             <Link
+                                                href="/italian-brainrot-translator"
+                                                className="block px-4 py-3 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors"
+                                            >
+                                                Italian Brainrot Translator
+                                            </Link>
+                                            <Link
                                                 href="/brainrot-voice-generator"
                                                 className="block px-4 py-3 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors"
                                             >
@@ -47,7 +53,7 @@ export default function ItalianBrainrotClicker() {
                                             </Link>
                                             <Link
                                                 href="/italian-brainrot-clicker"
-                                                className="block px-4 py-3 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors font-medium"
+                                                className="block px-4 py-3 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors"
                                             >
                                                 Italian Brainrot Clicker
                                             </Link>
