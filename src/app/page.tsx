@@ -436,56 +436,152 @@ export default function Home() {
         </div>
       </div>
 
-      <footer className="text-center text-gray-500 text-sm" style={{ marginTop: "4rem", marginBottom: "2rem" }}>
-        <p>© {new Date().getFullYear()} AI Italian Brainrot Generator. All rights reserved.</p>
-
-        <div style={{ marginTop: "1rem" }} className="flex justify-center items-center">
-          <span className="mr-1">Friendly Links</span>
-          <a
-            title="All The Best AI Tools"
-            href="https://allinai.tools"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-600 hover:text-purple-600 transition-colors"
-          >
-            All in AI Tools
-          </a>
-
-          <span className="mx-2">•</span>
-          <a
-            href="https://right-ai.com/"
-            title="RightAI Tools Directory"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-600 hover:text-purple-600 transition-colors"
-          >
-            RightAI Tools Directory
-          </a>
-
-          <span className="mx-2">•</span>
-          <a
-            href="https://aijustworks.com"
-            title="AI Just Works"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-600 hover:text-purple-600 transition-colors"
-          >
-            AI Just Works
-          </a>
-
-          <span className="mx-2">•</span>
-          <a
-            href="https://SeekAIs.com/"
-            title="SeekAIs"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-600 hover:text-purple-600 transition-colors"
-          >
-            SeekAIs - AI Tools Directory
-          </a>
+      {/* 作品展示区域 */}
+      <div className="w-full py-12 mt-16">
+        {/* 第一行 - 向左滑动 */}
+        <div className="w-full overflow-hidden mb-6">
+          <div className="flex animate-scroll-left">
+            {Array.from({ length: 3 }).map((_, setIndex) => (
+              <div key={setIndex} className="flex shrink-0">
+                {[1, 2, 3, 4, 5, 6, 7, 8].map((imageNum) => (
+                  <div key={imageNum} className="w-64 h-64 mx-2 rounded-lg overflow-hidden shadow-md">
+                    <img
+                      src={`/gallery/example-${imageNum}.png`}
+                      alt={`AI Generated Example ${imageNum}`}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = `https://picsum.photos/192/128?random=${imageNum}`;
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
 
-      </footer >
+        {/* 第二行 - 向右滑动 */}
+        <div className="w-full overflow-hidden">
+          <div className="flex animate-scroll-right">
+            {Array.from({ length: 3 }).map((_, setIndex) => (
+              <div key={setIndex} className="flex shrink-0">
+                {[9, 10, 11, 12, 13, 14, 15, 16].map((imageNum) => (
+                  <div key={imageNum} className="w-64 h-64 mx-2 rounded-lg overflow-hidden shadow-md">
+                    <img
+                      src={`/gallery/example-${imageNum}.png`}
+                      alt={`AI Generated Example ${imageNum}`}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = `https://picsum.photos/192/128?random=${imageNum}`;
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+
+      {/* 页脚区域 - 白色背景包含所有内容 */}
+      <div className="w-full bg-white py-8 mt-16">
+        <div className="max-w-5xl mx-auto px-4">
+          {/* 页脚导航 */}
+          <h3 className="text-sm font-bold mb-6 text-center text-gray-700">Explore All AI Tools</h3>
+          <div className="flex justify-center mb-8">
+            <div className="grid grid-cols-2 gap-32">
+              <div className="flex flex-col space-y-3">
+                <Link href="/" className="text-center p-2 rounded-lg hover:bg-gray-50 transition-colors">
+                  <div className="text-sm font-medium text-gray-700 hover:text-purple-600 whitespace-nowrap">AI Italian Brainrot Generator</div>
+                </Link>
+                <Link href="/italian-brainrot-generator" className="text-center p-2 rounded-lg hover:bg-gray-50 transition-colors">
+                  <div className="text-sm font-medium text-gray-700 hover:text-purple-600 whitespace-nowrap">Italian Brainrot Generator 2.0</div>
+                </Link>
+                <Link href="/pdf-to-brainrot" className="text-center p-2 rounded-lg hover:bg-gray-50 transition-colors">
+                  <div className="text-sm font-medium text-gray-700 hover:text-purple-600 whitespace-nowrap">PDF to Brainrot</div>
+                </Link>
+              </div>
+              <div className="flex flex-col space-y-3">
+                <Link href="/italian-brainrot-translator" className="text-center p-2 rounded-lg hover:bg-gray-50 transition-colors">
+                  <div className="text-sm font-medium text-gray-700 hover:text-purple-600 whitespace-nowrap">Italian Brainrot Translator</div>
+                </Link>
+                <Link href="/brainrot-voice-generator" className="text-center p-2 rounded-lg hover:bg-gray-50 transition-colors">
+                  <div className="text-sm font-medium text-gray-700 hover:text-purple-600 whitespace-nowrap">Brainrot Voice Generator</div>
+                </Link>
+                <Link href="/italian-brainrot-clicker" className="text-center p-2 rounded-lg hover:bg-gray-50 transition-colors">
+                  <div className="text-sm font-medium text-gray-700 hover:text-purple-600 whitespace-nowrap">Italian Brainrot Clicker</div>
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* 分隔线 */}
+          <div className="w-full border-t-2 border-gray-300 mb-6"></div>
+
+          {/* 原页脚内容 */}
+          <div className="text-center text-gray-500 text-sm">
+            <div className="mb-4">
+              <a
+                href="https://italianbrainrots.org"
+                className="text-xl font-bold text-gray-800 hover:text-gray-600 transition-colors"
+              >
+                italianbrainrots.org
+              </a>
+            </div>
+
+            <p>© {new Date().getFullYear()} AI Italian Brainrot Generator. All rights reserved.</p>
+
+            <div style={{ marginTop: "1rem" }} className="flex justify-center items-center">
+              <span className="mr-1">Friendly Links</span>
+              <a
+                title="All The Best AI Tools"
+                href="https://allinai.tools"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-600 hover:text-purple-600 transition-colors"
+              >
+                All in AI Tools
+              </a>
+
+              <span className="mx-2">•</span>
+              <a
+                href="https://right-ai.com/"
+                title="RightAI Tools Directory"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-600 hover:text-purple-600 transition-colors"
+              >
+                RightAI Tools Directory
+              </a>
+
+              <span className="mx-2">•</span>
+              <a
+                href="https://aijustworks.com"
+                title="AI Just Works"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-600 hover:text-purple-600 transition-colors"
+              >
+                AI Just Works
+              </a>
+
+              <span className="mx-2">•</span>
+              <a
+                href="https://SeekAIs.com/"
+                title="SeekAIs"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-600 hover:text-purple-600 transition-colors"
+              >
+                SeekAIs - AI Tools Directory
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </main >
   );
 }
