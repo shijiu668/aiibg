@@ -38,6 +38,14 @@ export default function RootLayout({
       <body className={inter.className}>
         {children}
 
+        {/* Google AdSense */}
+        <Script
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3559963390888882"
+          strategy="afterInteractive"
+          crossOrigin="anonymous"
+          async
+        />
+
         {/* Google Analytics代码 - 页面加载后执行 */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-QQ7D0ST9FK"
