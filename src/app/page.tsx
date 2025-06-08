@@ -3,6 +3,8 @@
 import { useState, useRef, useEffect } from "react";
 import { BeatLoader } from "react-spinners";
 import Link from "next/link";
+import { useCallback, useMemo } from "react";
+import { startTransition } from "react";
 export default function Home() {
   const [prompt, setPrompt] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
@@ -40,33 +42,38 @@ export default function Home() {
     };
   }, [isGenerating]);
 
-  const handleGenerate = async () => {
+  // 添加防抖处理
+  const handleGenerate = useCallback(async () => {
     if (!prompt.trim()) {
       setError("Please enter a prompt word");
       return;
     }
 
-    // 重置所有状态
-    setError("");
-    setIsGenerating(true);
-    setImageUrl("");
-    setImageLoading(true);
-    setImageError("");
+    // 防止重复点击
+    if (isGenerating) return;
 
-    setText("");
-    setTextLoading(true);
-    setTextError("");
+    // 使用 startTransition 优化用户交互响应
+    startTransition(() => {
+      setError("");
+      setIsGenerating(true);
+      setImageUrl("");
+      setImageLoading(true);
+      setImageError("");
+      setText("");
+      setTextLoading(true);
+      setTextError("");
+      setAudioUrl("");
+      setAudioLoading(false);
+      setAudioError("");
+    });
 
-    setAudioUrl("");
-    setAudioLoading(false);
-    setAudioError("");
+    // 延迟执行 API 调用，让状态更新先完成
+    setTimeout(() => {
+      generateImage(prompt);
+      generateText(prompt);
+    }, 0);
+  }, [prompt, isGenerating]);
 
-    // 独立生成图片
-    generateImage(prompt);
-
-    // 独立生成文本
-    generateText(prompt);
-  };
 
   // 生成图片的函数
   const generateImage = async (userPrompt: string) => {
@@ -246,9 +253,9 @@ export default function Home() {
           />
           {error && <p className="text-red-500 mt-2">{error}</p>}
           <button
-            className="btn-primary mt-4 w-full sm:w-auto"
+            className="btn-primary mt-4 w-full sm:w-auto transform transition-transform active:scale-95"
             onClick={handleGenerate}
-            disabled={isGenerating}
+            disabled={isGenerating || !prompt.trim()}
             style={{ marginTop: "1rem" }}
           >
             {isGenerating ? <BeatLoader color="#ffffff" size={8} /> : "Start generating"}
@@ -549,7 +556,7 @@ export default function Home() {
                     <div className="text-sm text-gray-600 hover:text-purple-600 whitespace-nowrap cursor-pointer group">
                       Contact Us
                       <div className="absolute bottom-full left-0 mb-2 px-3 py-2 bg-black text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 pointer-events-none">
-                        We'd love to hear from you! 
+                        We'd love to hear from you!
                       </div>
                     </div>
                   </div>

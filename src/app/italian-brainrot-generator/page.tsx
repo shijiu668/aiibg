@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback, startTransition } from "react";
 import { BeatLoader } from "react-spinners";
 import Link from "next/link";
 
@@ -41,33 +41,36 @@ export default function ItalianBrainrotGenerator() {
         };
     }, [isGenerating]);
 
-    const handleGenerate = async () => {
+    const handleGenerate = useCallback(async () => {
         if (!prompt.trim()) {
             setError("Please enter a prompt word");
             return;
         }
 
-        // 重置所有状态
-        setError("");
-        setIsGenerating(true);
-        setImageUrl("");
-        setImageLoading(true);
-        setImageError("");
+        // 防止重复点击
+        if (isGenerating) return;
 
-        setText("");
-        setTextLoading(true);
-        setTextError("");
+        // 使用 startTransition 优化用户交互响应
+        startTransition(() => {
+            setError("");
+            setIsGenerating(true);
+            setImageUrl("");
+            setImageLoading(true);
+            setImageError("");
+            setText("");
+            setTextLoading(true);
+            setTextError("");
+            setAudioUrl("");
+            setAudioLoading(false);
+            setAudioError("");
+        });
 
-        setAudioUrl("");
-        setAudioLoading(false);
-        setAudioError("");
-
-        // 独立生成图片
-        generateImage(prompt);
-
-        // 独立生成文本
-        generateText(prompt);
-    };
+        // 延迟执行 API 调用，让状态更新先完成
+        setTimeout(() => {
+            generateImage(prompt);
+            generateText(prompt);
+        }, 0);
+    }, [prompt, isGenerating]);
 
     // 生成图片的函数 - 使用新的API路由
     // 生成图片的函数 - 先处理提示词，再生成图片
@@ -281,9 +284,9 @@ export default function ItalianBrainrotGenerator() {
                                 />
                                 {error && <p className="text-red-500 text-sm">{error}</p>}
                                 <button
-                                    className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white font-medium py-3 px-6 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white font-medium py-3 px-6 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"
                                     onClick={handleGenerate}
-                                    disabled={isGenerating}
+                                    disabled={isGenerating || !prompt.trim()}
                                 >
                                     {isGenerating ? (
                                         <div className="flex items-center justify-center">
@@ -326,90 +329,97 @@ export default function ItalianBrainrotGenerator() {
                         {/* 图片结果 */}
                         <div className="bg-white rounded-2xl shadow-lg p-6 border border-orange-100">
                             <h3 className="text-xl font-semibold mb-4 text-orange-600">Generated Image</h3>
-                            {imageLoading ? (
-                                <div className="flex justify-center items-center bg-gradient-to-br from-orange-50 to-red-50 rounded-xl h-64">
-                                    <div className="text-center">
-                                        <BeatLoader color="#ea580c" size={12} />
-                                        <p className="text-orange-600 mt-3">Creating Italian Brainrot character...</p>
-                                    </div>
+                            <div className="flex justify-center">
+                                <div
+                                    className="bg-gradient-to-br from-orange-50 to-red-50 rounded-xl flex justify-center items-center"
+                                    style={{
+                                        width: "100%",
+                                        height: "320px", // 固定高度 (max-h-80 = 320px)
+                                        maxWidth: "600px"
+                                    }}
+                                >
+                                    {imageLoading ? (
+                                        <div className="text-center">
+                                            <BeatLoader color="#ea580c" size={12} />
+                                            <p className="text-orange-600 mt-3">Creating Italian Brainrot character...</p>
+                                        </div>
+                                    ) : imageError ? (
+                                        <p className="text-red-500 text-center px-4">{imageError}</p>
+                                    ) : imageUrl ? (
+                                        <img
+                                            src={imageUrl}
+                                            alt="Generated Italian Brainrot Character"
+                                            className="rounded-xl object-contain shadow-lg"
+                                            style={{
+                                                maxHeight: "100%",
+                                                maxWidth: "100%",
+                                                width: "auto",
+                                                height: "auto"
+                                            }}
+                                            loading="lazy"
+                                            decoding="async"
+                                        />
+                                    ) : (
+                                        <p className="text-gray-500">Your Italian Brainrot character will appear here</p>
+                                    )}
                                 </div>
-                            ) : imageError ? (
-                                <div className="flex justify-center items-center bg-red-50 rounded-xl h-40">
-                                    <p className="text-red-500 text-center px-4">{imageError}</p>
-                                </div>
-                            ) : imageUrl ? (
-                                <div className="flex justify-center">
-                                    <img
-                                        src={imageUrl}
-                                        alt="Generated Italian Brainrot Character"
-                                        className="rounded-xl object-contain max-h-80 shadow-lg"
-                                    />
-                                </div>
-                            ) : (
-                                <div className="flex justify-center items-center bg-gray-50 rounded-xl h-64">
-                                    <p className="text-gray-500">Your Italian Brainrot character will appear here</p>
-                                </div>
-                            )}
+                            </div>
                         </div>
 
                         {/* 文本结果 */}
                         <div className="bg-white rounded-2xl shadow-lg p-6 border border-orange-100">
                             <h3 className="text-xl font-semibold mb-4 text-orange-600">Generated Text</h3>
-                            {textLoading ? (
-                                <div className="flex justify-center items-center bg-gradient-to-br from-orange-50 to-red-50 rounded-xl h-32">
-                                    <div className="text-center">
+                            <div
+                                className="bg-gradient-to-br from-orange-50 to-red-50 rounded-xl flex items-center justify-center"
+                                style={{ minHeight: "128px" }} // 固定最小高度 (h-32 = 128px)
+                            >
+                                {textLoading ? (
+                                    <div className="text-center py-4">
                                         <BeatLoader color="#ea580c" size={10} />
                                         <p className="text-orange-600 mt-3">Writing Italian Brainrot story...</p>
                                     </div>
-                                </div>
-                            ) : textError ? (
-                                <div className="flex justify-center items-center bg-red-50 rounded-xl h-24">
+                                ) : textError ? (
                                     <p className="text-red-500 text-center px-4">{textError}</p>
-                                </div>
-                            ) : text ? (
-                                <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-xl p-4">
-                                    <p className="italic text-gray-700 leading-relaxed">{text}</p>
-                                </div>
-                            ) : (
-                                <div className="flex justify-center items-center bg-gray-50 rounded-xl h-32">
+                                ) : text ? (
+                                    <div className="w-full p-4">
+                                        <p className="italic text-gray-700 leading-relaxed">{text}</p>
+                                    </div>
+                                ) : (
                                     <p className="text-gray-500">Your Italian Brainrot text will appear here</p>
-                                </div>
-                            )}
+                                )}
+                            </div>
                         </div>
 
                         {/* 音频结果 */}
                         <div className="bg-white rounded-2xl shadow-lg p-6 border border-orange-100">
                             <h3 className="text-xl font-semibold mb-4 text-orange-600">Generated Audio</h3>
-                            {audioLoading ? (
-                                <div className="flex justify-center items-center bg-gradient-to-br from-orange-50 to-red-50 rounded-xl h-20">
-                                    <div className="text-center">
+                            <div
+                                className="bg-gradient-to-br from-orange-50 to-red-50 rounded-xl flex items-center justify-center"
+                                style={{ minHeight: "80px" }} // 固定最小高度 (h-20 = 80px)
+                            >
+                                {audioLoading ? (
+                                    <div className="text-center py-4">
                                         <BeatLoader color="#ea580c" size={8} />
                                         <p className="text-orange-600 mt-2">Creating Italian voice...</p>
                                     </div>
-                                </div>
-                            ) : audioError ? (
-                                <div className="flex justify-center items-center bg-red-50 rounded-xl h-20">
+                                ) : audioError ? (
                                     <p className="text-red-500 text-center px-4">{audioError}</p>
-                                </div>
-                            ) : audioUrl ? (
-                                <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-xl p-4">
-                                    <audio ref={audioRef} controls className="w-full">
-                                        <source src={audioUrl} type="audio/wav" />
-                                        Your browser does not support the audio element.
-                                    </audio>
-                                </div>
-                            ) : text ? (
-                                <div className="flex justify-center items-center bg-gradient-to-br from-orange-50 to-red-50 rounded-xl h-20">
-                                    <div className="text-center">
+                                ) : audioUrl ? (
+                                    <div className="w-full p-4">
+                                        <audio ref={audioRef} controls className="w-full">
+                                            <source src={audioUrl} type="audio/wav" />
+                                            Your browser does not support the audio element.
+                                        </audio>
+                                    </div>
+                                ) : text ? (
+                                    <div className="text-center py-4">
                                         <BeatLoader color="#ea580c" size={8} />
                                         <p className="text-orange-600">Preparing Italian voice generation...</p>
                                     </div>
-                                </div>
-                            ) : (
-                                <div className="flex justify-center items-center bg-gray-50 rounded-xl h-20">
+                                ) : (
                                     <p className="text-gray-500">Your Italian Brainrot audio will appear here</p>
-                                </div>
-                            )}
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
