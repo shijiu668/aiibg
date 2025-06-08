@@ -288,53 +288,146 @@ export default function ItalianBrainrotTranslator() {
                 </div>
             </div>
 
-            <footer className="text-center text-gray-500 text-sm" style={{ marginTop: "4rem", marginBottom: "2rem" }}>
-                <p>© {new Date().getFullYear()} AI Italian Brainrot Generator. All rights reserved.</p>
+            {/* 页脚区域 - 白色背景包含所有内容 */}
+            <footer className="w-full bg-white py-8 mt-16">
+                <div className="max-w-6xl mx-auto px-4">
+                    {/* 页脚导航 */}
+                    <div className="flex justify-center mb-8">
+                        <div className="grid grid-cols-5 gap-32">
+                            {/* Generator 列 */}
+                            <div className="flex flex-col">
+                                <h4 className="text-sm font-bold mb-3 text-left text-gray-700">Generator</h4>
+                                <div className="flex flex-col space-y-2">
+                                    <Link href="/" className="text-left pl-0 pr-1 py-1 rounded transition-colors">
+                                        <div className="text-sm text-gray-600 hover:text-purple-600 whitespace-nowrap">AI Italian Brainrot Generator</div>
+                                    </Link>
+                                    <Link href="/italian-brainrot-generator" className="text-left pl-0 pr-1 py-1 rounded transition-colors">
+                                        <div className="text-sm text-gray-600 hover:text-purple-600 whitespace-nowrap">Italian Brainrot Generator 2.0</div>
+                                    </Link>
+                                    <Link href="/brainrot-voice-generator" className="text-left pl-0 pr-1 py-1 rounded transition-colors">
+                                        <div className="text-sm text-gray-600 hover:text-purple-600 whitespace-nowrap">Brainrot Voice Generator</div>
+                                    </Link>
+                                </div>
+                            </div>
 
-                <div style={{ marginTop: "1rem" }} className="flex justify-center items-center">
-                    <span className="mr-1">Friendly Links</span>
-                    <a
-                        title="All The Best AI Tools"
-                        href="https://allinai.tools"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-gray-600 hover:text-purple-600 transition-colors"
-                    >
-                        All in AI Tools
-                    </a>
+                            {/* PDF 列 */}
+                            <div className="flex flex-col">
+                                <h4 className="text-sm font-bold mb-3 text-left text-gray-700">PDF</h4>
+                                <div className="flex flex-col space-y-2">
+                                    <Link href="/pdf-to-brainrot" className="text-left pl-0 pr-1 py-1 rounded transition-colors">
+                                        <div className="text-sm text-gray-600 hover:text-purple-600 whitespace-nowrap">PDF to Brainrot</div>
+                                    </Link>
+                                </div>
+                            </div>
 
-                    <span className="mx-2">•</span>
-                    <a
-                        href="https://right-ai.com/"
-                        title="RightAI Tools Directory"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-gray-600 hover:text-purple-600 transition-colors"
-                    >
-                        RightAI Tools Directory
-                    </a>
+                            {/* Translator 列 */}
+                            <div className="flex flex-col">
+                                <h4 className="text-sm font-bold mb-3 text-left text-gray-700">Translator</h4>
+                                <div className="flex flex-col space-y-2">
+                                    <Link href="/italian-brainrot-translator" className="text-left pl-0 pr-1 py-1 rounded transition-colors">
+                                        <div className="text-sm text-gray-600 hover:text-purple-600 whitespace-nowrap">Italian Brainrot Translator</div>
+                                    </Link>
+                                </div>
+                            </div>
 
-                    <span className="mx-2">•</span>
-                    <a
-                        href="https://aijustworks.com"
-                        title="AI Just Works"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-gray-600 hover:text-purple-600 transition-colors"
-                    >
-                        AI Just Works
-                    </a>
+                            {/* Game 列 */}
+                            <div className="flex flex-col">
+                                <h4 className="text-sm font-bold mb-3 text-left text-gray-700">Game</h4>
+                                <div className="flex flex-col space-y-2">
+                                    <Link href="/italian-brainrot-clicker" className="text-left pl-0 pr-1 py-1 rounded transition-colors">
+                                        <div className="text-sm text-gray-600 hover:text-purple-600 whitespace-nowrap">Italian Brainrot Clicker</div>
+                                    </Link>
+                                </div>
+                            </div>
 
-                    <span className="mx-2">•</span>
-                    <a
-                        href="https://SeekAIs.com/"
-                        title="SeekAIs"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-gray-600 hover:text-purple-600 transition-colors"
-                    >
-                        SeekAIs - AI Tools Directory
-                    </a>
+                            {/* Support 列 */}
+                            <div className="flex flex-col">
+                                <h4 className="text-sm font-bold mb-3 text-left text-gray-700">Support</h4>
+                                <div className="flex flex-col space-y-2">
+                                    <Link href="/about-us" className="text-left pl-0 pr-1 py-1 rounded transition-colors">
+                                        <div className="text-sm text-gray-600 hover:text-purple-600 whitespace-nowrap">About Us</div>
+                                    </Link>
+                                    <div className="text-left pl-0 pr-1 py-1 relative">
+                                        <div className="text-sm text-gray-600 hover:text-purple-600 whitespace-nowrap cursor-pointer group">
+                                            Contact Us
+                                            <div className="absolute bottom-full left-0 mb-2 px-3 py-2 bg-black text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 pointer-events-none">
+                                                We'd love to hear from you!
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <Link href="/privacy-policy" className="text-left pl-0 pr-1 py-1 rounded transition-colors">
+                                        <div className="text-sm text-gray-600 hover:text-purple-600 whitespace-nowrap">Privacy Policy</div>
+                                    </Link>
+                                    <Link href="/terms-and-conditions" className="text-left pl-0 pr-1 py-1 rounded transition-colors">
+                                        <div className="text-sm text-gray-600 hover:text-purple-600 whitespace-nowrap">Terms and Conditions</div>
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* 分隔线 */}
+                    <div className="w-full border-t-2 border-gray-300 mb-6"></div>
+
+                    {/* 原页脚内容 */}
+                    <div className="text-center text-gray-500 text-sm">
+                        <div className="mb-4">
+                            <a
+                                href="https://italianbrainrots.org"
+                                className="text-xl font-bold text-gray-800 hover:text-gray-600 transition-colors"
+                            >
+                                italianbrainrots.org
+                            </a>
+                        </div>
+
+                        <p>© {new Date().getFullYear()} AI Italian Brainrot Generator. All rights reserved.</p>
+
+                        <div style={{ marginTop: "1rem" }} className="flex justify-center items-center">
+                            <span className="mr-1">Friendly Links</span>
+                            <a
+                                title="All The Best AI Tools"
+                                href="https://allinai.tools"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-gray-600 hover:text-purple-600 transition-colors"
+                            >
+                                All in AI Tools
+                            </a>
+
+                            <span className="mx-2">•</span>
+                            <a
+                                href="https://right-ai.com/"
+                                title="RightAI Tools Directory"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-gray-600 hover:text-purple-600 transition-colors"
+                            >
+                                RightAI Tools Directory
+                            </a>
+
+                            <span className="mx-2">•</span>
+                            <a
+                                href="https://aijustworks.com"
+                                title="AI Just Works"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-gray-600 hover:text-purple-600 transition-colors"
+                            >
+                                AI Just Works
+                            </a>
+
+                            <span className="mx-2">•</span>
+                            <a
+                                href="https://SeekAIs.com/"
+                                title="SeekAIs"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-gray-600 hover:text-purple-600 transition-colors"
+                            >
+                                SeekAIs - AI Tools Directory
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </footer>
         </main>

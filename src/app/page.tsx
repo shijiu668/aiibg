@@ -187,7 +187,7 @@ export default function Home() {
               <Link href="/" className="text-gray-700 hover:text-purple-600 transition-colors">
                 Home
               </Link>
-              <Link href="/italian-brainrot-generator" className="text-gray-700 hover:text-purple-600 transition-colors">
+              <Link href="/italian-brainrot-generator" className="gradient-text-premium hover:scale-105 transition-transform duration-300">
                 Italian Brainrot Generator 2.0
               </Link>
               <Link href="/pdf-to-brainrot" className="text-gray-700 hover:text-purple-600 transition-colors">
@@ -494,7 +494,7 @@ export default function Home() {
 
 
       {/* 页脚区域 - 白色背景包含所有内容 */}
-      <div className="w-full bg-white py-8 mt-16">
+      <footer className="w-full bg-white py-8 mt-16">
         <div className="max-w-6xl mx-auto px-4">
           {/* 页脚导航 */}
           <div className="flex justify-center mb-8">
@@ -634,7 +634,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </div>
+      </footer>
     </main >
   );
 }

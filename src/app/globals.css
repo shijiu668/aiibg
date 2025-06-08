@@ -15,6 +15,12 @@
   --green-secondary: 16, 185, 129;
   --pink-primary: 236, 72, 153;
   --pink-secondary: 219, 39, 119;
+  --premium-gradient-1: 45, 212, 191;
+  /* 青蓝色 */
+  --premium-gradient-2: 139, 92, 246;
+  /* 紫色 */
+  --premium-gradient-3: 236, 72, 153;
+  /* 粉色 */
 }
 
 body {
@@ -127,6 +133,18 @@ body {
     -webkit-text-fill-color: transparent;
   }
 
+  .gradient-text-premium {
+    background: linear-gradient(135deg,
+        rgb(var(--premium-gradient-1)) 0%,
+        rgb(var(--premium-gradient-2)) 50%,
+        rgb(var(--premium-gradient-3)) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 200%;
+    animation: gradient-shift 3s ease-in-out infinite;
+  }
+
   .btn-blue {
     @apply rounded-lg font-medium text-white shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none;
     padding: 0.75rem 1.5rem;
@@ -202,6 +220,18 @@ nav {
 
   100% {
     transform: translateX(0);
+  }
+}
+
+@keyframes gradient-shift {
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
   }
 }
 
