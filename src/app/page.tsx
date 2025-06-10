@@ -184,8 +184,8 @@ export default function Home() {
               AI Italian Brainrot
             </Link>
             <div className="flex space-x-6">
-              <Link href="/" className="text-gray-700 hover:text-purple-600 transition-colors">
-                Home
+              <Link href="/italian-brainrot-video" className="text-gray-700 hover:text-purple-600 transition-colors">
+                Italian Brainrot Video
               </Link>
               <Link href="/italian-brainrot-generator" className="gradient-text-premium hover:scale-105 transition-transform duration-300">
                 Italian Brainrot Generator 2.0
@@ -511,6 +511,9 @@ export default function Home() {
                   </Link>
                   <Link href="/brainrot-voice-generator" className="text-left pl-0 pr-1 py-1 rounded transition-colors">
                     <div className="text-sm text-gray-600 hover:text-purple-600 whitespace-nowrap">Brainrot Voice Generator</div>
+                  </Link>
+                  <Link href="/italian-brainrot-video" className="text-left pl-0 pr-1 py-1 rounded transition-colors">
+                    <div className="text-sm text-gray-600 hover:text-purple-600 whitespace-nowrap">Italian Brainrot Video</div>
                   </Link>
                 </div>
               </div>
