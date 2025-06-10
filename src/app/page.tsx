@@ -262,6 +262,17 @@ export default function Home() {
           </button>
         </div>
 
+        <div className="w-full" style={{ marginTop: "1.5rem", marginBottom: "1rem" }}>
+          <div className="text-center">
+            <p className="text-gray-600 text-sm">
+              Generate unique Italian Brainrot content with AI - Images, Text & Voice in seconds
+            </p>
+            <div className="flex justify-center items-center mt-2">
+              <div className="w-full h-1 bg-gradient-to-r from-transparent via-purple-200 to-transparent max-w-md"></div>
+            </div>
+          </div>
+        </div>
+
         {(imageUrl || text || audioUrl || imageLoading || textLoading || audioLoading ||
           imageError || textError || audioError || isGenerating) && (
             <div className="space-y-8 w-full" style={{ marginTop: "2rem" }}>
