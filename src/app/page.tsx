@@ -262,7 +262,7 @@ export default function Home() {
           </button>
         </div>
 
-        <div className="w-full" style={{ marginTop: "1.5rem", marginBottom: "1rem" }}>
+        <div className="w-full" style={{ marginTop: "1.5rem", marginBottom: "0" }}>
           <div className="text-center">
             <p className="text-gray-600 text-sm">
               Generate unique Italian Brainrot content with AI - Images, Text & Voice in seconds
@@ -365,7 +365,7 @@ export default function Home() {
       </div>
 
       {/* 作品展示区域 */}
-      <div className="w-full py-2 mt-2">
+      <div className="w-full py-1 mt-1">
         {/* 第一行 - 向左滑动 */}
         <div className="w-full overflow-hidden mb-6">
           <div className="flex animate-scroll-left">
