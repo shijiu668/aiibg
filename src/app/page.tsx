@@ -262,127 +262,99 @@ export default function Home() {
           </button>
         </div>
 
-        {/* 始终显示结果容器，避免布局变化 */}
-        <div className="space-y-8 w-full" style={{ marginTop: "2rem" }}>
-          <div className="result-container">
-            <h2 className="text-xl font-bold mb-4 text-left">AI italian brainrot generate results</h2>
+        {(imageUrl || text || audioUrl || imageLoading || textLoading || audioLoading ||
+          imageError || textError || audioError || isGenerating) && (
+            <div className="space-y-8 w-full" style={{ marginTop: "2rem" }}>
+              <div className="result-container">
+                <h2 className="text-xl font-bold mb-4 text-left">AI italian brainrot generate results</h2>
 
-            {/* 只有在有内容或正在生成时才显示内容，否则显示占位 */}
-            {(imageUrl || text || audioUrl || imageLoading || textLoading || audioLoading ||
-              imageError || textError || audioError || isGenerating) ? (
-              <div style={{ marginTop: "1.5rem" }}>
-                {/* 图片结果 */}
-                <div style={{ marginBottom: "1.5rem" }}>
-                  <h3 className="text-lg font-semibold mb-2 text-left">picture</h3>
-                  {imageLoading ? (
-                    <div className="flex justify-center items-center bg-gray-100 rounded-lg" style={{ height: "16rem" }}>
-                      <BeatLoader color="#5643CC" />
-                    </div>
-                  ) : imageError ? (
-                    <div className="flex justify-center items-center bg-gray-100 rounded-lg" style={{ height: "10rem" }}>
-                      <p className="text-red-500">{imageError}</p>
-                    </div>
-                  ) : imageUrl ? (
-                    <div className="flex justify-center">
-                      <img
-                        src={imageUrl}
-                        alt="Generated Image"
-                        className="rounded-lg object-contain"
-                        style={{ maxHeight: "24rem" }}
-                      />
-                    </div>
-                  ) : (
-                    <div className="flex justify-center items-center bg-gray-100 rounded-lg" style={{ height: "16rem" }}>
-                      <p className="text-gray-500">The image will appear here</p>
-                    </div>
-                  )}
-                </div>
-
-                {/* 文本结果 */}
-                <div style={{ marginBottom: "1.5rem" }}>
-                  <h3 className="text-lg font-semibold mb-2 text-left">text</h3>
-                  {textLoading ? (
-                    <div className="flex justify-center items-center bg-gray-100 rounded-lg" style={{ height: "8rem" }}>
-                      <BeatLoader color="#5643CC" />
-                    </div>
-                  ) : textError ? (
-                    <div className="flex justify-center items-center bg-gray-100 rounded-lg" style={{ height: "6rem" }}>
-                      <p className="text-red-500">{textError}</p>
-                    </div>
-                  ) : text ? (
-                    <div className="bg-gray-50 rounded-lg text-left" style={{ padding: "1rem" }}>
-                      <p className="italic">{text}</p>
-                    </div>
-                  ) : (
-                    <div className="flex justify-center items-center bg-gray-100 rounded-lg" style={{ height: "8rem" }}>
-                      <p className="text-gray-500">Text will appear here</p>
-                    </div>
-                  )}
-                </div>
-
-                {/* 音频结果 */}
-                <div>
-                  <h3 className="text-lg font-semibold mb-2 text-left">voice</h3>
-                  {audioLoading ? (
-                    <div className="flex justify-center items-center bg-gray-100 rounded-lg" style={{ height: "5rem" }}>
-                      <BeatLoader color="#5643CC" />
-                    </div>
-                  ) : audioError ? (
-                    <div className="flex justify-center items-center bg-gray-100 rounded-lg" style={{ height: "5rem" }}>
-                      <p className="text-red-500">{audioError}</p>
-                    </div>
-                  ) : audioUrl ? (
-                    <div className="bg-gray-50 rounded-lg" style={{ padding: "1rem" }}>
-                      <audio ref={audioRef} controls className="w-full">
-                        <source src={audioUrl} type="audio/wav" />
-                        Your browser does not support the audio element.
-                      </audio>
-                    </div>
-                  ) : text ? (
-                    <div className="flex justify-center items-center bg-gray-100 rounded-lg" style={{ height: "5rem" }}>
-                      <BeatLoader color="#5643CC" />
-                      <p className="text-gray-500 ml-2">Prepare to generate speech...</p>
-                    </div>
-                  ) : (
-                    <div className="flex justify-center items-center bg-gray-100 rounded-lg" style={{ height: "5rem" }}>
-                      <p className="text-gray-500">The audio will appear here</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ) : (
-              <div style={{ marginTop: "1.5rem" }}>
-                {/* 图片占位 */}
-                <div style={{ marginBottom: "1.5rem" }}>
-                  <h3 className="text-lg font-semibold mb-2 text-left">picture</h3>
-                  <div className="flex justify-center items-center bg-gray-100 rounded-lg" style={{ height: "16rem" }}>
-                    <p className="text-gray-500">The image will appear here</p>
+                <div style={{ marginTop: "1.5rem" }}>
+                  {/* 图片结果 */}
+                  <div style={{ marginBottom: "1.5rem" }}>
+                    <h3 className="text-lg font-semibold mb-2 text-left">picture</h3>
+                    {imageLoading ? (
+                      <div className="flex justify-center items-center bg-gray-100 rounded-lg" style={{ height: "16rem" }}>
+                        <BeatLoader color="#5643CC" />
+                      </div>
+                    ) : imageError ? (
+                      <div className="flex justify-center items-center bg-gray-100 rounded-lg" style={{ height: "10rem" }}>
+                        <p className="text-red-500">{imageError}</p>
+                      </div>
+                    ) : imageUrl ? (
+                      <div className="flex justify-center">
+                        <img
+                          src={imageUrl}
+                          alt="Generated Image"
+                          className="rounded-lg object-contain"
+                          style={{ maxHeight: "24rem" }}
+                        />
+                      </div>
+                    ) : (
+                      <div className="flex justify-center items-center bg-gray-100 rounded-lg" style={{ height: "16rem" }}>
+                        <p className="text-gray-500">The image will appear here</p>
+                      </div>
+                    )}
                   </div>
-                </div>
 
-                {/* 文本占位 */}
-                <div style={{ marginBottom: "1.5rem" }}>
-                  <h3 className="text-lg font-semibold mb-2 text-left">text</h3>
-                  <div className="flex justify-center items-center bg-gray-100 rounded-lg" style={{ height: "8rem" }}>
-                    <p className="text-gray-500">Text will appear here</p>
+                  {/* 文本结果 */}
+                  <div style={{ marginBottom: "1.5rem" }}>
+                    <h3 className="text-lg font-semibold mb-2 text-left">text</h3>
+                    {textLoading ? (
+                      <div className="flex justify-center items-center bg-gray-100 rounded-lg" style={{ height: "8rem" }}>
+                        <BeatLoader color="#5643CC" />
+                      </div>
+                    ) : textError ? (
+                      <div className="flex justify-center items-center bg-gray-100 rounded-lg" style={{ height: "6rem" }}>
+                        <p className="text-red-500">{textError}</p>
+                      </div>
+                    ) : text ? (
+                      <div className="bg-gray-50 rounded-lg text-left" style={{ padding: "1rem" }}>
+                        <p className="italic">{text}</p>
+                      </div>
+                    ) : (
+                      <div className="flex justify-center items-center bg-gray-100 rounded-lg" style={{ height: "8rem" }}>
+                        <p className="text-gray-500">Text will appear here</p>
+                      </div>
+                    )}
                   </div>
-                </div>
 
-                {/* 音频占位 */}
-                <div>
-                  <h3 className="text-lg font-semibold mb-2 text-left">voice</h3>
-                  <div className="flex justify-center items-center bg-gray-100 rounded-lg" style={{ height: "5rem" }}>
-                    <p className="text-gray-500">The audio will appear here</p>
+                  {/* 音频结果 */}
+                  <div>
+                    <h3 className="text-lg font-semibold mb-2 text-left">voice</h3>
+                    {audioLoading ? (
+                      <div className="flex justify-center items-center bg-gray-100 rounded-lg" style={{ height: "5rem" }}>
+                        <BeatLoader color="#5643CC" />
+                      </div>
+                    ) : audioError ? (
+                      <div className="flex justify-center items-center bg-gray-100 rounded-lg" style={{ height: "5rem" }}>
+                        <p className="text-red-500">{audioError}</p>
+                      </div>
+                    ) : audioUrl ? (
+                      <div className="bg-gray-50 rounded-lg" style={{ padding: "1rem" }}>
+                        <audio ref={audioRef} controls className="w-full">
+                          <source src={audioUrl} type="audio/wav" />
+                          Your browser does not support the audio element.
+                        </audio>
+                      </div>
+                    ) : text ? (
+                      <div className="flex justify-center items-center bg-gray-100 rounded-lg" style={{ height: "5rem" }}>
+                        <BeatLoader color="#5643CC" />
+                        <p className="text-gray-500 ml-2">Prepare to generate speech...</p>
+                      </div>
+                    ) : (
+                      <div className="flex justify-center items-center bg-gray-100 rounded-lg" style={{ height: "5rem" }}>
+                        <p className="text-gray-500">The audio will appear here</p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
-            )}
-          </div>
-        </div>
+            </div>
+          )}
       </div>
 
       {/* 作品展示区域 */}
-      <div className="w-full py-12 mt-16">
+      <div className="w-full py-6 mt-6">
         {/* 第一行 - 向左滑动 */}
         <div className="w-full overflow-hidden mb-6">
           <div className="flex animate-scroll-left">
