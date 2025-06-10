@@ -233,6 +233,8 @@ export default function ItalianBrainrotVideo() {
 
     // 生成视频
     // 生成视频
+    // 生成视频 - 添加详细调试
+    // 修改后的生成视频函数 - 避免网络请求
     const generateVideo = async () => {
         if (!imageUrl || !audioUrl || !ffmpegRef.current) return;
 
@@ -244,45 +246,40 @@ export default function ItalianBrainrotVideo() {
         try {
             const ffmpeg = ffmpegRef.current;
 
-            // 定义进度监听器函数
             const progressHandler = ({ progress }: { progress: number }) => {
-                // 只有在真正执行FFmpeg命令时才更新进度（从50%开始）
                 if (progress > 0) {
-                    const adjustedProgress = 20 + Math.round(progress * 79); // 20%-99%
+                    const adjustedProgress = 20 + Math.round(progress * 79);
                     setVideoProgress(adjustedProgress);
                 }
             };
 
-            // 清除可能存在的旧监听器（如果有的话）
             try {
                 ffmpeg.off('progress', progressHandler);
             } catch (e) {
                 // 忽略清除错误
             }
 
-            // 设置新的进度监听器
             ffmpeg.on('progress', progressHandler);
 
-            // 手动设置初始进度
             setVideoProgress(2);
             const imageResponse = await fetch(imageUrl);
             const imageBlob = await imageResponse.blob();
+
             const audioResponse = await fetch(audioUrl);
             const audioBlob = await audioResponse.blob();
 
             setVideoProgress(5);
-            // 获取特效文件
-            const effectResponse = await fetch(EFFECT_FILE_URL);
-            const effectBlob = await effectResponse.blob();
+
+            const effectFile = await downloadFileInChunks(EFFECT_FILE_URL);
 
             setVideoProgress(13);
-            // 写入FFmpeg文件系统
+
             await ffmpeg.writeFile('image.jpg', await fetchFile(imageBlob));
             await ffmpeg.writeFile('audio.wav', await fetchFile(audioBlob));
-            await ffmpeg.writeFile('effect.mov', await fetchFile(effectBlob));
+            await ffmpeg.writeFile('effect.mov', await fetchFile(effectFile));
 
             setVideoProgress(20);
-            // 生成视频命令 - 这里FFmpeg进度监听器会接管
+
             await ffmpeg.exec([
                 '-loop', '1', '-i', 'image.jpg',
                 '-stream_loop', '-1', '-i', 'effect.mov',
@@ -301,7 +298,7 @@ export default function ItalianBrainrotVideo() {
             ]);
 
             setVideoProgress(90);
-            // 读取生成的视频
+
             const videoData = await ffmpeg.readFile('output.mp4');
             const videoBlob = new Blob([videoData], { type: 'video/mp4' });
             const videoUrl = URL.createObjectURL(videoBlob);
@@ -309,13 +306,11 @@ export default function ItalianBrainrotVideo() {
             setVideoUrl(videoUrl);
             setVideoProgress(100);
 
-            // 清理FFmpeg文件系统
             await ffmpeg.deleteFile('image.jpg');
             await ffmpeg.deleteFile('audio.wav');
             await ffmpeg.deleteFile('effect.mov');
             await ffmpeg.deleteFile('output.mp4');
 
-            // 清除进度监听器
             ffmpeg.off('progress', progressHandler);
 
         } catch (error: any) {
@@ -326,6 +321,48 @@ export default function ItalianBrainrotVideo() {
             setShowVideoPreview(false);
         }
     };
+
+    async function downloadFileInChunks(url: string): Promise<File> {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Download failed: ${response.status}`);
+        }
+
+        const contentLength = parseInt(response.headers.get('content-length') || '0');
+        const reader = response.body?.getReader();
+
+        if (!reader) {
+            throw new Error('ReadableStream not supported');
+        }
+
+        const chunks: Uint8Array[] = [];
+        let receivedLength = 0;
+
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            chunks.push(value);
+            receivedLength += value.length;
+
+            const downloadProgress = Math.round((receivedLength / contentLength) * 8);
+            setVideoProgress(5 + downloadProgress);
+        }
+
+        const uint8Array = new Uint8Array(receivedLength);
+        let position = 0;
+
+        for (const chunk of chunks) {
+            uint8Array.set(chunk, position);
+            position += chunk.length;
+        }
+
+        const file = new File([uint8Array], 'brainrot-effect.mov', {
+            type: 'video/quicktime'
+        });
+
+        return file;
+    }
     // 下载函数
     const downloadFile = async (url: string, filename: string) => {
         try {
