@@ -205,24 +205,25 @@ export default function ItalianBrainrotTranslator() {
             </div>
 
             {/* SEO区域 */}
+            {/* SEO区域 */}
             <div className="max-w-6xl w-full mt-16 px-4">
                 <div className="bg-gradient-to-r from-pink-50 to-rose-50 rounded-2xl p-8 mb-12 border border-pink-100">
                     <h2 className="text-3xl font-bold mb-6 text-pink-800 text-center">What is Italian Brainrot Translator?</h2>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                         <div className="bg-white rounded-xl p-6 shadow-sm">
-                            <h3 className="text-xl font-semibold mb-3 text-pink-700">Revolutionary Language Transformation</h3>
+                            <h2 className="text-xl font-semibold mb-3 text-pink-700">Revolutionary Language Transformation</h2>
                             <p className="text-gray-700 leading-relaxed">The Italian Brainrot Translator is an innovative AI-powered tool that transforms ordinary text into delightfully chaotic Italian Brainrot style content. This unique Italian Brainrot Translator converts normal language into a playful, nonsensical jumble of words that adds excitement and humor to any conversation. Whether you're looking to spice up your social media posts or create engaging content, our Italian Brainrot Translator delivers authentic brainrot-style transformations every time.</p>
                         </div>
 
                         <div className="bg-white rounded-xl p-6 shadow-sm">
-                            <h3 className="text-xl font-semibold mb-3 text-pink-700">How Italian Brainrot Translator Works</h3>
+                            <h2 className="text-xl font-semibold mb-3 text-pink-700">How Italian Brainrot Translator Works</h2>
                             <p className="text-gray-700 leading-relaxed">Our advanced Italian Brainrot Translator uses cutting-edge AI technology to analyze your input text and recreate it in the distinctive Italian Brainrot style. The Italian Brainrot Translator processes your content through sophisticated language models that understand the unique characteristics of brainrot content - turning simple messages into delightful gibberish that maintains the essence of your original message while adding that special brainrot flair.</p>
                         </div>
                     </div>
 
                     <div className="bg-white rounded-xl p-6 shadow-sm mb-8">
-                        <h3 className="text-2xl font-semibold mb-4 text-pink-700">Features of Our Italian Brainrot Translator</h3>
+                        <h2 className="text-2xl font-semibold mb-4 text-pink-700">Features of Our Italian Brainrot Translator</h2>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div className="text-center">
                                 <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-3">
@@ -230,7 +231,7 @@ export default function ItalianBrainrotTranslator() {
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                                     </svg>
                                 </div>
-                                <h4 className="font-semibold text-pink-800 mb-2">Instant Translation</h4>
+                                <h3 className="font-semibold text-pink-800 mb-2">Instant Translation</h3>
                                 <p className="text-gray-600 text-sm">Transform any text into Italian Brainrot style within seconds using our fast Italian Brainrot Translator.</p>
                             </div>
                             <div className="text-center">
@@ -239,7 +240,7 @@ export default function ItalianBrainrotTranslator() {
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                                     </svg>
                                 </div>
-                                <h4 className="font-semibold text-pink-800 mb-2">AI-Powered Intelligence</h4>
+                                <h3 className="font-semibold text-pink-800 mb-2">AI-Powered Intelligence</h3>
                                 <p className="text-gray-600 text-sm">Advanced AI ensures authentic Italian Brainrot translations that capture the true spirit of brainrot content.</p>
                             </div>
                             <div className="text-center">
@@ -248,39 +249,39 @@ export default function ItalianBrainrotTranslator() {
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                                     </svg>
                                 </div>
-                                <h4 className="font-semibold text-pink-800 mb-2">Easy Copy & Share</h4>
+                                <h3 className="font-semibold text-pink-800 mb-2">Easy Copy & Share</h3>
                                 <p className="text-gray-600 text-sm">One-click copying makes it simple to share your Italian Brainrot translations across all platforms.</p>
                             </div>
                         </div>
                     </div>
 
                     <div className="bg-white rounded-xl p-6 shadow-sm mb-8">
-                        <h3 className="text-2xl font-semibold mb-4 text-pink-700">Why Choose Our Italian Brainrot Translator?</h3>
+                        <h2 className="text-2xl font-semibold mb-4 text-pink-700">Why Choose Our Italian Brainrot Translator?</h2>
                         <p className="text-gray-700 leading-relaxed mb-4">The Italian Brainrot Translator represents the perfect fusion of artificial intelligence and creative content generation. Unlike basic text converters, our Italian Brainrot Translator understands the nuanced art of brainrot content creation, ensuring each translation maintains the chaotic charm that makes Italian Brainrot so engaging. From social media influencers to content creators, our Italian Brainrot Translator has become the go-to tool for generating authentic brainrot-style content.</p>
                         <p className="text-gray-700 leading-relaxed">Whether you're creating content for TikTok, Instagram, or any other platform, the Italian Brainrot Translator helps you stand out with unique, attention-grabbing text that embodies the spirit of Italian Brainrot culture. Our Italian Brainrot Translator doesn't just translate - it transforms your ordinary words into extraordinary brainrot experiences that resonate with modern internet culture.</p>
                     </div>
 
                     <div className="bg-white rounded-xl p-6 shadow-sm">
-                        <h3 className="text-2xl font-semibold mb-4 text-pink-700">Frequently Asked Questions About Italian Brainrot Translator</h3>
+                        <h2 className="text-2xl font-semibold mb-4 text-pink-700">Frequently Asked Questions About Italian Brainrot Translator</h2>
 
                         <div className="space-y-4">
                             <div className="border-l-4 border-pink-500 pl-4">
-                                <h4 className="font-semibold text-gray-800 mb-2">How accurate is the Italian Brainrot Translator?</h4>
+                                <h2 className="font-semibold text-gray-800 mb-2">How accurate is the Italian Brainrot Translator?</h2>
                                 <p className="text-gray-700">Our Italian Brainrot Translator uses advanced AI algorithms to ensure high-quality transformations that capture the authentic essence of Italian Brainrot style while maintaining readability and engagement.</p>
                             </div>
 
                             <div className="border-l-4 border-pink-500 pl-4">
-                                <h4 className="font-semibold text-gray-800 mb-2">Is the Italian Brainrot Translator free to use?</h4>
+                                <h2 className="font-semibold text-gray-800 mb-2">Is the Italian Brainrot Translator free to use?</h2>
                                 <p className="text-gray-700">Yes! Our Italian Brainrot Translator is completely free to use. Simply input your text and get instant Italian Brainrot translations without any subscription fees or hidden costs.</p>
                             </div>
 
                             <div className="border-l-4 border-pink-500 pl-4">
-                                <h4 className="font-semibold text-gray-800 mb-2">What makes Italian Brainrot Translator special?</h4>
+                                <h2 className="font-semibold text-gray-800 mb-2">What makes Italian Brainrot Translator special?</h2>
                                 <p className="text-gray-700">The Italian Brainrot Translator combines the playful nature of brainrot content with Italian cultural elements, creating unique translations that are both entertaining and culturally rich, perfect for modern social media content.</p>
                             </div>
 
                             <div className="border-l-4 border-pink-500 pl-4">
-                                <h4 className="font-semibold text-gray-800 mb-2">Can I use Italian Brainrot Translator for commercial purposes?</h4>
+                                <h2 className="font-semibold text-gray-800 mb-2">Can I use Italian Brainrot Translator for commercial purposes?</h2>
                                 <p className="text-gray-700">Absolutely! Content generated by our Italian Brainrot Translator can be used for personal projects, social media posts, marketing campaigns, and other commercial applications without restrictions.</p>
                             </div>
                         </div>

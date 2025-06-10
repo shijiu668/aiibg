@@ -359,13 +359,14 @@ export default function BrainrotVoiceGenerator() {
                 </div>
 
                 {/* SEO Content Section */}
+                {/* SEO Content Section */}
                 <div className="max-w-6xl mx-auto space-y-8">
                     <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-8 shadow-lg border border-blue-100">
                         <h2 className="text-3xl font-bold mb-6 text-center gradient-text-blue">Ultimate Brainrot Voice Generator Experience</h2>
 
                         <div className="grid md:grid-cols-2 gap-8 mb-8">
                             <div>
-                                <h3 className="text-2xl font-semibold mb-4 text-blue-700">What is Brainrot Voice Generator?</h3>
+                                <h2 className="text-2xl font-semibold mb-4 text-blue-700">What is Brainrot Voice Generator?</h2>
                                 <p className="mb-4 text-gray-700 leading-relaxed">
                                     Our Brainrot Voice Generator is a cutting-edge AI tool that transforms ordinary text into engaging, viral-worthy brainrot content with authentic voice narration. This brainrot voice generator leverages advanced AI algorithms to create content that captures the unique style and energy of modern internet culture. Whether you're creating content for social media, entertainment, or educational purposes, our brainrot voice generator delivers professional-quality results that resonate with today's digital audience.
                                 </p>
@@ -375,7 +376,7 @@ export default function BrainrotVoiceGenerator() {
                             </div>
 
                             <div>
-                                <h3 className="text-2xl font-semibold mb-4 text-blue-700">Key Features of Our Brainrot Voice Generator</h3>
+                                <h2 className="text-2xl font-semibold mb-4 text-blue-700">Key Features of Our Brainrot Voice Generator</h2>
                                 <ul className="space-y-3 text-gray-700">
                                     <li className="flex items-start space-x-2">
                                         <span className="text-blue-600 font-bold">•</span>
@@ -398,28 +399,28 @@ export default function BrainrotVoiceGenerator() {
                         </div>
 
                         <div className="mb-8">
-                            <h3 className="text-2xl font-semibold mb-4 text-blue-700">How to Use the Brainrot Voice Generator</h3>
+                            <h2 className="text-2xl font-semibold mb-4 text-blue-700">How to Use the Brainrot Voice Generator</h2>
                             <div className="grid md:grid-cols-3 gap-6">
                                 <div className="bg-white rounded-lg p-6 shadow-md border border-blue-200">
                                     <div className="text-3xl font-bold text-blue-600 mb-3">1</div>
-                                    <h4 className="font-semibold mb-2 text-gray-800">Enter Your Content</h4>
+                                    <h3 className="font-semibold mb-2 text-gray-800">Enter Your Content</h3>
                                     <p className="text-gray-600 text-sm">Type your text into the brainrot voice generator input field. Our AI will transform any content into engaging brainrot style.</p>
                                 </div>
                                 <div className="bg-white rounded-lg p-6 shadow-md border border-blue-200">
                                     <div className="text-3xl font-bold text-blue-600 mb-3">2</div>
-                                    <h4 className="font-semibold mb-2 text-gray-800">Select Voice Template</h4>
+                                    <h3 className="font-semibold mb-2 text-gray-800">Select Voice Template</h3>
                                     <p className="text-gray-600 text-sm">Choose your preferred voice from our brainrot voice generator templates. Preview each option to find the perfect match.</p>
                                 </div>
                                 <div className="bg-white rounded-lg p-6 shadow-md border border-blue-200">
                                     <div className="text-3xl font-bold text-blue-600 mb-3">3</div>
-                                    <h4 className="font-semibold mb-2 text-gray-800">Generate & Download</h4>
+                                    <h3 className="font-semibold mb-2 text-gray-800">Generate & Download</h3>
                                     <p className="text-gray-600 text-sm">Click generate and watch our brainrot voice generator create your viral-ready audio content in seconds.</p>
                                 </div>
                             </div>
                         </div>
 
                         <div className="mb-8">
-                            <h3 className="text-2xl font-semibold mb-4 text-blue-700">Why Choose Our Brainrot Voice Generator?</h3>
+                            <h2 className="text-2xl font-semibold mb-4 text-blue-700">Why Choose Our Brainrot Voice Generator?</h2>
                             <p className="mb-4 text-gray-700 leading-relaxed">
                                 Our brainrot voice generator stands out as the premier tool for creating engaging audio content. Unlike basic text-to-speech tools, this brainrot voice generator understands the nuances of internet culture and viral content creation. The AI-powered brainrot voice generator doesn't just read your text - it transforms it into compelling narratives that capture attention and drive engagement.
                             </p>
@@ -429,17 +430,21 @@ export default function BrainrotVoiceGenerator() {
                         </div>
 
                         <div className="mb-8">
-                            <h3 className="text-2xl font-semibold mb-4 text-blue-700">Brainrot Voice Generator Success Tips</h3>
+                            <h2 className="text-2xl font-semibold mb-4 text-blue-700">Brainrot Voice Generator Success Tips</h2>
                             <div className="bg-white rounded-lg p-6 shadow-md border border-blue-200">
-                                <p className="mb-3 text-gray-700"><strong>Optimize Your Input:</strong> The brainrot voice generator works best with clear, engaging source material. Provide context and interesting topics for the AI to transform.</p>
-                                <p className="mb-3 text-gray-700"><strong>Voice Selection:</strong> Different voices in our brainrot voice generator suit different content types. Male voices often work well for tech and gaming content, while female voices excel at lifestyle and educational topics.</p>
-                                <p className="mb-3 text-gray-700"><strong>Content Length:</strong> Our brainrot voice generator performs optimally with 50-500 words of input text, allowing for detailed transformation while maintaining audio quality.</p>
-                                <p className="text-gray-700"><strong>Multiple Iterations:</strong> Don't hesitate to try different approaches with the brainrot voice generator. Each generation can yield unique and engaging results.</p>
+                                <h3 className="mb-3 text-gray-700 font-semibold">Optimize Your Input:</h3>
+                                <p className="mb-3 text-gray-700">The brainrot voice generator works best with clear, engaging source material. Provide context and interesting topics for the AI to transform.</p>
+                                <h3 className="mb-3 text-gray-700 font-semibold">Voice Selection:</h3>
+                                <p className="mb-3 text-gray-700">Different voices in our brainrot voice generator suit different content types. Male voices often work well for tech and gaming content, while female voices excel at lifestyle and educational topics.</p>
+                                <h3 className="mb-3 text-gray-700 font-semibold">Content Length:</h3>
+                                <p className="mb-3 text-gray-700">Our brainrot voice generator performs optimally with 50-500 words of input text, allowing for detailed transformation while maintaining audio quality.</p>
+                                <h3 className="mb-3 text-gray-700 font-semibold">Multiple Iterations:</h3>
+                                <p className="text-gray-700">Don't hesitate to try different approaches with the brainrot voice generator. Each generation can yield unique and engaging results.</p>
                             </div>
                         </div>
 
                         <div>
-                            <h3 className="text-2xl font-semibold mb-4 text-blue-700">Start Creating with Brainrot Voice Generator Today</h3>
+                            <h2 className="text-2xl font-semibold mb-4 text-blue-700">Start Creating with Brainrot Voice Generator Today</h2>
                             <p className="text-gray-700 leading-relaxed">
                                 Ready to revolutionize your content creation? Our free brainrot voice generator is designed to help you create viral-worthy audio content that engages audiences and drives results. With advanced AI technology, multiple voice options, and instant generation capabilities, this brainrot voice generator is your gateway to creating content that stands out in today's competitive digital landscape. Join thousands of content creators who rely on our brainrot voice generator to produce compelling audio content that captures attention and builds communities.
                             </p>
