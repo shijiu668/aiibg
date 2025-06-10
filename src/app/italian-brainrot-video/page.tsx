@@ -5,7 +5,7 @@ import { BeatLoader } from "react-spinners";
 import Link from "next/link";
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile, toBlobURL } from '@ffmpeg/util';
-const EFFECT_FILE_URL = 'https://github.com/shijiu668/aiibg/releases/download/v1.0.0/brainrot-effect.mov';
+const EFFECT_FILE_URL = '/effects/brainrot-effect.mov';
 export default function ItalianBrainrotVideo() {
     const [prompt, setPrompt] = useState("");
     const [isGenerating, setIsGenerating] = useState(false);
