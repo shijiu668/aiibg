@@ -39,6 +39,9 @@ export default function ItalianBrainrotVideo() {
 
     const [videoProgress, setVideoProgress] = useState(0);
     const [showVideoPreview, setShowVideoPreview] = useState(false);
+
+    const [effectFileCache, setEffectFileCache] = useState<File | null>(null);
+    const [isPreloading, setIsPreloading] = useState(false);
     // 初始化FFmpeg
     useEffect(() => {
         const initFFmpeg = async () => {
@@ -69,6 +72,34 @@ export default function ItalianBrainrotVideo() {
             if (timeoutId) clearTimeout(timeoutId);
         };
     }, [isGenerating]);
+
+
+    const preloadEffectFile = async () => {
+        if (effectFileCache || isPreloading) return; // 避免重复下载
+
+        setIsPreloading(true);
+        try {
+            console.log('开始预加载特效文件...');
+            const effectFile = await downloadFileInChunks(EFFECT_FILE_URL);
+            setEffectFileCache(effectFile);
+            console.log('特效文件预加载完成');
+        } catch (error) {
+            console.error('特效文件预加载失败:', error);
+            // 预加载失败不影响主流程，用户点击生成时会重新下载
+        } finally {
+            setIsPreloading(false);
+        }
+    };
+
+    // 页面加载完成后开始预加载
+    useEffect(() => {
+        // 延迟3秒开始预加载，避免影响页面初始加载性能
+        const timer = setTimeout(() => {
+            preloadEffectFile();
+        }, 3000);
+
+        return () => clearTimeout(timer);
+    }, []);
 
     // 主生成函数
     const handleGenerate = async () => {
@@ -270,9 +301,16 @@ export default function ItalianBrainrotVideo() {
 
             setVideoProgress(5);
 
-            const effectFile = await downloadFileInChunks(EFFECT_FILE_URL);
-
-            setVideoProgress(13);
+            let effectFile: File;
+            if (effectFileCache) {
+                console.log('使用预加载的特效文件');
+                effectFile = effectFileCache;
+                setVideoProgress(13); // 直接跳到13%
+            } else {
+                console.log('实时下载特效文件（预加载未完成）');
+                effectFile = await downloadFileInChunks(EFFECT_FILE_URL);
+                setVideoProgress(13);
+            }
 
             await ffmpeg.writeFile('image.jpg', await fetchFile(imageBlob));
             await ffmpeg.writeFile('audio.wav', await fetchFile(audioBlob));
@@ -290,8 +328,10 @@ export default function ItalianBrainrotVideo() {
                 '-c:v', 'libx264',
                 '-c:a', 'aac',
                 '-pix_fmt', 'yuv420p',
-                '-crf', '23',
-                '-preset', 'medium',
+                '-crf', '28',
+                '-preset', 'ultrafast',
+                '-tune', 'fastdecode',
+                '-x264-params', 'ref=1:bframes=0:me=dia:subme=1:analyse=none:trellis=0:deblock=0,0', // 极速x264参数
                 '-shortest',
                 '-y',
                 'output.mp4'
