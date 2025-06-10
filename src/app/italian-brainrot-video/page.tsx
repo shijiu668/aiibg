@@ -246,81 +246,151 @@ export default function ItalianBrainrotVideo() {
 
             // 定义进度监听器函数
             const progressHandler = ({ progress }: { progress: number }) => {
-                // 只有在真正执行FFmpeg命令时才更新进度（从50%开始）
+                console.log('FFmpeg progress:', progress);
                 if (progress > 0) {
-                    const adjustedProgress = 20 + Math.round(progress * 79); // 20%-99%
-                    setVideoProgress(adjustedProgress);
+                    const normalizedProgress = progress > 1 ? Math.min(progress / 100, 1) : progress;
+                    const adjustedProgress = 20 + Math.round(normalizedProgress * 79);
+                    setVideoProgress(Math.min(adjustedProgress, 99));
                 }
             };
 
-            // 清除可能存在的旧监听器（如果有的话）
             try {
                 ffmpeg.off('progress', progressHandler);
             } catch (e) {
-                // 忽略清除错误
+                console.log('No existing progress handler to remove');
             }
 
-            // 设置新的进度监听器
             ffmpeg.on('progress', progressHandler);
 
             // 手动设置初始进度
             setVideoProgress(2);
+            console.log('🔄 开始获取图片和音频文件...');
+
             const imageResponse = await fetch(imageUrl);
+            console.log('📸 图片响应状态:', imageResponse.status, imageResponse.ok);
             const imageBlob = await imageResponse.blob();
+            console.log('📸 图片大小:', imageBlob.size, 'bytes');
+
             const audioResponse = await fetch(audioUrl);
+            console.log('🎵 音频响应状态:', audioResponse.status, audioResponse.ok);
             const audioBlob = await audioResponse.blob();
+            console.log('🎵 音频大小:', audioBlob.size, 'bytes');
 
             setVideoProgress(5);
-            // 获取特效文件
-            const effectResponse = await fetch('/effects/brainrot-effect.mov');
-            const effectBlob = await effectResponse.blob();
 
-            setVideoProgress(13);
-            // 写入FFmpeg文件系统
-            await ffmpeg.writeFile('image.jpg', await fetchFile(imageBlob));
-            await ffmpeg.writeFile('audio.wav', await fetchFile(audioBlob));
-            await ffmpeg.writeFile('effect.mov', await fetchFile(effectBlob));
+            // 详细调试特效文件获取
+            console.log('🎬 开始获取特效文件...');
+            console.log('🎬 特效文件URL:', '/effects/brainrot-effect.mov');
 
-            setVideoProgress(20);
-            // 生成视频命令 - 这里FFmpeg进度监听器会接管
-            await ffmpeg.exec([
-                '-loop', '1', '-i', 'image.jpg',
-                '-stream_loop', '-1', '-i', 'effect.mov',
-                '-i', 'audio.wav',
-                '-filter_complex',
-                '[0:v]scale=1080:1080[bg];[1:v]scale=1080:1080[fx];[bg][fx]overlay=0:0',
-                '-map', '2:a',
-                '-c:v', 'libx264',
-                '-c:a', 'aac',
-                '-pix_fmt', 'yuv420p',
-                '-crf', '23',
-                '-preset', 'medium',
-                '-shortest',
-                '-y',
-                'output.mp4'
-            ]);
+            try {
+                const effectResponse = await fetch('/effects/brainrot-effect.mov');
+                console.log('🎬 特效文件响应状态:', effectResponse.status);
+                console.log('🎬 特效文件响应OK:', effectResponse.ok);
+                console.log('🎬 特效文件响应头:', Object.fromEntries(effectResponse.headers.entries()));
 
-            setVideoProgress(90);
-            // 读取生成的视频
-            const videoData = await ffmpeg.readFile('output.mp4');
-            const videoBlob = new Blob([videoData], { type: 'video/mp4' });
-            const videoUrl = URL.createObjectURL(videoBlob);
+                if (!effectResponse.ok) {
+                    throw new Error(`特效文件HTTP错误: ${effectResponse.status} ${effectResponse.statusText}`);
+                }
 
-            setVideoUrl(videoUrl);
-            setVideoProgress(100);
+                const effectBlob = await effectResponse.blob();
+                console.log('🎬 特效文件大小:', effectBlob.size, 'bytes');
+                console.log('🎬 特效文件类型:', effectBlob.type);
 
-            // 清理FFmpeg文件系统
-            await ffmpeg.deleteFile('image.jpg');
-            await ffmpeg.deleteFile('audio.wav');
-            await ffmpeg.deleteFile('effect.mov');
-            await ffmpeg.deleteFile('output.mp4');
+                if (effectBlob.size === 0) {
+                    throw new Error('特效文件大小为0');
+                }
 
-            // 清除进度监听器
-            ffmpeg.off('progress', progressHandler);
+                setVideoProgress(13);
+
+                // 详细调试FFmpeg文件写入
+                console.log('💾 开始写入FFmpeg文件系统...');
+
+                console.log('💾 写入图片文件...');
+                await ffmpeg.writeFile('image.jpg', await fetchFile(imageBlob));
+                console.log('✅ 图片文件写入成功');
+
+                console.log('💾 写入音频文件...');
+                await ffmpeg.writeFile('audio.wav', await fetchFile(audioBlob));
+                console.log('✅ 音频文件写入成功');
+
+                console.log('💾 写入特效文件...');
+                await ffmpeg.writeFile('effect.mov', await fetchFile(effectBlob));
+                console.log('✅ 特效文件写入成功');
+
+                // 验证文件是否写入成功
+                console.log('🔍 验证FFmpeg文件系统中的文件...');
+                try {
+                    const files = await ffmpeg.listDir('/');
+                    console.log('📁 FFmpeg根目录文件列表:', files);
+                } catch (listError) {
+                    console.error('❌ 无法列出FFmpeg文件:', listError);
+                }
+
+                setVideoProgress(20);
+
+                console.log('🎬 开始执行FFmpeg命令...');
+                const ffmpegCommand = [
+                    '-loop', '1', '-i', 'image.jpg',
+                    '-stream_loop', '-1', '-i', 'effect.mov',
+                    '-i', 'audio.wav',
+                    '-filter_complex',
+                    '[0:v]scale=1080:1080[bg];[1:v]scale=1080:1080[fx];[bg][fx]overlay=0:0',
+                    '-map', '2:a',
+                    '-c:v', 'libx264',
+                    '-c:a', 'aac',
+                    '-pix_fmt', 'yuv420p',
+                    '-crf', '23',
+                    '-preset', 'medium',
+                    '-shortest',
+                    '-y',
+                    'output.mp4'
+                ];
+                console.log('🎬 FFmpeg命令:', ffmpegCommand.join(' '));
+
+                await ffmpeg.exec(ffmpegCommand);
+                console.log('✅ FFmpeg执行完成');
+
+                setVideoProgress(90);
+
+                console.log('📤 读取生成的视频...');
+                const videoData = await ffmpeg.readFile('output.mp4');
+                console.log('📤 视频数据大小:', videoData.length, 'bytes');
+
+                const videoBlob = new Blob([videoData], { type: 'video/mp4' });
+                const videoUrl = URL.createObjectURL(videoBlob);
+                console.log('✅ 视频生成成功，URL:', videoUrl);
+
+                setVideoUrl(videoUrl);
+                setVideoProgress(100);
+
+                // 清理FFmpeg文件系统
+                console.log('🧹 清理FFmpeg文件系统...');
+                await ffmpeg.deleteFile('image.jpg');
+                await ffmpeg.deleteFile('audio.wav');
+                await ffmpeg.deleteFile('effect.mov');
+                await ffmpeg.deleteFile('output.mp4');
+                console.log('✅ 清理完成');
+
+                ffmpeg.off('progress', progressHandler);
+
+            } catch (effectError: any) {
+                console.error('❌ 特效文件处理错误:', effectError);
+                console.error('❌ 错误详情:', {
+                    message: effectError.message,
+                    stack: effectError.stack,
+                    name: effectError.name
+                });
+                throw new Error(`特效文件处理失败: ${effectError.message || effectError.toString()}`);
+            }
 
         } catch (error: any) {
-            console.error("Video generation error:", error);
-            setVideoError("Failed to generate video: " + error.message);
+            console.error("❌ 视频生成完整错误:", error);
+            console.error("❌ 错误类型:", typeof error);
+            console.error("❌ 错误名称:", error.name);
+            console.error("❌ 错误消息:", error.message);
+            console.error("❌ 错误堆栈:", error.stack);
+
+            setVideoError(`Failed to generate video: ${error.message || error.toString()}`);
         } finally {
             setVideoLoading(false);
             setShowVideoPreview(false);
