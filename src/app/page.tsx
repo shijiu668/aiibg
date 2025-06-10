@@ -354,7 +354,7 @@ export default function Home() {
       </div>
 
       {/* 作品展示区域 */}
-      <div className="w-full py-6 mt-6">
+      <div className="w-full py-2 mt-2">
         {/* 第一行 - 向左滑动 */}
         <div className="w-full overflow-hidden mb-6">
           <div className="flex animate-scroll-left">
