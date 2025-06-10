@@ -14,7 +14,7 @@ export async function POST(request: Request) {
             );
         }
 
-        const enhancedPrompt = `Generate a paragraph in Italian, the reply only contains the final result: italian brainrot as style, ${prompt} as subject, about 50 words.`;
+        const enhancedPrompt = `Generate a paragraph in Italian, the reply only contains the final result: italian brainrot as style, ${prompt} as subject, about 30 words.`;
 
         console.log("Preparing to generate text, prompt:", enhancedPrompt.substring(0, 100) + "...");
 
