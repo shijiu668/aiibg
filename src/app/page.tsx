@@ -133,32 +133,41 @@ export default function Home() {
     if (isGenerating) return;
 
     // 扣除积分
-    const success = await deductCredits(1, "AI Italian Brainrot Generation");
-    if (!success) {
-      setError("Failed to deduct credits. Please try again.");
-      return;
-    }
+    // 立即设置加载状态
+    setError("");
+    setIsGenerating(true);
+    setImageUrl("");
+    setImageLoading(true);
+    setImageError("");
+    setText("");
+    setTextLoading(true);
+    setTextError("");
+    setAudioUrl("");
+    setAudioLoading(false);
+    setAudioError("");
 
-    // 使用 startTransition 优化用户交互响应
-    startTransition(() => {
-      setError("");
-      setIsGenerating(true);
-      setImageUrl("");
-      setImageLoading(true);
-      setImageError("");
-      setText("");
-      setTextLoading(true);
-      setTextError("");
-      setAudioUrl("");
-      setAudioLoading(false);
-      setAudioError("");
-    });
+    // 异步扣除积分和开始生成
+    try {
+      const success = await deductCredits(1, "AI Italian Brainrot Generation");
+      if (!success) {
+        // 如果扣除积分失败，重置状态
+        setIsGenerating(false);
+        setImageLoading(false);
+        setTextLoading(false);
+        setError("Failed to deduct credits. Please try again.");
+        return;
+      }
 
-    // 延迟执行 API 调用，让状态更新先完成
-    setTimeout(() => {
+      // 积分扣除成功，开始生成
       generateImage(prompt);
       generateText(prompt);
-    }, 0);
+    } catch (error) {
+      // 如果出现异常，重置状态
+      setIsGenerating(false);
+      setImageLoading(false);
+      setTextLoading(false);
+      setError("An error occurred. Please try again.");
+    }
   }, [prompt, isGenerating, user, profile, deductCredits]);
 
   // 生成图片的函数
