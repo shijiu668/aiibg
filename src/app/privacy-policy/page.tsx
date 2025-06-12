@@ -69,7 +69,7 @@ export default function PrivacyPolicy() {
 
             {/* 主要内容 */}
             <div className="z-10 max-w-4xl w-full items-center justify-center text-center" style={{ padding: "3rem 1rem 1rem 1rem" }}>
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 gradient-text">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 gradient-text" style={{ lineHeight: '1.2' }}>
                     Privacy Policy
                 </h1>
 
