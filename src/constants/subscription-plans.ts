@@ -24,7 +24,7 @@ export const subscriptionPlans: SubscriptionPlan[] = [
     paddleMonthlyPriceId: '',  // 免费计划无需支付
     paddleYearlyPriceId: '',   // 免费计划无需支付
     features: [
-      '10 free credits',
+      '20 free credits',
       'Access to all generators',
       'Basic features'
     ]
