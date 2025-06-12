@@ -38,6 +38,7 @@ export async function GET(request: Request) {
         console.log('User authenticated successfully:', data.user.email)
         
         // 确保用户在数据库中存在
+        let isNewUser = false
         try {
           const { data: existingUser, error: fetchError } = await supabase
             .from('users')
@@ -47,6 +48,7 @@ export async function GET(request: Request) {
 
           if (fetchError && fetchError.code === 'PGRST116') {
             // 用户不存在，创建新用户
+            isNewUser = true
             const { error: insertError } = await supabase
               .from('users')
               .insert({
@@ -70,6 +72,20 @@ export async function GET(request: Request) {
           console.error('Database operation error:', dbError)
           // 数据库错误不影响登录流程
         }
+
+        // 成功认证后重定向到首页，并添加成功提示
+        const redirectUrl = isNewUser 
+          ? `${requestUrl.origin}?auth_success=welcome` 
+          : `${requestUrl.origin}?auth_success=signin`
+        
+        const response = NextResponse.redirect(redirectUrl)
+        
+        // 添加缓存控制头，确保不缓存认证回调
+        response.headers.set('Cache-Control', 'no-cache, no-store, max-age=0, must-revalidate')
+        response.headers.set('Pragma', 'no-cache')
+        response.headers.set('Expires', '0')
+        
+        return response
       }
 
     } catch (error) {
@@ -78,7 +94,7 @@ export async function GET(request: Request) {
     }
   }
 
-  // 成功重定向到首页
+  // 默认重定向到首页
   const response = NextResponse.redirect(requestUrl.origin)
   
   // 添加缓存控制头，确保不缓存认证回调

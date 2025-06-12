@@ -71,6 +71,26 @@ export default function Home() {
     }
   }, []);
 
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const authSuccess = urlParams.get('auth_success');
+
+    if (authSuccess) {
+      setTimeout(() => {
+        if (authSuccess === 'welcome') {
+          alert('🎉 Welcome! Your account has been confirmed successfully. You received 10 free credits to get started!');
+        } else if (authSuccess === 'signin') {
+          alert('✅ Welcome back! You have been signed in successfully.');
+        }
+      }, 500);
+
+      // 清理URL参数
+      const url = new URL(window.location.href);
+      url.searchParams.delete('auth_success');
+      window.history.replaceState({}, document.title, url.pathname);
+    }
+  }, []);
+
   // 处理支付完成的函数
   const handleCompletePayment = () => {
     if (!pendingTransactionId) return;
