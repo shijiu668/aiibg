@@ -33,23 +33,26 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     let mounted = true
 
     // 初始化认证状态
+    // 初始化认证状态
     const initializeAuth = async () => {
       try {
         const { data: { session }, error } = await supabase.auth.getSession()
         console.log('Initial session:', session?.user?.email, error)
-        
+
         if (mounted) {
           if (session?.user) {
             setUser(session.user)
-            // 立即获取用户配置，不延迟
-            await getProfile(session.user)
+            // 并行获取用户配置，不阻塞UI
+            getProfile(session.user).catch(err => {
+              console.error('Failed to load profile during init:', err)
+            })
           } else {
             setUser(null)
             setProfile(null)
           }
           setLoading(false)
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error('Error getting initial session:', error)
         if (mounted) {
           setLoading(false)
@@ -63,7 +66,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         console.log('Auth state change:', event, session?.user?.email)
-        
+
         if (!mounted) return
 
         if (session?.user) {
@@ -82,7 +85,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
           setUser(null)
           setProfile(null)
         }
-        
+
         if (event !== 'INITIAL_SESSION') {
           setLoading(false)
         }
@@ -95,7 +98,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
-  async function getProfile(currentUser?: User) {
+  async function getProfile(currentUser?: User, retryCount = 0) {
     try {
       const userToUse = currentUser || user
       if (!userToUse) {
@@ -103,15 +106,22 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         return
       }
 
-      console.log('Getting profile for user:', userToUse.email)
-      
-      const { data, error } = await supabase
+      console.log('Getting profile for user:', userToUse.email, 'Retry count:', retryCount)
+
+      // 添加超时控制
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Database query timeout')), 5000)
+      )
+
+      const queryPromise = supabase
         .from('users')
         .select('*')
         .eq('id', userToUse.id)
         .single()
 
-      console.log('Database query result:', { data, error })
+      const { data, error } = await Promise.race([queryPromise, timeoutPromise]) as any
+
+      console.log('Database query result:', { data, error, retryCount })
 
       if (error && error.code === 'PGRST116') {
         console.log('Creating new user in database')
@@ -147,13 +157,32 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
       } else if (error) {
         console.error('Database error:', error)
       }
-    } catch (error) {
-      console.error('Error loading user profile:', error)
+    } catch (error: any) {
+      console.error('Error loading user profile:', error, 'Retry count:', retryCount)
+
+      // 如果是超时或网络错误，且重试次数少于3次，则重试
+      if (retryCount < 3 && (
+        error?.message?.includes('timeout') ||
+        error?.message?.includes('network') ||
+        error?.message?.includes('fetch')
+      )) {
+        console.log('Retrying profile fetch in 1 second...')
+        setTimeout(() => {
+          getProfile(currentUser, retryCount + 1)
+        }, 1000)
+      }
     }
   }
 
   async function refreshProfile() {
-    await getProfile()
+    if (!user) return
+
+    try {
+      await getProfile(user)
+    } catch (error: any) {
+      console.error('Error refreshing profile:', error)
+      // 静默失败，不影响用户体验
+    }
   }
 
   async function signOut() {
@@ -174,7 +203,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     try {
       const { error } = await supabase
         .from('users')
-        .update({ 
+        .update({
           credits: profile.credits - amount,
           updated_at: new Date().toISOString()
         })
