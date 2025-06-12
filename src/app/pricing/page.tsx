@@ -24,12 +24,6 @@ export default function SubscriptionPage() {
   const [paddleLoaded, setPaddleLoaded] = useState(false)
   const router = useRouter()
 
-  useEffect(() => {
-    if (!loading && !user) {
-      router.push('/')
-    }
-  }, [user, loading, router])
-
   // Paddle.js 加载完成后的回调
   const handlePaddleLoad = () => {
     console.log('Paddle.js loaded')
@@ -125,10 +119,6 @@ export default function SubscriptionPage() {
 
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center">Loading...</div>
-  }
-
-  if (!user) {
-    return null
   }
 
   return (
@@ -279,8 +269,8 @@ export default function SubscriptionPage() {
               🚧 Payment processing is currently being set up. Subscription functionality will be available soon.
             </p>
           </div>
-          {/* 当前状态 */}
-          {profile && (
+          {/* 当前状态 - 只在用户登录时显示 */}
+          {user && profile && (
             <div className="bg-white rounded-lg p-6 mb-8 shadow-md">
               <h2 className="text-xl font-semibold mb-4">Current Status</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

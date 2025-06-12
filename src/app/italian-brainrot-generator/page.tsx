@@ -237,11 +237,8 @@ export default function ItalianBrainrotGenerator() {
 
                         <div className="flex items-center space-x-4">
                             <div className="flex space-x-6">
-                                <Link href="/italian-brainrot-video" className="text-gray-700 hover:text-purple-600 transition-colors">
-                                    Italian Brainrot Video
-                                </Link>
-                                <Link href="/italian-brainrot-generator" className="gradient-text-premium hover:scale-105 transition-transform duration-300">
-                                    Italian Brainrot Generator 2.0
+                                <Link href="/pricing" className="text-gray-700 hover:text-purple-600 transition-colors">
+                                    Pricing
                                 </Link>
                                 <div
                                     className="relative"
@@ -258,6 +255,12 @@ export default function ItalianBrainrotGenerator() {
                                         <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-56 z-50">
                                             <div className="h-4 w-full"></div>
                                             <div className="bg-white rounded-lg shadow-lg border border-gray-200 py-3">
+                                                <Link href="/italian-brainrot-video" className="block px-4 py-3 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors">
+                                                    Italian Brainrot Video
+                                                </Link>
+                                                <Link href="/italian-brainrot-generator" className="block px-4 py-3 gradient-text-premium hover:bg-purple-50 transition-colors">
+                                                    Italian Brainrot Generator 2.0
+                                                </Link>
                                                 <Link href="/pdf-to-brainrot" className="block px-4 py-3 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors">
                                                     PDF to Brainrot
                                                 </Link>
@@ -299,9 +302,6 @@ export default function ItalianBrainrotGenerator() {
                                                     <div className="px-4 py-2 border-b border-gray-100">
                                                         <p className="text-sm text-gray-600 truncate">{user.email}</p>
                                                     </div>
-                                                    <Link href="/pricing" className="block px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors">
-                                                        Pricing
-                                                    </Link>
                                                     <button onClick={signOut} className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors">
                                                         Sign Out
                                                     </button>

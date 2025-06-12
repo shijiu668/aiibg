@@ -482,11 +482,8 @@ export default function ItalianBrainrotVideo() {
 
                         <div className="flex items-center space-x-4">
                             <div className="flex space-x-6">
-                                <Link href="/italian-brainrot-video" className="text-purple-400 transition-colors">
-                                    Italian Brainrot Video
-                                </Link>
-                                <Link href="/italian-brainrot-generator" className="text-gray-300 hover:text-purple-400 transition-colors">
-                                    Italian Brainrot Generator 2.0
+                                <Link href="/pricing" className="text-gray-300 hover:text-purple-400 transition-colors">
+                                    Pricing
                                 </Link>
                                 <div
                                     className="relative"
@@ -503,6 +500,12 @@ export default function ItalianBrainrotVideo() {
                                         <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-56 z-50">
                                             <div className="h-4 w-full"></div>
                                             <div className="bg-gray-900 rounded-lg shadow-lg border border-gray-700 py-3">
+                                                <Link href="/italian-brainrot-video" className="block px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-purple-400 transition-colors">
+                                                    Italian Brainrot Video
+                                                </Link>
+                                                <Link href="/italian-brainrot-generator" className="block px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-purple-400 transition-colors">
+                                                    Italian Brainrot Generator 2.0
+                                                </Link>
                                                 <Link href="/pdf-to-brainrot" className="block px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-purple-400 transition-colors">
                                                     PDF to Brainrot
                                                 </Link>
