@@ -117,7 +117,14 @@ export default function Home() {
     }
 
     // 检查积分是否足够
-    if (!profile || profile.credits < 1) {
+    // 检查用户配置是否已加载
+    if (!profile) {
+      setError("Credit information is updating, please try again in a few seconds.");
+      return;
+    }
+
+    // 检查积分是否足够
+    if (profile.credits < 1) {
       setError("Insufficient credits. Please purchase more credits or upgrade your subscription.");
       return;
     }
