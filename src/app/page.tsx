@@ -78,11 +78,11 @@ export default function Home() {
     if (authSuccess) {
       setTimeout(() => {
         if (authSuccess === 'welcome') {
-          alert('🎉 Welcome! Your account has been confirmed successfully. You received 10 free credits to get started!');
+          alert('🎉 Welcome! Your account has been confirmed successfully. You received 20 free credits to get started!');
         } else if (authSuccess === 'signin') {
           alert('✅ Welcome back! You have been signed in successfully.');
         } else if (authSuccess === 'email_confirmed') {
-          alert('📧 Email confirmed successfully! Welcome to AI Italian Brainrot Generator. You received 10 free credits!');
+          alert('📧 Email confirmed successfully! Welcome to AI Italian Brainrot Generator. You received 20 free credits!');
         }
       }, 500);
 

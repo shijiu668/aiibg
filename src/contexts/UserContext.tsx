@@ -131,7 +131,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
           .insert({
             id: userToUse.id,
             email: userToUse.email!,
-            credits: 10, // 注册获得10积分
+            credits: 20, // 注册获得10积分
             subscription_status: 'basic'
           })
           .select()
@@ -144,7 +144,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
           // 记录积分获得
           await supabase.from('credit_transactions').insert({
             user_id: userToUse.id,
-            amount: 10,
+            amount: 20,
             type: 'earned',
             description: 'Registration bonus'
           })
