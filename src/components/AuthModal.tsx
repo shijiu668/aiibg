@@ -43,6 +43,12 @@ export default function AuthModal({ isOpen, onClose, mode, onModeChange }: AuthM
           return
         }
 
+        // 🆕 添加这个检查：Supabase 检测已存在用户的方式
+        if (data.user?.identities && data.user.identities.length === 0) {
+          setMessage('This email is already registered. Please sign in instead.')
+          return
+        }
+
         // 检查是否需要确认邮件
         if (data.user && !data.session) {
           setMessage('Check your email for the confirmation link!')
