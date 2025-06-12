@@ -771,7 +771,7 @@ export default function PdfToBrainrot() {
                                         <div className="text-sm text-gray-600 hover:text-purple-600 whitespace-nowrap cursor-pointer group">
                                             Contact Us
                                             <div className="absolute bottom-full left-0 mb-2 px-3 py-2 bg-black text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 pointer-events-none">
-                                                We'd love to hear from you!
+                                                support@italianbrainrots.org
                                             </div>
                                         </div>
                                     </div>
