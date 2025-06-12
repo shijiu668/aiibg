@@ -2,9 +2,17 @@
 
 import { useState } from "react";
 import Link from "next/link";
-
+import { useUser } from '@/contexts/UserContext';
+import AuthModal from '@/components/AuthModal';
+import CreditDisplay from '@/components/CreditDisplay';
 export default function ItalianBrainrotClicker() {
+    const { user, signOut } = useUser();
     const [showAIToolsDropdown, setShowAIToolsDropdown] = useState(false);
+    const [showUserDropdown, setShowUserDropdown] = useState(false);
+    const [authModal, setAuthModal] = useState<{ isOpen: boolean; mode: 'signin' | 'signup' }>({
+        isOpen: false,
+        mode: 'signin'
+    });
     return (
         <main className="flex min-h-screen flex-col items-center italian-flag-gradient">
             {/* 导航栏 */}
@@ -14,53 +22,92 @@ export default function ItalianBrainrotClicker() {
                         <Link href="/" className="text-xl font-bold gradient-text">
                             AI Italian Brainrot
                         </Link>
-                        <div className="flex space-x-6">
-                            <Link href="/" className="text-gray-700 hover:text-purple-600 transition-colors">
-                                Home
-                            </Link>
-                            <Link href="/italian-brainrot-generator" className="text-gray-700 hover:text-purple-600 transition-colors">
-                                Italian Brainrot Generator 2.0
-                            </Link>
-                            <Link href="/pdf-to-brainrot" className="text-gray-700 hover:text-purple-600 transition-colors">
-                                PDF to Brainrot
-                            </Link>
-                            <div
-                                className="relative"
-                                onMouseEnter={() => setShowAIToolsDropdown(true)}
-                                onMouseLeave={() => setShowAIToolsDropdown(false)}
-                            >
-                                <span className="text-gray-700 hover:text-purple-600 transition-colors cursor-pointer">
-                                    AI Brainrot Tools
-                                    <svg className="ml-1 w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                </span>
-                                {showAIToolsDropdown && (
-                                    <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-56 z-50">
-                                        <div className="h-4 w-full"></div>
-                                        <div className="bg-white rounded-lg shadow-lg border border-gray-200 py-3">
-                                            <Link
-                                                href="/italian-brainrot-translator"
-                                                className="block px-4 py-3 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors"
-                                            >
-                                                Italian Brainrot Translator
-                                            </Link>
-                                            <Link
-                                                href="/brainrot-voice-generator"
-                                                className="block px-4 py-3 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors"
-                                            >
-                                                Brainrot Voice Generator
-                                            </Link>
-                                            <Link
-                                                href="/italian-brainrot-clicker"
-                                                className="block px-4 py-3 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors"
-                                            >
-                                                Italian Brainrot Clicker
-                                            </Link>
+
+                        <div className="flex items-center space-x-4">
+                            <div className="flex space-x-6">
+                                <Link href="/italian-brainrot-video" className="text-gray-700 hover:text-purple-600 transition-colors">
+                                    Italian Brainrot Video
+                                </Link>
+                                <Link href="/italian-brainrot-generator" className="gradient-text-premium hover:scale-105 transition-transform duration-300">
+                                    Italian Brainrot Generator 2.0
+                                </Link>
+                                <div
+                                    className="relative"
+                                    onMouseEnter={() => setShowAIToolsDropdown(true)}
+                                    onMouseLeave={() => setShowAIToolsDropdown(false)}
+                                >
+                                    <span className="text-gray-700 hover:text-purple-600 transition-colors cursor-pointer">
+                                        AI Brainrot Tools
+                                        <svg className="ml-1 w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </span>
+                                    {showAIToolsDropdown && (
+                                        <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-56 z-50">
+                                            <div className="h-4 w-full"></div>
+                                            <div className="bg-white rounded-lg shadow-lg border border-gray-200 py-3">
+                                                <Link href="/pdf-to-brainrot" className="block px-4 py-3 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors">
+                                                    PDF to Brainrot
+                                                </Link>
+                                                <Link href="/italian-brainrot-translator" className="block px-4 py-3 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors">
+                                                    Italian Brainrot Translator
+                                                </Link>
+                                                <Link href="/brainrot-voice-generator" className="block px-4 py-3 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors">
+                                                    Brainrot Voice Generator
+                                                </Link>
+                                                <Link href="/italian-brainrot-clicker" className="block px-4 py-3 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors">
+                                                    Italian Brainrot Clicker
+                                                </Link>
+                                            </div>
                                         </div>
-                                    </div>
-                                )}
+                                    )}
+                                </div>
                             </div>
+
+                            {user ? (
+                                <>
+                                    <CreditDisplay />
+                                    <div
+                                        className="relative"
+                                        onMouseEnter={() => setShowUserDropdown(true)}
+                                        onMouseLeave={() => setShowUserDropdown(false)}
+                                    >
+                                        <div className="flex items-center space-x-2 cursor-pointer">
+                                            <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-medium text-sm">
+                                                {user.email?.[0]?.toUpperCase()}
+                                            </div>
+                                            <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                            </svg>
+                                        </div>
+                                        {showUserDropdown && (
+                                            <div className="absolute top-6 right-0 w-48 z-50">
+                                                <div className="h-4 w-full"></div>
+                                                <div className="bg-white rounded-lg shadow-lg border border-gray-200 py-2">
+                                                    <div className="px-4 py-2 border-b border-gray-100">
+                                                        <p className="text-sm text-gray-600 truncate">{user.email}</p>
+                                                    </div>
+                                                    <Link href="/pricing" className="block px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors">
+                                                        Pricing
+                                                    </Link>
+                                                    <button onClick={signOut} className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors">
+                                                        Sign Out
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    <button onClick={() => setAuthModal({ isOpen: true, mode: 'signin' })} className="text-gray-700 hover:text-purple-600 transition-colors">
+                                        Sign In
+                                    </button>
+                                    <button onClick={() => setAuthModal({ isOpen: true, mode: 'signup' })} className="btn-primary">
+                                        Start for Free
+                                    </button>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -308,10 +355,13 @@ export default function ItalianBrainrotClicker() {
 
                             {/* Support 列 */}
                             <div className="flex flex-col">
-                                <h4 className="text-sm font-bold mb-3 text-left text-gray-700">Support</h4>
+                                <h4 className="text-sm font-bold mb-3 text-left text-gray-700">Company</h4>
                                 <div className="flex flex-col space-y-2">
                                     <Link href="/about-us" className="text-left pl-0 pr-1 py-1 rounded transition-colors">
                                         <div className="text-sm text-gray-600 hover:text-purple-600 whitespace-nowrap">About Us</div>
+                                    </Link>
+                                    <Link href="/pricing" className="text-left pl-0 pr-1 py-1 rounded transition-colors">
+                                        <div className="text-sm text-gray-600 hover:text-purple-600 whitespace-nowrap">Pricing</div>
                                     </Link>
                                     <div className="text-left pl-0 pr-1 py-1 relative">
                                         <div className="text-sm text-gray-600 hover:text-purple-600 whitespace-nowrap cursor-pointer group">
@@ -321,6 +371,9 @@ export default function ItalianBrainrotClicker() {
                                             </div>
                                         </div>
                                     </div>
+                                    <Link href="/refund-policy" className="text-left pl-0 pr-1 py-1 rounded transition-colors">
+                                        <div className="text-sm text-gray-600 hover:text-purple-600 whitespace-nowrap">Refund Policy</div>
+                                    </Link>
                                     <Link href="/privacy-policy" className="text-left pl-0 pr-1 py-1 rounded transition-colors">
                                         <div className="text-sm text-gray-600 hover:text-purple-600 whitespace-nowrap">Privacy Policy</div>
                                     </Link>
@@ -396,6 +449,12 @@ export default function ItalianBrainrotClicker() {
                     </div>
                 </div>
             </footer>
+            <AuthModal
+                isOpen={authModal.isOpen}
+                onClose={() => setAuthModal({ ...authModal, isOpen: false })}
+                mode={authModal.mode}
+                onModeChange={(mode) => setAuthModal({ ...authModal, mode })}
+            />
         </main>
     );
 }

@@ -5,7 +5,17 @@ import { BeatLoader } from "react-spinners";
 import Link from "next/link";
 import { useCallback, useMemo } from "react";
 import { startTransition } from "react";
+import { useUser } from '@/contexts/UserContext';
+import AuthModal from '@/components/AuthModal';
+import CreditDisplay from '@/components/CreditDisplay';
+
 export default function Home() {
+  const { user, profile, signOut, deductCredits } = useUser();
+  const [authModal, setAuthModal] = useState<{ isOpen: boolean; mode: 'signin' | 'signup' }>({
+    isOpen: false,
+    mode: 'signin'
+  });
+
   const [prompt, setPrompt] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
@@ -20,9 +30,13 @@ export default function Home() {
   const [audioLoading, setAudioLoading] = useState(false);
   const [audioError, setAudioError] = useState("");
   const [showAIToolsDropdown, setShowAIToolsDropdown] = useState(false);
+  const [showUserDropdown, setShowUserDropdown] = useState(false);
 
   const [error, setError] = useState("");
   const audioRef = useRef<HTMLAudioElement>(null);
+
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [pendingTransactionId, setPendingTransactionId] = useState<string | null>(null);
 
   // 防止请求超时的安全机制
   useEffect(() => {
@@ -42,6 +56,31 @@ export default function Home() {
     };
   }, [isGenerating]);
 
+  // 添加这个新的useEffect来检测Paddle交易
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const transactionId = urlParams.get('_ptxn');
+
+    if (transactionId) {
+      console.log('✅ Paddle transaction detected:', transactionId);
+      setPendingTransactionId(transactionId);
+      setShowPaymentModal(true);
+
+      // 清理URL，避免重复处理
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, []);
+
+  // 处理支付完成的函数
+  const handleCompletePayment = () => {
+    if (!pendingTransactionId) return;
+
+    console.log('🚀 Opening Paddle checkout for transaction:', pendingTransactionId);
+    alert(`Transaction ID: ${pendingTransactionId}\n\nIn production, this would open Paddle checkout. For now, we'll redirect to success page.`);
+
+    window.location.href = '/pricing/success';
+  };
+
   // 添加防抖处理
   const handleGenerate = useCallback(async () => {
     if (!prompt.trim()) {
@@ -49,8 +88,27 @@ export default function Home() {
       return;
     }
 
+    // 检查用户是否登录
+    if (!user) {
+      setAuthModal({ isOpen: true, mode: 'signin' });
+      return;
+    }
+
+    // 检查积分是否足够
+    if (!profile || profile.credits < 1) {
+      setError("Insufficient credits. Please purchase more credits or upgrade your subscription.");
+      return;
+    }
+
     // 防止重复点击
     if (isGenerating) return;
+
+    // 扣除积分
+    const success = await deductCredits(1, "AI Italian Brainrot Generation");
+    if (!success) {
+      setError("Failed to deduct credits. Please try again.");
+      return;
+    }
 
     // 使用 startTransition 优化用户交互响应
     startTransition(() => {
@@ -72,8 +130,7 @@ export default function Home() {
       generateImage(prompt);
       generateText(prompt);
     }, 0);
-  }, [prompt, isGenerating]);
-
+  }, [prompt, isGenerating, user, profile, deductCredits]);
 
   // 生成图片的函数
   const generateImage = async (userPrompt: string) => {
@@ -183,53 +240,116 @@ export default function Home() {
             <Link href="/" className="text-xl font-bold gradient-text">
               AI Italian Brainrot
             </Link>
-            <div className="flex space-x-6">
-              <Link href="/italian-brainrot-video" className="text-gray-700 hover:text-purple-600 transition-colors">
-                Italian Brainrot Video
-              </Link>
-              <Link href="/italian-brainrot-generator" className="gradient-text-premium hover:scale-105 transition-transform duration-300">
-                Italian Brainrot Generator 2.0
-              </Link>
-              <Link href="/pdf-to-brainrot" className="text-gray-700 hover:text-purple-600 transition-colors">
-                PDF to Brainrot
-              </Link>
-              <div
-                className="relative"
-                onMouseEnter={() => setShowAIToolsDropdown(true)}
-                onMouseLeave={() => setShowAIToolsDropdown(false)}
-              >
-                <span className="text-gray-700 hover:text-purple-600 transition-colors cursor-pointer">
-                  AI Brainrot Tools
-                  <svg className="ml-1 w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </span>
-                {showAIToolsDropdown && (
-                  <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-56 z-50">
-                    <div className="h-4 w-full"></div>
-                    <div className="bg-white rounded-lg shadow-lg border border-gray-200 py-3">
-                      <Link
-                        href="/italian-brainrot-translator"
-                        className="block px-4 py-3 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors"
-                      >
-                        Italian Brainrot Translator
-                      </Link>
-                      <Link
-                        href="/brainrot-voice-generator"
-                        className="block px-4 py-3 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors"
-                      >
-                        Brainrot Voice Generator
-                      </Link>
-                      <Link
-                        href="/italian-brainrot-clicker"
-                        className="block px-4 py-3 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors"
-                      >
-                        Italian Brainrot Clicker
-                      </Link>
+
+            <div className="flex items-center space-x-4">
+              <div className="flex space-x-6">
+                <Link href="/italian-brainrot-video" className="text-gray-700 hover:text-purple-600 transition-colors">
+                  Italian Brainrot Video
+                </Link>
+                <Link href="/italian-brainrot-generator" className="gradient-text-premium hover:scale-105 transition-transform duration-300">
+                  Italian Brainrot Generator 2.0
+                </Link>
+                <div
+                  className="relative"
+                  onMouseEnter={() => setShowAIToolsDropdown(true)}
+                  onMouseLeave={() => setShowAIToolsDropdown(false)}
+                >
+                  <span className="text-gray-700 hover:text-purple-600 transition-colors cursor-pointer">
+                    AI Brainrot Tools
+                    <svg className="ml-1 w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </span>
+                  {showAIToolsDropdown && (
+                    <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-56 z-50">
+                      <div className="h-4 w-full"></div>
+                      <div className="bg-white rounded-lg shadow-lg border border-gray-200 py-3">
+                        <Link
+                          href="/pdf-to-brainrot"
+                          className="block px-4 py-3 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors"
+                        >
+                          PDF to Brainrot
+                        </Link>
+                        <Link
+                          href="/italian-brainrot-translator"
+                          className="block px-4 py-3 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors"
+                        >
+                          Italian Brainrot Translator
+                        </Link>
+                        <Link
+                          href="/brainrot-voice-generator"
+                          className="block px-4 py-3 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors"
+                        >
+                          Brainrot Voice Generator
+                        </Link>
+                        <Link
+                          href="/italian-brainrot-clicker"
+                          className="block px-4 py-3 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors"
+                        >
+                          Italian Brainrot Clicker
+                        </Link>
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
+
+              {user ? (
+                <>
+                  <CreditDisplay />
+                  <div
+                    className="relative"
+                    onMouseEnter={() => setShowUserDropdown(true)}
+                    onMouseLeave={() => setShowUserDropdown(false)}
+                  >
+                    <div className="flex items-center space-x-2 cursor-pointer">
+                      <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-medium text-sm">
+                        {user.email?.[0]?.toUpperCase()}
+                      </div>
+                      <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                    {showUserDropdown && (
+                      <div className="absolute top-6 right-0 w-48 z-50">
+                        <div className="h-4 w-full"></div>
+                        <div className="bg-white rounded-lg shadow-lg border border-gray-200 py-2">
+                          <div className="px-4 py-2 border-b border-gray-100">
+                            <p className="text-sm text-gray-600 truncate">{user.email}</p>
+                          </div>
+                          <Link
+                            href="/pricing"
+                            className="block px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors"
+                          >
+                            Pricing
+                          </Link>
+                          <button
+                            onClick={signOut}
+                            className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors"
+                          >
+                            Sign Out
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => setAuthModal({ isOpen: true, mode: 'signin' })}
+                    className="text-gray-700 hover:text-purple-600 transition-colors"
+                  >
+                    Sign In
+                  </button>
+                  <button
+                    onClick={() => setAuthModal({ isOpen: true, mode: 'signup' })}
+                    className="btn-primary"
+                  >
+                    Start for Free
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -561,10 +681,13 @@ export default function Home() {
 
               {/* Support 列 */}
               <div className="flex flex-col">
-                <h4 className="text-sm font-bold mb-3 text-left text-gray-700">Support</h4>
+                <h4 className="text-sm font-bold mb-3 text-left text-gray-700">Company</h4>
                 <div className="flex flex-col space-y-2">
                   <Link href="/about-us" className="text-left pl-0 pr-1 py-1 rounded transition-colors">
                     <div className="text-sm text-gray-600 hover:text-purple-600 whitespace-nowrap">About Us</div>
+                  </Link>
+                  <Link href="/pricing" className="text-left pl-0 pr-1 py-1 rounded transition-colors">
+                    <div className="text-sm text-gray-600 hover:text-purple-600 whitespace-nowrap">Pricing</div>
                   </Link>
                   <div className="text-left pl-0 pr-1 py-1 relative">
                     <div className="text-sm text-gray-600 hover:text-purple-600 whitespace-nowrap cursor-pointer group">
@@ -574,6 +697,9 @@ export default function Home() {
                       </div>
                     </div>
                   </div>
+                  <Link href="/refund-policy" className="text-left pl-0 pr-1 py-1 rounded transition-colors">
+                    <div className="text-sm text-gray-600 hover:text-purple-600 whitespace-nowrap">Refund Policy</div>
+                  </Link>
                   <Link href="/privacy-policy" className="text-left pl-0 pr-1 py-1 rounded transition-colors">
                     <div className="text-sm text-gray-600 hover:text-purple-600 whitespace-nowrap">Privacy Policy</div>
                   </Link>
@@ -649,6 +775,56 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* 添加支付模态框 */}
+      {showPaymentModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-8 rounded-lg max-w-md w-full mx-4 shadow-xl">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                </svg>
+              </div>
+
+              <h2 className="text-2xl font-bold mb-4 text-gray-800">Complete Your Subscription</h2>
+              <p className="text-gray-600 mb-6">
+                Your subscription order is ready! Click below to complete the payment process.
+              </p>
+
+              <div className="bg-gray-50 rounded-lg p-4 mb-6">
+                <p className="text-sm text-gray-500 mb-1">Transaction ID:</p>
+                <p className="text-sm font-mono text-gray-700 break-all">{pendingTransactionId}</p>
+              </div>
+
+              <div className="flex space-x-4">
+                <button
+                  onClick={handleCompletePayment}
+                  className="btn-primary flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 px-6 rounded-lg font-medium hover:shadow-lg transition-all duration-300"
+                >
+                  Complete Payment
+                </button>
+                <button
+                  onClick={() => {
+                    setShowPaymentModal(false);
+                    setPendingTransactionId(null);
+                  }}
+                  className="bg-gray-200 text-gray-800 px-4 py-3 rounded-lg flex-1 hover:bg-gray-300 transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <AuthModal
+        isOpen={authModal.isOpen}
+        onClose={() => setAuthModal({ ...authModal, isOpen: false })}
+        mode={authModal.mode}
+        onModeChange={(mode) => setAuthModal({ ...authModal, mode })}
+      />
     </main >
   );
 }
