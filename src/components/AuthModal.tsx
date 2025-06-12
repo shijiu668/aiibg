@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { createSupabaseClient } from '@/lib/supabase'
 
 interface AuthModalProps {
@@ -16,7 +16,76 @@ export default function AuthModal({ isOpen, onClose, mode, onModeChange }: AuthM
   const [loading, setLoading] = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
   const [message, setMessage] = useState('')
+  const [isWaitingForConfirmation, setIsWaitingForConfirmation] = useState(false)
   const supabase = createSupabaseClient()
+
+  // 添加这两个 useEffect 到现有代码中：
+
+// 监听认证状态变化
+useEffect(() => {
+  if (!isOpen) return
+
+  const { data: { subscription } } = supabase.auth.onAuthStateChange(
+    async (event, session) => {
+      console.log('Auth modal - Auth state change:', event, session?.user?.email)
+      
+      if (event === 'SIGNED_IN' && session?.user) {
+        console.log('User signed in successfully:', session.user.email)
+        setIsWaitingForConfirmation(false)
+        setMessage('Welcome! You have been signed in successfully.')
+        
+        setTimeout(() => {
+          onClose()
+          setMessage('')
+          setEmail('')
+          setPassword('')
+        }, 1500)
+      } else if (event === 'TOKEN_REFRESHED') {
+        if (session?.user && isWaitingForConfirmation) {
+          setIsWaitingForConfirmation(false)
+          setMessage('Email confirmed! Welcome!')
+          setTimeout(() => {
+            onClose()
+            setMessage('')
+            setEmail('')
+            setPassword('')
+          }, 1500)
+        }
+      }
+    }
+  )
+
+  return () => {
+    subscription.unsubscribe()
+  }
+}, [isOpen, isWaitingForConfirmation, onClose, supabase.auth])
+
+// 定期检查会话状态（备用）
+useEffect(() => {
+  if (!isWaitingForConfirmation || !isOpen) return
+
+  const checkSession = async () => {
+    try {
+      const { data: { session }, error } = await supabase.auth.getSession()
+      if (session?.user && !error) {
+        console.log('Session check: User is now authenticated')
+        setIsWaitingForConfirmation(false)
+        setMessage('Email confirmed! Welcome!')
+        setTimeout(() => {
+          onClose()
+          setMessage('')
+          setEmail('')
+          setPassword('')
+        }, 1500)
+      }
+    } catch (error) {
+      console.error('Error checking session:', error)
+    }
+  }
+
+  const interval = setInterval(checkSession, 3000)
+  return () => clearInterval(interval)
+}, [isWaitingForConfirmation, isOpen, onClose, supabase.auth])
 
   if (!isOpen) return null
 
@@ -51,12 +120,19 @@ export default function AuthModal({ isOpen, onClose, mode, onModeChange }: AuthM
         }
 
         // 检查是否需要确认邮件
-        if (data.user && !data.session) {
-          setMessage('Check your email for the confirmation link!')
-        } else if (data.session) {
-          setMessage('Account created successfully!')
-          onClose()
-        }
+// 修改后：
+if (data.user && !data.session) {
+  setMessage('📧 Check your email for the confirmation link! We\'ll automatically sign you in once confirmed.')
+  setIsWaitingForConfirmation(true)
+} else if (data.session) {
+  setMessage('Account created successfully!')
+  setTimeout(() => {
+    onClose()
+    setMessage('')
+    setEmail('')
+    setPassword('')
+  }, 1500)
+}
       } else {
         // 登录逻辑
         const { error } = await supabase.auth.signInWithPassword({
@@ -107,10 +183,27 @@ export default function AuthModal({ isOpen, onClose, mode, onModeChange }: AuthM
           </button>
         </div>
 
+{isWaitingForConfirmation && (
+  <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+    <div className="flex items-center">
+      <div className="animate-spin mr-3">
+        <svg className="w-5 h-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+      </div>
+      <div>
+        <p className="text-blue-800 font-medium">Waiting for email confirmation...</p>
+        <p className="text-blue-600 text-sm">Please check your email and click the confirmation link. This page will automatically update once confirmed.</p>
+      </div>
+    </div>
+  </div>
+)}
+
         {/* Google登录按钮 */}
         <button
           onClick={handleGoogleLogin}
-          disabled={loading || googleLoading} // 🆕 添加 googleLoading
+          disabled={loading || googleLoading || isWaitingForConfirmation} // 🆕 添加 googleLoading
           className={`w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 mb-4 transition-all duration-200 ${googleLoading
               ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
               : 'bg-white text-gray-700 hover:bg-gray-50'
@@ -182,7 +275,7 @@ export default function AuthModal({ isOpen, onClose, mode, onModeChange }: AuthM
 
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || isWaitingForConfirmation}
             className="btn-primary w-full"
           >
             {loading ? 'Loading...' : (mode === 'signin' ? 'Sign In' : 'Sign Up')}
