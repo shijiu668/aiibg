@@ -278,22 +278,45 @@ export default function PdfToBrainrot() {
         }
 
         // 检查积分是否足够
-        if (!profile || profile.credits < 1) {
+        // 检查用户配置是否已加载
+        if (!profile) {
+            setError("Credit information is updating, please try again in a few seconds.");
+            return;
+        }
+
+        // 检查积分是否足够
+        if (profile.credits < 1) {
             setError("Insufficient credits. Please purchase more credits or upgrade your subscription.");
             return;
         }
 
         // 扣除积分
-        const success = await deductCredits(1, "PDF to Brainrot Generator");
-        if (!success) {
-            setError("Failed to deduct credits. Please try again.");
-            return;
-        }
-
+        // 立即设置加载状态
         setIsGenerating(true);
         setError("");
         setFinalVideoUrl("");
         setProgress(0);
+        setGenerationStep("Preparing to generate...");
+
+        // 异步扣除积分
+        try {
+            const success = await deductCredits(1, "PDF to Brainrot Generator");
+            if (!success) {
+                // 如果扣除积分失败，重置状态
+                setIsGenerating(false);
+                setGenerationStep("");
+                setProgress(0);
+                setError("Failed to deduct credits. Please try again.");
+                return;
+            }
+        } catch (error) {
+            // 如果出现异常，重置状态
+            setIsGenerating(false);
+            setGenerationStep("");
+            setProgress(0);
+            setError("An error occurred. Please try again.");
+            return;
+        }
 
         try {
             // Step 1: Extract text from PDF

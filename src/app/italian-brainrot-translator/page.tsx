@@ -27,27 +27,45 @@ export default function ItalianBrainrotTranslator() {
         }
 
         // 检查用户是否登录
+        // 检查用户是否登录
         if (!user) {
             setAuthModal({ isOpen: true, mode: 'signin' });
             return;
         }
 
-        // 检查积分是否足够
-        if (!profile || profile.credits < 1) {
-            setError("Insufficient credits. Please purchase more credits or upgrade your subscription.");
-            return;
-        }
-
-        // 扣除积分
-        const success = await deductCredits(1, "Italian Brainrot Translator");
-        if (!success) {
-            setError("Failed to deduct credits. Please try again.");
-            return;
-        }
-
+        // 立即设置加载状态
         setError("");
         setIsTranslating(true);
         setTranslatedText("");
+
+        // 异步检查积分和扣除
+        try {
+            // 检查用户配置是否已加载
+            if (!profile) {
+                setIsTranslating(false);
+                setError("Credit information is updating, please try again in a few seconds.");
+                return;
+            }
+
+            // 检查积分是否足够
+            if (profile.credits < 1) {
+                setIsTranslating(false);
+                setError("Insufficient credits. Please purchase more credits or upgrade your subscription.");
+                return;
+            }
+
+            // 扣除积分
+            const success = await deductCredits(1, "Italian Brainrot Translator");
+            if (!success) {
+                setIsTranslating(false);
+                setError("Failed to deduct credits. Please try again.");
+                return;
+            }
+        } catch (error) {
+            setIsTranslating(false);
+            setError("An error occurred. Please try again.");
+            return;
+        }
 
         try {
             const response = await fetch("/api/translate-to-brainrot", {

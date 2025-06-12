@@ -58,47 +58,71 @@ export default function ItalianBrainrotGenerator() {
         }
 
         // 检查用户是否登录
+        // 检查用户是否登录
         if (!user) {
             setAuthModal({ isOpen: true, mode: 'signin' });
-            return;
-        }
-
-        // 检查积分是否足够
-        if (!profile || profile.credits < 1) {
-            setError("Insufficient credits. Please purchase more credits or upgrade your subscription.");
             return;
         }
 
         // 防止重复点击
         if (isGenerating) return;
 
-        // 扣除积分
-        const success = await deductCredits(1, "Italian Brainrot Generator 2.0");
-        if (!success) {
-            setError("Failed to deduct credits. Please try again.");
-            return;
-        }
+        // 立即设置加载状态
+        setError("");
+        setIsGenerating(true);
+        setImageUrl("");
+        setImageLoading(true);
+        setImageError("");
+        setText("");
+        setTextLoading(true);
+        setTextError("");
+        setAudioUrl("");
+        setAudioLoading(false);
+        setAudioError("");
 
-        // 使用 startTransition 优化用户交互响应
-        startTransition(() => {
-            setError("");
-            setIsGenerating(true);
-            setImageUrl("");
-            setImageLoading(true);
-            setImageError("");
-            setText("");
-            setTextLoading(true);
-            setTextError("");
-            setAudioUrl("");
-            setAudioLoading(false);
-            setAudioError("");
-        });
+        // 异步检查积分和扣除
+        try {
+            // 检查用户配置是否已加载
+            if (!profile) {
+                // 重置所有加载状态
+                setIsGenerating(false);
+                setImageLoading(false);
+                setTextLoading(false);
+                setError("Credit information is updating, please try again in a few seconds.");
+                return;
+            }
 
-        // 延迟执行 API 调用，让状态更新先完成
-        setTimeout(() => {
+            // 检查积分是否足够
+            if (profile.credits < 1) {
+                // 重置所有加载状态
+                setIsGenerating(false);
+                setImageLoading(false);
+                setTextLoading(false);
+                setError("Insufficient credits. Please purchase more credits or upgrade your subscription.");
+                return;
+            }
+
+            // 扣除积分
+            const success = await deductCredits(1, "Italian Brainrot Generator 2.0");
+            if (!success) {
+                // 重置所有加载状态
+                setIsGenerating(false);
+                setImageLoading(false);
+                setTextLoading(false);
+                setError("Failed to deduct credits. Please try again.");
+                return;
+            }
+
+            // 积分扣除成功，开始生成
             generateImage(prompt);
             generateText(prompt);
-        }, 0);
+        } catch (error) {
+            // 重置所有加载状态
+            setIsGenerating(false);
+            setImageLoading(false);
+            setTextLoading(false);
+            setError("An error occurred. Please try again.");
+        }
     }, [prompt, isGenerating]);
 
     // 生成图片的函数 - 使用新的API路由

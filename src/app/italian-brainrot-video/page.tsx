@@ -124,21 +124,10 @@ export default function ItalianBrainrotVideo() {
         }
 
         // 检查积分是否足够
-        if (!profile || profile.credits < 1) {
-            setError("Insufficient credits. Please purchase more credits or upgrade your subscription.");
-            return;
-        }
-
-        // 扣除积分
-        const success = await deductCredits(1, "Italian Brainrot Video Generator");
-        if (!success) {
-            setError("Failed to deduct credits. Please try again.");
-            return;
-        }
-
+        // 检查用户配置是否已加载
         if (isGenerating) return;
 
-        // 重置所有状态
+        // 立即设置加载状态
         setError("");
         setIsGenerating(true);
         setImagePrompt("");
@@ -160,6 +149,55 @@ export default function ItalianBrainrotVideo() {
         setImageLoading(true);
         setAudioLoading(true);
         setVideoLoading(false); // 视频稍后开始
+
+        // 异步检查积分和扣除
+        try {
+            // 检查用户配置是否已加载
+            if (!profile) {
+                // 重置所有加载状态
+                setIsGenerating(false);
+                setImagePromptLoading(false);
+                setTextLoading(false);
+                setImageLoading(false);
+                setAudioLoading(false);
+                setError("Credit information is updating, please try again in a few seconds.");
+                return;
+            }
+
+            // 检查积分是否足够
+            if (profile.credits < 1) {
+                // 重置所有加载状态
+                setIsGenerating(false);
+                setImagePromptLoading(false);
+                setTextLoading(false);
+                setImageLoading(false);
+                setAudioLoading(false);
+                setError("Insufficient credits. Please purchase more credits or upgrade your subscription.");
+                return;
+            }
+
+            // 扣除积分
+            const success = await deductCredits(1, "Italian Brainrot Video Generator");
+            if (!success) {
+                // 重置所有加载状态
+                setIsGenerating(false);
+                setImagePromptLoading(false);
+                setTextLoading(false);
+                setImageLoading(false);
+                setAudioLoading(false);
+                setError("Failed to deduct credits. Please try again.");
+                return;
+            }
+        } catch (error) {
+            // 重置所有加载状态
+            setIsGenerating(false);
+            setImagePromptLoading(false);
+            setTextLoading(false);
+            setImageLoading(false);
+            setAudioLoading(false);
+            setError("An error occurred. Please try again.");
+            return;
+        }
 
         try {
             // 步骤1: 并发生成图片提示词和文本
