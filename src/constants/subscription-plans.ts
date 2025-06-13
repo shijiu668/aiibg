@@ -13,7 +13,7 @@ export interface SubscriptionPlan {
 }
 
 export const subscriptionPlans: SubscriptionPlan[] = [
-    {
+  {
     id: 'basic',
     name: 'Basic Plan',
     description: 'Perfect for getting started',
@@ -24,9 +24,11 @@ export const subscriptionPlans: SubscriptionPlan[] = [
     paddleMonthlyPriceId: '',  // 免费计划无需支付
     paddleYearlyPriceId: '',   // 免费计划无需支付
     features: [
-      '20 free credits',
-      'Access to all generators',
-      'Basic features'
+      '20 free credits for abstract content generation',
+      'Access to abstract artwork generator',
+      'Access to surreal text generator',
+      'Access to entertainment voice synthesis',
+      'No human face or character generation'
     ]
   },
   {
@@ -40,10 +42,12 @@ export const subscriptionPlans: SubscriptionPlan[] = [
     paddleMonthlyPriceId: 'pri_01jxf820hwcqfwj2tda66jdj6b',  // 保持现有ID
     paddleYearlyPriceId: 'pri_01jxf82kt83527z1bvcs8mvtwq',   // 保持现有ID
     features: [
-      '300 credits per month',
-      'Access to all generators',
+      '300 credits per month for content generation',
+      'Access to all abstract art generators',
+      'Access to surreal text and voice tools',
       'Priority support',
-      'Early access to new features'
+      'Early access to new entertainment features',
+      'Faster generation processing'
     ],
     popular: true
   },
@@ -58,11 +62,13 @@ export const subscriptionPlans: SubscriptionPlan[] = [
     paddleMonthlyPriceId: 'pri_01jxf83w0mst0z40ve94c3dhxv',  // 保持现有ID
     paddleYearlyPriceId: 'pri_01jxf84azfh6xm8yf9rcv75jjd',   // 保持现有ID
     features: [
-      '1000 credits per month',
-      'Access to all generators',
-      'Priority support',
-      'Faster generation speed',
-      'Early access to new features',
+      '1000 credits per month for content generation',
+      'Access to all abstract art generators',
+      'Access to premium text and voice tools',
+      'Priority support with dedicated assistance',
+      'Fastest generation processing speed',
+      'Early access to new entertainment features',
+      'Advanced customization options'
     ]
   }
 ]

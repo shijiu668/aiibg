@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Italian Brainrot Generator | Create Video",
-  description: "Generate Italian brainrot video with AI. Our AI creates the most ridiculous, over-the-top content perfect for sharing across all your social platforms.",
+  description: "Generate Italian brainrot abstract video with AI. Our AI creates surreal artwork and entertainment content perfect for sharing across all your social platforms.",
   keywords: "italian brainrot video, AI video generation, brainrot content creator, italian brainrot generator, viral video maker, AI video composer, brainrot video editor, italian meme generator",
   authors: [{ name: "AI Creative Studio" }],
   openGraph: {
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Italian Brainrot Video Generator - Create AI-Powered Viral Content",
-    description: "Generate stunning Italian brainrot video content with AI. Create surreal 3D characters, authentic Italian text, and immersive audio.",
+    description: "Generate stunning Italian brainrot video content with AI. Create abstract 3D artwork, authentic Italian text, and immersive audio.",
     images: ["https://italianbrainrots.org/og-italian-brainrot-video.jpg"],
   },
   alternates: {
@@ -64,12 +64,12 @@ export default function ItalianBrainrotVideoLayout({
         {/* Preload critical resources for video generation */}
         <link rel="preload" href="https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.js" as="script" />
         <link rel="preload" href="https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.wasm" as="fetch" crossOrigin="anonymous" />
-        
+
         {/* Additional meta tags for video content */}
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#000000" />
         <meta name="format-detection" content="telephone=no" />
-        
+
         {/* Schema.org structured data for video application */}
         <script
           type="application/ld+json"
@@ -78,7 +78,7 @@ export default function ItalianBrainrotVideoLayout({
               "@context": "https://schema.org",
               "@type": "WebApplication",
               "name": "Italian Brainrot Video Generator",
-              "description": "AI-powered tool for creating Italian brainrot video content with surreal 3D characters, authentic Italian text, and immersive audio.",
+              "description": "AI-powered tool for creating Italian brainrot video content with abstract 3D artwork, authentic Italian text, and immersive audio.",
               "url": "https://italianbrainrots.org/italian-brainrot-video",
               "applicationCategory": "MultimediaApplication",
               "operatingSystem": "Web Browser",

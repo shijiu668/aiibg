@@ -383,7 +383,7 @@ export default function Home() {
           AI Italian Brainrot Generator
         </h1>
         <p className="text-sm sm:text-base md:text-lg mb-8 text-gray-600">
-          AI Italian Brainrot Generator - Create 3D characters, surreal text & voice from your prompts. Transform ideas into quirky Italian Brainrot content instantly. Free online tool.
+          AI Italian Brainrot Generator - Create abstract 3D artwork, surreal text & voice from your prompts. Transform ideas into quirky Italian Brainrot content instantly. Free online tool.
         </p>
 
         <div className="mb-8">
@@ -408,7 +408,7 @@ export default function Home() {
         <div className="w-full" style={{ marginTop: "1.5rem", marginBottom: "0" }}>
           <div className="text-center">
             <p className="text-gray-600 text-sm">
-              Generate unique Italian Brainrot content with AI - Images, Text & Voice in seconds
+              Generate unique Italian Brainrot abstract artwork, text & voice content with AI in seconds
             </p>
             <div className="flex justify-center items-center mt-2">
               <div className="w-full h-1 bg-gradient-to-r from-transparent via-purple-200 to-transparent max-w-md"></div>
@@ -586,7 +586,7 @@ export default function Home() {
           <div className="mb-8">
             <h3 className="text-xl font-semibold mb-3 text-left">Three-in-One Output</h3>
             <p className="mb-3 text-gray-700">What makes our generator unique is its ability to create a complete multimedia experience from a single prompt. Your input simultaneously generates three distinct Brainrot elements that work together to create an immersive Brainrot experience:</p>
-            <p className="mb-3 text-gray-700"><strong>1. A Visual Masterpiece:</strong> A high-quality 3D-rendered character in the distinctive Italian Brainrot style. Every Brainrot character embodies the style's signature quirky charm and surreal aesthetic.</p>
+            <p className="mb-3 text-gray-700"><strong>1. A Visual Masterpiece:</strong> A high-quality 3D-rendered artwork in the distinctive Italian Brainrot style. Every Brainrot creation embodies the style's signature quirky charm and surreal aesthetic.</p>
             <p className="mb-3 text-gray-700"><strong>2. Quirky Italian Text:</strong> A paragraph of surreal, humorous Italian text that embodies the absurdist nature of the style. The Brainrot text generation captures the characteristic wordplay and nonsensical charm that defines Brainrot content.</p>
             <p className="text-gray-700"><strong>3. Audio Narration:</strong> An Italian voice recording that brings the text to life, completing the immersive experience. The audio adds another layer to your Brainrot creation, making it perfect for sharing as complete Brainrot content across social media platforms.</p>
           </div>
@@ -625,8 +625,8 @@ export default function Home() {
           </div>
 
           <div className="mb-8">
-            <h3 className="text-xl font-semibold mb-3 text-left">What are the best prompts for Italian Brainrot characters?</h3>
-            <p className="text-gray-700">Effective Italian Brainrot prompts combine traditional Italian elements with surreal concepts. Try "pizza-loving astronaut," "dancing spaghetti monster," or "time-traveling gelato vendor." Mix Italian culture with fantastical ideas to generate the most engaging Brainrot characters and stories.</p>
+            <h3 className="text-xl font-semibold mb-3 text-left">What are the best prompts for Italian Brainrot artwork?</h3>
+            <p className="text-gray-700">Effective Italian Brainrot prompts combine traditional Italian elements with surreal concepts. Try "floating pizza in space," "dancing spaghetti sculpture," or "time-traveling gelato machine." Mix Italian culture with fantastical ideas to generate the most engaging Brainrot abstract artwork and stories.</p>
           </div>
 
           <div className="mb-8">
@@ -636,7 +636,7 @@ export default function Home() {
 
           <div className="mb-8">
             <h3 className="text-xl font-semibold mb-3 text-left">What is Italian Brainrot and why is it popular?</h3>
-            <p className="text-gray-700">Italian Brainrot is a viral internet aesthetic featuring anthropomorphic 3D characters with exaggerated features and surreal Italian themes. This AI art style combines cute character design with absurdist humor, creating memorable content that resonates with internet culture. Generate your own Italian Brainrot memes and join this creative phenomenon.</p>
+            <p className="text-gray-700">Italian Brainrot is a viral internet aesthetic featuring abstract 3D objects with exaggerated features and surreal Italian themes. This AI art style combines quirky object design with absurdist humor, creating memorable content that resonates with internet culture. Generate your own Italian Brainrot memes and join this creative phenomenon.</p>
           </div>
 
           <div className="mb-8">

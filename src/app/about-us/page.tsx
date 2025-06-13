@@ -76,7 +76,7 @@ export default function AboutUs() {
                     </h1>
                     <div className="max-w-3xl mx-auto">
                         <p className="text-xl text-gray-600 leading-relaxed">
-                            A cutting-edge creative platform that transforms the way people create and interact with Italian Brainrot content through the power of artificial intelligence.
+                            A cutting-edge creative platform that transforms the way people create and interact with Italian Brainrot artwork through the power of artificial intelligence.
                         </p>
                     </div>
                 </div>
@@ -94,7 +94,7 @@ export default function AboutUs() {
                                     We democratize AI-powered content creation, making it accessible to everyone who wants to explore the whimsical world of Italian Brainrot aesthetics.
                                 </p>
                                 <p className="text-gray-700 text-lg leading-relaxed">
-                                    By combining advanced artificial intelligence with the distinctive Italian Brainrot style, we empower users to generate unique 3D characters, surreal text, and engaging voice content.
+                                    By combining advanced artificial intelligence with the distinctive Italian Brainrot style, we empower users to generate unique abstract artwork, surreal text, and engaging voice content.
                                 </p>
                             </div>
                             <div className="text-center">
@@ -124,7 +124,7 @@ export default function AboutUs() {
                                 <h3 className="text-lg font-bold text-gray-800 mb-2">AI-Powered Generation</h3>
                             </div>
                             <p className="text-gray-600 text-center leading-relaxed">
-                                Advanced AI models create authentic Italian Brainrot content including 3D characters, text, and voice narration.
+                                Advanced AI models create authentic Italian Brainrot content including abstract sculptures, text, and voice narration.
                             </p>
                         </div>
 
@@ -185,14 +185,14 @@ export default function AboutUs() {
                                 <div className="text-4xl mb-4">🎭</div>
                                 <h3 className="text-xl font-semibold mb-3">Authentic Style</h3>
                                 <p className="text-gray-300 leading-relaxed">
-                                    Every generation maintains authentic Brainrot aesthetic with exaggerated features and vibrant colors.
+                                    Every generation maintains authentic Brainrot aesthetic with abstract forms and vibrant colors.
                                 </p>
                             </div>
                             <div>
                                 <div className="text-4xl mb-4">⚡</div>
                                 <h3 className="text-xl font-semibold mb-3">Continuous Improvement</h3>
                                 <p className="text-gray-300 leading-relaxed">
-                                    Algorithms continuously improved to capture the whimsical essence of Italian Brainrot content.
+                                    Algorithms continuously improved to capture the whimsical essence of Italian Brainrot creations.
                                 </p>
                             </div>
                         </div>

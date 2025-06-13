@@ -82,7 +82,7 @@ export default function RefundPolicy() {
 
                         <h2 className="text-2xl font-bold mb-4 gradient-text">Introduction</h2>
                         <p className="text-gray-700 mb-6 leading-relaxed">
-                            At AI Italian Brainrot Generator, operated by italianbrainrots.org, we strive to provide our users with the best AI-powered content generation experience possible. We understand that circumstances may change, and you might need to request a refund. Please read our refund policy carefully before making a purchase.
+                            At AI Italian Brainrot Generator, operated by Yuan Mingxi at italianbrainrots.org, we strive to provide our users with the best AI-powered abstract content generation experience possible.
                         </p>
                     </div>
 
@@ -203,7 +203,7 @@ export default function RefundPolicy() {
                     <div className="result-container">
                         <h2 className="text-2xl font-bold mb-4 gradient-text">Contact Information</h2>
                         <p className="text-gray-700 leading-relaxed">
-                            If you have any questions about this Refund Policy or need to request a refund, please contact us at support@italianbrainrots.org. We are committed to providing excellent customer service and will address your concerns promptly.
+                            If you have any questions about this Refund Policy or need to request a refund, please contact Yuan Mingxi at support@italianbrainrots.org. We are committed to providing excellent customer service and will address your concerns promptly.
                         </p>
                     </div>
                 </div>

@@ -234,7 +234,7 @@ export default function SubscriptionPage() {
               Choose Your Plan
             </h1>
             <p className="text-lg text-gray-600 mb-8">
-              Get more credits and unlock premium features
+              Get more credits for abstract artwork generation, surreal text creation, and entertainment voice synthesis
             </p>
 
             {/* 计费周期切换 */}
@@ -269,6 +269,39 @@ export default function SubscriptionPage() {
               🚧 Payment processing is currently being set up. Subscription functionality will be available soon.
             </p>
           </div>
+
+          <div className="bg-green-50 border border-green-200 rounded-lg p-6 mb-8">
+            <h3 className="text-lg font-semibold text-green-800 mb-3">🎯 Service Features & Deliverables</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-green-700">
+              <div>
+                <h4 className="font-semibold mb-2">Abstract Art Generation</h4>
+                <ul className="text-sm space-y-1">
+                  <li>• 3D rendered objects and shapes</li>
+                  <li>• Food-themed artistic creations</li>
+                  <li>• Surreal landscape scenes</li>
+                  <li>• Abstract geometric designs</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-semibold mb-2">Text Content Creation</h4>
+                <ul className="text-sm space-y-1">
+                  <li>• Humorous Italian-style text</li>
+                  <li>• Surreal narrative content</li>
+                  <li>• Creative writing prompts</li>
+                  <li>• Entertainment scripts</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-semibold mb-2">Voice Synthesis</h4>
+                <ul className="text-sm space-y-1">
+                  <li>• Text-to-speech conversion</li>
+                  <li>• Multiple voice styles</li>
+                  <li>• Audio file downloads</li>
+                  <li>• Entertainment narration</li>
+                </ul>
+              </div>
+            </div>
+          </div>
           {/* 当前状态 - 只在用户登录时显示 */}
           {user && profile && (
             <div className="bg-white rounded-lg p-6 mb-8 shadow-md">
@@ -301,11 +334,22 @@ export default function SubscriptionPage() {
             <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-8">
               <p className="text-green-700">
                 🎉 You're currently on our Basic Plan with {profile.credits} credits!
-                Upgrade to get more credits and premium features.
+                Upgrade to get more credits for abstract art generation and entertainment content creation.
               </p>
             </div>
           )}
 
+
+          {/* 合规说明 - 在订阅计划网格之前添加 */}
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
+            <h3 className="text-lg font-semibold text-blue-800 mb-3">🎨 What You Get With Our Service</h3>
+            <div className="text-blue-700 space-y-2">
+              <p><strong>✅ Abstract Artwork Generation:</strong> Create unique 3D rendered objects, food items, and surreal landscapes in Italian Brainrot style</p>
+              <p><strong>✅ Surreal Text Creation:</strong> Generate entertaining Italian-style text content for creative projects</p>
+              <p><strong>✅ Entertainment Voice Synthesis:</strong> Convert text to stylized audio narration for fun content</p>
+              <p><strong>❌ What We Don't Generate:</strong> No human faces, realistic characters, face swaps, deepfakes, or voice impersonations</p>
+            </div>
+          </div>
           {/* 订阅计划 */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {subscriptionPlans.map((plan) => (

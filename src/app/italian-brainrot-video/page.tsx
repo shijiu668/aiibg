@@ -616,7 +616,7 @@ export default function ItalianBrainrotVideo() {
                     Italian Brainrot Video
                 </h1>
                 <p className="text-sm sm:text-base md:text-lg mb-8 text-gray-400">
-                    Create stunning Italian brainrot video content with AI-generated visuals, surreal text, and immersive audio. Transform your ideas into captivating italian brainrot video experiences.
+                    Create stunning Italian brainrot video content with AI-generated abstract artwork, surreal text, and immersive audio. Transform your ideas into captivating italian brainrot video experiences.
                 </p>
 
                 {/* 功能区 */}
@@ -950,18 +950,17 @@ export default function ItalianBrainrotVideo() {
                                     italian brainrot video content that resonates with global audiences.
                                 </p>
                                 <p className="text-gray-300">
-                                    Successful italian brainrot video themes include anthropomorphic food characters, time-traveling
-                                    cultural icons, and everyday objects with human characteristics navigating absurd Italian scenarios.
+                                    Successful italian brainrot video themes include abstract food artworks, time-traveling
+                                    cultural objects, and surreal everyday items navigating absurd Italian scenarios.
                                 </p>
                             </div>
 
                             <div>
                                 <h3 className="text-lg font-semibold mb-3 text-yellow-300">Trending Italian Brainrot Video Ideas</h3>
                                 <p className="text-gray-300">
-                                    Explore popular italian brainrot video concepts: dancing pizza chef robots in Venice, flying
-                                    spaghetti monsters terrorizing Rome, singing espresso cups with legs, gelato vendors traveling
-                                    through time, and pasta-powered flying machines. Each italian brainrot video concept offers
-                                    unlimited creative possibilities.
+                                    Explore popular italian brainrot video concepts: floating pizza in space scenes, dancing
+                                    spaghetti sculptures, musical espresso cup animations, time-traveling gelato machine artworks,
+                                    and pasta-powered abstract flying objects.
                                 </p>
                             </div>
                         </div>
@@ -1010,8 +1009,8 @@ export default function ItalianBrainrotVideo() {
                             <div>
                                 <h3 className="text-lg font-semibold mb-3 text-pink-300">What makes italian brainrot video content unique?</h3>
                                 <p className="text-gray-300">
-                                    Italian brainrot video combines distinctive 3D character aesthetics with surreal Italian-themed scenarios.
-                                    Each italian brainrot video features exaggerated designs, vibrant colors, absurdist humor, and authentic
+                                    Italian brainrot video combines distinctive abstract 3D artwork aesthetics with surreal Italian-themed scenarios.
+                                    Each italian brainrot video features exaggerated object designs, vibrant colors, absurdist humor, and authentic
                                     Italian narration creating immersive multimedia experiences that define the italian brainrot movement.
                                 </p>
                             </div>
@@ -1088,7 +1087,7 @@ export default function ItalianBrainrotVideo() {
                                 <h3 className="text-xl font-semibold mb-3 text-white">High-Quality Rendering</h3>
                                 <p className="text-purple-100 text-sm">
                                     Advanced SDXL-Lightning generates stunning 1080p italian brainrot video visuals with professional
-                                    3D character designs and cinematic lighting effects.
+                                    abstract 3D artwork designs and cinematic lighting effects.
                                 </p>
                             </div>
                         </div>

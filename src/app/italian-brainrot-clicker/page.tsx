@@ -120,7 +120,7 @@ export default function ItalianBrainrotClicker() {
                         Italian Brainrot Clicker
                     </h1>
                     <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-4xl mx-auto">
-                        Experience the most addictive Italian Brainrot Clicker game! Click your way through surreal Italian adventures with viral characters and endless Italian Brainrot fun.
+                        Experience the most addictive Italian Brainrot Clicker game! Click your way through surreal Italian adventures with viral content and endless Italian Brainrot fun.
                     </p>
                 </div>
 
@@ -167,7 +167,7 @@ export default function ItalianBrainrotClicker() {
                                 Welcome to the most engaging Italian Brainrot Clicker game on the internet! Our Italian Brainrot Clicker combines the addictive mechanics of incremental gaming with the surreal charm of Italian Brainrot culture. This Italian Brainrot Clicker offers endless entertainment as you click your way through bizarre Italian adventures.
                             </p>
                             <p className="text-lg text-gray-600 leading-relaxed">
-                                The Italian Brainrot Clicker features authentic Italian Brainrot characters, surreal storylines, and progressive gameplay that keeps you engaged for hours. Experience the viral phenomenon of Italian Brainrot Clicker gaming with unique mechanics designed specifically for Italian Brainrot enthusiasts.
+                                The Italian Brainrot Clicker features authentic Italian Brainrot content, surreal storylines, and progressive gameplay that keeps you engaged for hours.
                             </p>
                         </div>
                     </div>
@@ -180,7 +180,7 @@ export default function ItalianBrainrotClicker() {
                             </div>
                             <h3 className="text-2xl font-bold mb-4 text-green-800 text-center">Addictive Italian Brainrot Clicker</h3>
                             <p className="text-gray-700 text-center leading-relaxed">
-                                Our Italian Brainrot Clicker delivers the perfect balance of simple clicking mechanics and complex progression systems. The Italian Brainrot Clicker features multiple upgrade paths, achievements, and unlockable Italian Brainrot characters that keep the gameplay fresh and engaging.
+                                The Italian Brainrot Clicker features multiple upgrade paths, achievements, and unlockable Italian Brainrot content that keeps the gameplay fresh and engaging.
                             </p>
                         </div>
 
@@ -216,7 +216,7 @@ export default function ItalianBrainrotClicker() {
                                 <div className="space-y-4">
                                     <div className="flex items-start space-x-4">
                                         <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm">1</div>
-                                        <p className="text-gray-700">Start clicking the main Italian Brainrot Clicker button to accumulate points and unlock your first Italian Brainrot character upgrades.</p>
+                                        <p className="text-gray-700">Start clicking the main Italian Brainrot Clicker button to accumulate points and unlock your first Italian Brainrot content upgrades.</p>
                                     </div>
                                     <div className="flex items-start space-x-4">
                                         <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm">2</div>
@@ -257,7 +257,7 @@ export default function ItalianBrainrotClicker() {
                             <div className="border-l-6 border-green-500 pl-8 bg-green-50 rounded-r-2xl p-6">
                                 <h3 className="text-xl font-semibold mb-3 text-green-700">What makes this Italian Brainrot Clicker special?</h3>
                                 <p className="text-gray-700 leading-relaxed">
-                                    Our Italian Brainrot Clicker stands out as the first clicker game specifically designed around Italian Brainrot culture. This Italian Brainrot Clicker incorporates authentic Italian Brainrot characters, surreal storylines, and unique progression mechanics that you won't find in any other Italian Brainrot Clicker game.
+                                    Our Italian Brainrot Clicker stands out as the first clicker game specifically designed around Italian Brainrot culture. This Italian Brainrot Clicker incorporates authentic Italian Brainrot content, surreal storylines, and unique progression mechanics...
                                 </p>
                             </div>
 
@@ -271,7 +271,7 @@ export default function ItalianBrainrotClicker() {
                             <div className="border-l-6 border-green-500 pl-8 bg-green-50 rounded-r-2xl p-6">
                                 <h3 className="text-xl font-semibold mb-3 text-green-700">How does the Italian Brainrot Clicker progression work?</h3>
                                 <p className="text-gray-700 leading-relaxed">
-                                    The Italian Brainrot Clicker features multiple progression layers including character upgrades, automation systems, prestige mechanics, and achievement unlocks. As you advance in the Italian Brainrot Clicker, you'll unlock new Italian Brainrot characters, storylines, and gameplay mechanics that expand your Italian Brainrot Clicker experience.
+                                    As you advance in the Italian Brainrot Clicker, you'll unlock new Italian Brainrot content, storylines, and gameplay mechanics...
                                 </p>
                             </div>
 

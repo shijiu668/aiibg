@@ -82,7 +82,7 @@ export default function PrivacyPolicy() {
 
                         <h2 className="text-2xl font-bold mb-4 gradient-text">Introduction</h2>
                         <p className="text-gray-700 mb-6 leading-relaxed">
-                            This Privacy Policy of AI Italian Brainrot Generator ("We," "Us," or "Our") describes our policies and procedures on how we collect, store, use, and/or share your information when you use our Service. This includes use of our website at https://italianbrainrots.org (the "Website"). The Privacy Policy also tells you about your privacy rights and how the law protects you.
+                            This Privacy Policy of AI Italian Brainrot Generator, operated by Yuan Mingxi ("We," "Us," or "Our") describes our policies and procedures on how we collect, store, use, and/or share your information when you use our Service.
                         </p>
                         <p className="text-gray-700 mb-6 leading-relaxed">
                             We use your Personal Data to provide and improve the Service. By using the Website, you agree to the collection and use of information in accordance with this Privacy Policy.
@@ -107,10 +107,10 @@ export default function PrivacyPolicy() {
                                 <p className="text-gray-700"><strong>Account</strong> means a unique account created by you to access our Service or parts of our Service</p>
                             </div>
                             <div className="bg-gray-50 p-3 rounded">
-                                <p className="text-gray-700"><strong>Company</strong> (referred to as either "the Company," "We," "Us" or "Our") refers to AI Italian Brainrot Generator</p>
+                                <p className="text-gray-700"><strong>Company</strong> (referred to as either "the Company," "We," "Us" or "Our") refers to Yuan Mingxi trading as AI Italian Brainrot Generator</p>
                             </div>
                             <div className="bg-gray-50 p-3 rounded">
-                                <p className="text-gray-700"><strong>Service</strong> refers to the AI-powered content generation tools and features that we offer, including image generation, text generation, voice synthesis, and related AI products</p>
+                                <p className="text-gray-700"><strong>Service</strong> refers to the AI-powered content generation tools and features that we offer, including abstract artwork generation, text generation, voice synthesis for entertainment purposes, and related AI products that do not generate human faces or realistic human representations</p>
                             </div>
                             <div className="bg-gray-50 p-3 rounded">
                                 <p className="text-gray-700"><strong>Personal Data</strong> is any information that relates to an identified or identifiable individual</p>
