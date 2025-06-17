@@ -6,6 +6,43 @@ import Link from "next/link";
 import { useUser } from '@/contexts/UserContext';
 import AuthModal from '@/components/AuthModal';
 import CreditDisplay from '@/components/CreditDisplay';
+const sensitiveWords = [
+    // 人物相关词汇
+    'person', 'people', 'human', 'man', 'woman', 'face', 'celebrity',
+    'politician', 'real person', 'someone', 'individual', 'character',
+    'portrait', 'selfie', 'photo of', 'picture of',
+
+    // 身体部位相关
+    'naked', 'nude', 'breast', 'chest', 'nipple', 'genitals', 'penis',
+    'vagina', 'buttocks', 'butt', 'ass', 'anatomy',
+
+    // 性相关词汇
+    'sex', 'sexual', 'sexy', 'seductive', 'erotic', 'pornographic',
+    'porn', 'xxx', 'adult', 'mature',
+    'arousal', 'orgasm', 'pleasure', 'desire', 'lust',
+
+    // 衣物和穿着相关
+    'underwear', 'lingerie', 'bikini', 'swimsuit',
+    'topless', 'bottomless', 'undressed', 'strip', 'revealing',
+
+    // NSFW相关
+    'nsfw', 'explicit', 'inappropriate', 'suggestive',
+    'risque', 'lewd', 'vulgar', 'obscene',
+
+    // 其他可能有问题的词汇
+    'realistic', 'photorealistic', 'lifelike', 'detailed anatomy',
+    'human-like', 'anthropomorphic figure', 'humanoid'
+];
+
+const checkSensitiveWords = (text: string): string | null => {
+    const lowerText = text.toLowerCase().trim();
+    for (const word of sensitiveWords) {
+        if (lowerText.includes(word.toLowerCase())) {
+            return word;
+        }
+    }
+    return null;
+};
 export default function BrainrotVoiceGenerator() {
     const { user, profile, deductCredits, signOut } = useUser();
     const [inputText, setInputText] = useState("");
@@ -64,6 +101,13 @@ export default function BrainrotVoiceGenerator() {
     const handleGenerate = async () => {
         if (!inputText.trim()) {
             setError("Please enter some text content");
+            return;
+        }
+
+        // 🆕 添加敏感词检查
+        const foundSensitiveWord = checkSensitiveWords(inputText);
+        if (foundSensitiveWord) {
+            setError(`Please avoid using "${foundSensitiveWord}". Try content about abstract concepts, educational topics, or creative ideas instead!`);
             return;
         }
 
@@ -322,6 +366,9 @@ export default function BrainrotVoiceGenerator() {
                                 disabled={isGenerating}
                                 maxLength={2000}
                             />
+                            <p className="text-gray-500 text-xs mt-2 text-center">
+                                🎨 We generate abstract art only - no human faces or realistic representations
+                            </p>
                             <div className="text-sm text-gray-500 mt-2 text-right">
                                 {inputText.length}/2000 characters
                             </div>

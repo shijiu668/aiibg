@@ -197,6 +197,11 @@ export default function TermsAndConditions() {
                     <div className="result-container">
                         <h2 className="text-2xl font-bold mb-4 gradient-text">Payment and Subscription</h2>
 
+                        <h3 className="text-lg font-semibold mb-3 text-gray-800">Merchant of Record</h3>
+                        <p className="text-gray-700 mb-4 leading-relaxed">
+                            Our order process is conducted by our online reseller Paddle.com. Paddle.com is the Merchant of Record for all our orders. Paddle provides all customer service inquiries and handles returns.
+                        </p>
+
                         <h3 className="text-lg font-semibold mb-3 text-gray-800">Pricing and Fees</h3>
                         <p className="text-gray-700 mb-4 leading-relaxed">
                             Our Service operates on a credit-based system with the following subscription plans:

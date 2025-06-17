@@ -9,6 +9,43 @@ import { useUser } from '@/contexts/UserContext';
 import AuthModal from '@/components/AuthModal';
 import CreditDisplay from '@/components/CreditDisplay';
 
+const sensitiveWords = [
+  // 人物相关词汇
+  'person', 'people', 'human', 'man', 'woman', 'face', 'celebrity',
+  'politician', 'real person', 'someone', 'individual', 'character',
+  'portrait', 'selfie', 'photo of', 'picture of',
+
+  // 身体部位相关
+  'naked', 'nude', 'breast', 'chest', 'nipple', 'genitals', 'penis',
+  'vagina', 'buttocks', 'butt', 'ass', 'anatomy',
+
+  // 性相关词汇
+  'sex', 'sexual', 'sexy', 'seductive', 'erotic', 'pornographic',
+  'porn', 'xxx', 'adult', 'mature',
+  'arousal', 'orgasm', 'pleasure', 'desire', 'lust',
+
+  // 衣物和穿着相关
+  'underwear', 'lingerie', 'bikini', 'swimsuit',
+  'topless', 'bottomless', 'undressed', 'strip', 'revealing',
+
+  // NSFW相关
+  'nsfw', 'explicit', 'inappropriate', 'suggestive',
+  'risque', 'lewd', 'vulgar', 'obscene',
+
+  // 其他可能有问题的词汇
+  'realistic', 'photorealistic', 'lifelike', 'detailed anatomy',
+  'human-like', 'anthropomorphic figure', 'humanoid'
+];
+
+const checkSensitiveWords = (prompt: string): string | null => {
+  const lowerPrompt = prompt.toLowerCase().trim();
+  for (const word of sensitiveWords) {
+    if (lowerPrompt.includes(word.toLowerCase())) {
+      return word;
+    }
+  }
+  return null;
+};
 export default function Home() {
   const { user, profile, signOut, deductCredits } = useUser();
   const [authModal, setAuthModal] = useState<{ isOpen: boolean; mode: 'signin' | 'signup' }>({
@@ -107,6 +144,13 @@ export default function Home() {
   const handleGenerate = useCallback(async () => {
     if (!prompt.trim()) {
       setError("Please enter a prompt word");
+      return;
+    }
+
+    // 🆕 添加敏感词检查
+    const foundSensitiveWord = checkSensitiveWords(prompt);
+    if (foundSensitiveWord) {
+      setError(`Your prompt word involves private content, please try other prompt words`);
       return;
     }
 
@@ -389,11 +433,17 @@ export default function Home() {
         <div className="mb-8">
           <textarea
             className="input-field min-h-[100px]"
-            placeholder="pizza in the kitchen, bean man on the street, shark..."
+            placeholder="floating pizza sculpture, abstract geometric shapes, surreal food art, cosmic objects..."
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
             disabled={isGenerating}
           />
+
+          {/* 🆕 添加小字免责声明 */}
+          <p className="text-gray-500 text-xs mt-2 text-center">
+            🎨 We generate abstract art only - no human faces or realistic representations
+          </p>
+
           {error && <p className="text-red-500 mt-2">{error}</p>}
           <button
             className="btn-primary mt-4 w-full sm:w-auto transform transition-transform active:scale-95"
@@ -563,8 +613,8 @@ export default function Home() {
 
           <div className="mb-8">
             <h3 className="text-xl font-semibold mb-3 text-left">The Quirky Internet Phenomenon</h3>
-            <p className="mb-3 text-gray-700">Italian Brainrot refers to a distinctive aesthetic and humorous style that originated on social media platforms. It features anthropomorphic characters with exaggerated features, vibrant colors, and a distinctly Italian-inspired surrealist vibe.</p>
-            <p className="text-gray-700">The style is characterized by its cute yet bizarre character designs, often with bulging eyes, tiny limbs, and a strange, dream-like quality that makes them both captivating and slightly unsettling.</p>
+            <p className="text-gray-700 mb-3 text-gray-700">What began as a niche internet meme has evolved into a recognizable aesthetic that has influenced digital art, animation, and even mainstream media. Italian Brainrot has become a cultural touchpoint for a generation of internet users who appreciate its blend of nostalgia, absurdity, and charm.</p>
+            <p className="text-gray-700">The style is characterized by its cute yet bizarre artistic designs, often with bulging eyes, tiny limbs, and a strange, dream-like quality that makes them both captivating and slightly unsettling.</p>
           </div>
 
           <div className="mb-8">
@@ -587,7 +637,7 @@ export default function Home() {
             <h3 className="text-xl font-semibold mb-3 text-left">Three-in-One Output</h3>
             <p className="mb-3 text-gray-700">What makes our generator unique is its ability to create a complete multimedia experience from a single prompt. Your input simultaneously generates three distinct Brainrot elements that work together to create an immersive Brainrot experience:</p>
             <p className="mb-3 text-gray-700"><strong>1. A Visual Masterpiece:</strong> A high-quality 3D-rendered artwork in the distinctive Italian Brainrot style. Every Brainrot creation embodies the style's signature quirky charm and surreal aesthetic.</p>
-            <p className="mb-3 text-gray-700"><strong>2. Quirky Italian Text:</strong> A paragraph of surreal, humorous Italian text that embodies the absurdist nature of the style. The Brainrot text generation captures the characteristic wordplay and nonsensical charm that defines Brainrot content.</p>
+            <p className="mb-3 text-gray-700"><strong>2. Quirky Italian Text:</strong> A paragraph of surreal, humorous Italian text that embodies the absurdist nature of the style. The Brainrot text generation captures the distinctive wordplay and nonsensical charm that defines Brainrot content.</p>
             <p className="text-gray-700"><strong>3. Audio Narration:</strong> An Italian voice recording that brings the text to life, completing the immersive experience. The audio adds another layer to your Brainrot creation, making it perfect for sharing as complete Brainrot content across social media platforms.</p>
           </div>
         </div>

@@ -7,6 +7,43 @@ import { useUser } from '@/contexts/UserContext';
 import AuthModal from '@/components/AuthModal';
 import CreditDisplay from '@/components/CreditDisplay';
 
+const sensitiveWords = [
+    // 人物相关词汇
+    'person', 'people', 'human', 'man', 'woman', 'face', 'celebrity',
+    'politician', 'real person', 'someone', 'individual', 'character',
+    'portrait', 'selfie', 'photo of', 'picture of',
+
+    // 身体部位相关
+    'naked', 'nude', 'breast', 'chest', 'nipple', 'genitals', 'penis',
+    'vagina', 'buttocks', 'butt', 'ass', 'anatomy',
+
+    // 性相关词汇
+    'sex', 'sexual', 'sexy', 'seductive', 'erotic', 'pornographic',
+    'porn', 'xxx', 'adult', 'mature',
+    'arousal', 'orgasm', 'pleasure', 'desire', 'lust',
+
+    // 衣物和穿着相关
+    'underwear', 'lingerie', 'bikini', 'swimsuit',
+    'topless', 'bottomless', 'undressed', 'strip', 'revealing',
+
+    // NSFW相关
+    'nsfw', 'explicit', 'inappropriate', 'suggestive',
+    'risque', 'lewd', 'vulgar', 'obscene',
+
+    // 其他可能有问题的词汇
+    'realistic', 'photorealistic', 'lifelike', 'detailed anatomy',
+    'human-like', 'anthropomorphic figure', 'humanoid'
+];
+
+const checkSensitiveWords = (prompt: string): string | null => {
+    const lowerPrompt = prompt.toLowerCase().trim();
+    for (const word of sensitiveWords) {
+        if (lowerPrompt.includes(word.toLowerCase())) {
+            return word;
+        }
+    }
+    return null;
+};
 export default function ItalianBrainrotGenerator() {
     const [prompt, setPrompt] = useState("");
     const [isGenerating, setIsGenerating] = useState(false);
@@ -54,6 +91,13 @@ export default function ItalianBrainrotGenerator() {
     const handleGenerate = useCallback(async () => {
         if (!prompt.trim()) {
             setError("Please enter a prompt word");
+            return;
+        }
+
+        // 🆕 添加敏感词检查
+        const foundSensitiveWord = checkSensitiveWords(prompt);
+        if (foundSensitiveWord) {
+            setError(`Please avoid using "${foundSensitiveWord}". Try prompts about abstract objects, food items, or artistic concepts instead!`);
             return;
         }
 
@@ -374,6 +418,10 @@ export default function ItalianBrainrotGenerator() {
                                     onChange={(e) => setPrompt(e.target.value)}
                                     disabled={isGenerating}
                                 />
+                                <p className="text-gray-500 text-xs mt-2 text-center">
+                                    🎨 We generate abstract art only - no human faces or realistic representations
+                                </p>
+
                                 {error && <p className="text-red-500 text-sm">{error}</p>}
                                 <button
                                     className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white font-medium py-3 px-6 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed active:scale-95"

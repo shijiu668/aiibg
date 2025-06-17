@@ -8,6 +8,45 @@ import { fetchFile, toBlobURL } from '@ffmpeg/util';
 import { useUser } from '@/contexts/UserContext';
 import AuthModal from '@/components/AuthModal';
 import CreditDisplay from '@/components/CreditDisplay';
+
+// 🆕 添加敏感词检查函数
+const sensitiveWords = [
+    // 人物相关词汇
+    'person', 'people', 'human', 'man', 'woman', 'face', 'celebrity',
+    'politician', 'real person', 'someone', 'individual', 'character',
+    'portrait', 'selfie', 'photo of', 'picture of',
+
+    // 身体部位相关
+    'naked', 'nude', 'breast', 'chest', 'nipple', 'genitals', 'penis',
+    'vagina', 'buttocks', 'butt', 'ass', 'anatomy',
+
+    // 性相关词汇
+    'sex', 'sexual', 'sexy', 'seductive', 'erotic', 'pornographic',
+    'porn', 'xxx', 'adult', 'mature',
+    'arousal', 'orgasm', 'pleasure', 'desire', 'lust',
+
+    // 衣物和穿着相关
+    'underwear', 'lingerie', 'bikini', 'swimsuit',
+    'topless', 'bottomless', 'undressed', 'strip', 'revealing',
+
+    // NSFW相关
+    'nsfw', 'explicit', 'inappropriate', 'suggestive',
+    'risque', 'lewd', 'vulgar', 'obscene',
+
+    // 其他可能有问题的词汇
+    'realistic', 'photorealistic', 'lifelike', 'detailed anatomy',
+    'human-like', 'anthropomorphic figure', 'humanoid'
+];
+
+const checkSensitiveWords = (prompt: string): string | null => {
+    const lowerPrompt = prompt.toLowerCase().trim();
+    for (const word of sensitiveWords) {
+        if (lowerPrompt.includes(word.toLowerCase())) {
+            return word;
+        }
+    }
+    return null;
+};
 const EFFECT_FILE_URL = '/effect/brainrot-effect.mov';
 export default function ItalianBrainrotVideo() {
     const [prompt, setPrompt] = useState("");
@@ -114,6 +153,13 @@ export default function ItalianBrainrotVideo() {
     const handleGenerate = async () => {
         if (!prompt.trim()) {
             setError("Please enter a prompt");
+            return;
+        }
+
+        // 🆕 添加敏感词检查
+        const foundSensitiveWord = checkSensitiveWords(prompt);
+        if (foundSensitiveWord) {
+            setError(`Please avoid using "${foundSensitiveWord}". Try prompts about abstract objects, food items, or artistic concepts instead!`);
             return;
         }
 
@@ -623,11 +669,14 @@ export default function ItalianBrainrotVideo() {
                 <div className="mb-8">
                     <textarea
                         className="w-full bg-gray-900 border border-gray-700 rounded-lg p-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent min-h-[120px] transition-all duration-300"
-                        placeholder="Describe your italian brainrot video concept: pizza dancing robot, flying pasta monster, singing gelato..."
+                        placeholder="Describe your italian brainrot video concept: pizza dancing, flying pasta monster, singing gelato..."
                         value={prompt}
                         onChange={(e) => setPrompt(e.target.value)}
                         disabled={isGenerating}
                     />
+                    <p className="text-gray-500 text-xs mt-2 text-center">
+                        🎨 We generate abstract art only - no human faces or realistic representations
+                    </p>
                     {error && <p className="text-red-400 mt-2">{error}</p>}
                     <button
                         className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 px-8 rounded-lg mt-4 w-full sm:w-auto transform transition-all duration-300 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
