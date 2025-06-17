@@ -374,9 +374,6 @@ export default function ItalianBrainrotVideo() {
         return data.audioUrl;
     };
 
-    // 生成视频
-    // 生成视频
-    // 生成视频 - 添加详细调试
     // 修改后的生成视频函数 - 避免网络请求
     const generateVideo = async () => {
         if (!imageUrl || !audioUrl || !ffmpegRef.current) return;
@@ -417,11 +414,16 @@ export default function ItalianBrainrotVideo() {
             if (effectFileCache) {
                 console.log('使用预加载的特效文件');
                 effectFile = effectFileCache;
-                setVideoProgress(13); // 直接跳到13%
+                // 模拟读取缓存文件的进度 5% → 15%
+                for (let i = 6; i <= 15; i++) {
+                    setVideoProgress(i);
+                    await new Promise(resolve => setTimeout(resolve, 50));
+                }
             } else {
                 console.log('实时下载特效文件（预加载未完成）');
                 effectFile = await downloadFileInChunks(EFFECT_FILE_URL);
-                setVideoProgress(13);
+                // 下载完成后设置到15%
+                setVideoProgress(15);
             }
 
             await ffmpeg.writeFile('image.jpg', await fetchFile(imageBlob));
