@@ -496,9 +496,6 @@ export default function ItalianBrainrotVideo() {
 
             chunks.push(value);
             receivedLength += value.length;
-
-            const downloadProgress = Math.round((receivedLength / contentLength) * 8);
-            setVideoProgress(5 + downloadProgress);
         }
 
         const uint8Array = new Uint8Array(receivedLength);
