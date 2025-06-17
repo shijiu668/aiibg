@@ -498,6 +498,12 @@ export default function ItalianBrainrotVideo() {
 
             chunks.push(value);
             receivedLength += value.length;
+
+            // 🆕 重新添加下载进度更新
+            if (contentLength > 0) {
+                const downloadProgress = Math.round((receivedLength / contentLength) * 10); // 0-10的范围
+                setVideoProgress(5 + downloadProgress); // 5%-15%的范围
+            }
         }
 
         const uint8Array = new Uint8Array(receivedLength);
