@@ -12,7 +12,7 @@ import AuthModal from '@/components/AuthModal'
 import CreditDisplay from '@/components/CreditDisplay'
 
 export default function SubscriptionPage() {
-  const { user, profile, loading, signOut } = useUser()
+  const { user, profile, loading, signOut, refreshProfile } = useUser()
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly')
   const [showAIToolsDropdown, setShowAIToolsDropdown] = useState(false)
   const [showUserDropdown, setShowUserDropdown] = useState(false)
@@ -23,6 +23,8 @@ export default function SubscriptionPage() {
   const [isCheckoutLoading, setIsCheckoutLoading] = useState<string | null>(null)
   const [paddleLoaded, setPaddleLoaded] = useState(false)
   const router = useRouter()
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const [countdown, setCountdown] = useState(5)
 
   // Paddle.js 加载完成后的回调
   const handlePaddleLoad = () => {
@@ -59,6 +61,47 @@ export default function SubscriptionPage() {
       console.error('❌ Window.Paddle not available after load load')
     }
     console.log('=== 🔍 PADDLE LOAD DEBUG END ===')
+  }
+  // 🆕 显示支付成功模态框
+  const showPaymentSuccessModal = () => {
+    setShowSuccessModal(true)
+    setCountdown(5)
+  }
+
+  // 🆕 倒计时效果
+  useEffect(() => {
+    if (!showSuccessModal) return
+
+    const timer = setInterval(() => {
+      setCountdown(prev => {
+        if (prev <= 1) {
+          // 倒计时结束，自动跳转
+          handleSuccessRedirect()
+          return 0
+        }
+        return prev - 1
+      })
+    }, 1000)
+
+    return () => clearInterval(timer)
+  }, [showSuccessModal])
+
+  // 🆕 处理成功跳转
+  const handleSuccessRedirect = async () => {
+    setShowSuccessModal(false)
+
+    // 刷新用户资料
+    if (refreshProfile) {
+      await refreshProfile()
+    }
+
+    // 跳转到成功页面
+    router.push('/pricing/success')
+  }
+
+  // 🆕 手动刷新按钮
+  const handleManualRefresh = () => {
+    window.location.reload()
   }
 
   const handleSubscribe = async (planId: string) => {
@@ -183,11 +226,9 @@ export default function SubscriptionPage() {
         ...checkoutData,
         onComplete: (data: any) => {
           console.log('✅ Payment completed:', data)
-          alert('Payment completed! Your credits will be added shortly.')
-          // 🔧 添加页面刷新延迟
-          setTimeout(() => {
-            window.location.reload()
-          }, 2000)
+
+          // 显示成功消息并开始倒计时
+          showPaymentSuccessModal()
         },
         onError: (error: any) => {
           console.error('❌ Payment error:', error)
@@ -712,6 +753,52 @@ export default function SubscriptionPage() {
           </div>
         </div>
       </footer>
+      {/* 🆕 支付成功模态框 */}
+      {showSuccessModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-8 rounded-lg max-w-md w-full mx-4 shadow-xl">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+              </div>
+
+              <h2 className="text-2xl font-bold mb-4 text-gray-800">Payment Successful!</h2>
+              <p className="text-gray-600 mb-6">
+                Your subscription has been activated and credits have been added to your account.
+              </p>
+
+              <div className="bg-green-50 rounded-lg p-4 mb-6">
+                <p className="text-green-700 font-medium">
+                  Redirecting in {countdown} seconds...
+                </p>
+                <div className="w-full bg-green-200 rounded-full h-2 mt-2">
+                  <div
+                    className="bg-green-600 h-2 rounded-full transition-all duration-1000"
+                    style={{ width: `${(5 - countdown) * 20}%` }}
+                  ></div>
+                </div>
+              </div>
+
+              <div className="flex space-x-4">
+                <button
+                  onClick={handleSuccessRedirect}
+                  className="btn-primary flex-1"
+                >
+                  Continue Now
+                </button>
+                <button
+                  onClick={handleManualRefresh}
+                  className="bg-gray-200 text-gray-800 px-4 py-3 rounded-lg flex-1 hover:bg-gray-300 transition-colors"
+                >
+                  Refresh Page
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <AuthModal
         isOpen={authModal.isOpen}
