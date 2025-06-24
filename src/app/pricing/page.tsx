@@ -56,7 +56,7 @@ export default function SubscriptionPage() {
         console.log('   - Paddle.Checkout available:', !!window.Paddle.Checkout)
       }, 1000)
     } else {
-      console.error('❌ Window.Paddle not available after load')
+      console.error('❌ Window.Paddle not available after load load')
     }
     console.log('=== 🔍 PADDLE LOAD DEBUG END ===')
   }
