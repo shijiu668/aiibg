@@ -71,6 +71,7 @@ export default function SubscriptionPage() {
 
     if (!user) {
       console.log('❌ No user found')
+      setAuthModal({ isOpen: true, mode: 'signin' })
       return
     }
 
@@ -99,6 +100,7 @@ export default function SubscriptionPage() {
 
       if (!plan) {
         console.log('❌ Plan not found for ID:', planId)
+        setIsCheckoutLoading(null)
         return
       }
 
@@ -108,9 +110,36 @@ export default function SubscriptionPage() {
 
       console.log('7. Billing cycle:', billingCycle)
       console.log('8. Selected price ID:', priceId)
+
+      // 🔧 添加价格 ID 验证
+      if (!priceId) {
+        console.error('❌ Price ID is empty for plan:', planId, 'billing cycle:', billingCycle)
+        alert('Configuration error: Missing price information. Please contact support.')
+        setIsCheckoutLoading(null)
+        return
+      }
+
+      // 🔧 验证价格 ID 格式
+      if (!priceId.startsWith('pri_')) {
+        console.error('❌ Invalid price ID format:', priceId)
+        alert('Configuration error: Invalid price format. Please contact support.')
+        setIsCheckoutLoading(null)
+        return
+      }
+
       console.log('9. Environment variables:')
       console.log('   - PADDLE_ENV:', process.env.NEXT_PUBLIC_PADDLE_ENV)
-      console.log('   - CLIENT_TOKEN:', process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN)
+      console.log('   - CLIENT_TOKEN:', process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN?.substring(0, 20) + '...')
+
+      // 🔧 检查环境匹配
+      const isLiveToken = process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN?.startsWith('live_')
+      const isProdEnv = process.env.NEXT_PUBLIC_PADDLE_ENV === 'production'
+
+      if (isLiveToken && !isProdEnv) {
+        console.warn('⚠️ Live token but not production environment')
+      } else if (!isLiveToken && isProdEnv) {
+        console.warn('⚠️ Production environment but not live token')
+      }
 
       // 🔍 检查 Paddle 环境和初始化
       console.log('10. Paddle Environment Check:')
@@ -136,7 +165,13 @@ export default function SubscriptionPage() {
         settings: {
           displayMode: 'overlay',
           theme: 'light',
-          locale: 'en'
+          locale: 'en',
+          // 🔧 添加更多配置来解决字体问题
+          allowLogout: true,
+          showAddDiscounts: true,
+          allowDiscountRemoval: true,
+          showAddTaxId: true,
+          variant: 'multi-page'
         }
       }
 
@@ -149,12 +184,31 @@ export default function SubscriptionPage() {
         onComplete: (data: any) => {
           console.log('✅ Payment completed:', data)
           alert('Payment completed! Your credits will be added shortly.')
-          window.location.reload()
+          // 🔧 添加页面刷新延迟
+          setTimeout(() => {
+            window.location.reload()
+          }, 2000)
         },
         onError: (error: any) => {
           console.error('❌ Payment error:', error)
           console.log('Payment error details:', JSON.stringify(error, null, 2))
-          alert(`Payment failed: ${error.message || 'Unknown error'}`)
+
+          // 🔧 改进错误信息
+          let errorMessage = 'Payment failed. '
+          if (error.code === 'checkout_invalid_items') {
+            errorMessage += 'Invalid product configuration. Please contact support.'
+          } else if (error.code === 'checkout_invalid_customer') {
+            errorMessage += 'Customer information error. Please try again.'
+          } else if (error.code === 'checkout_invalid_price') {
+            errorMessage += 'Product pricing error. Please contact support.'
+          } else if (error.message) {
+            errorMessage += error.message
+          } else {
+            errorMessage += 'Please try again or contact support if the issue persists.'
+          }
+
+          alert(errorMessage)
+          setIsCheckoutLoading(null)
         },
         onClose: () => {
           console.log('🔒 Checkout closed')
@@ -166,7 +220,19 @@ export default function SubscriptionPage() {
       console.error('❌ Checkout error:', error)
       console.log('Error stack:', error.stack)
       console.log('Error details:', JSON.stringify(error, null, 2))
-      alert(`Failed to open checkout: ${error.message}`)
+
+      // 🔧 改进错误信息
+      let errorMessage = 'Failed to open checkout. '
+      if (error.message?.includes('Invalid price')) {
+        errorMessage += 'Product configuration error. Please contact support.'
+      } else if (error.message?.includes('network')) {
+        errorMessage += 'Network error. Please check your connection and try again.'
+      } else {
+        errorMessage += error.message || 'Please try again later.'
+      }
+
+      alert(errorMessage)
+      setIsCheckoutLoading(null)
     } finally {
       console.log('=== 🔍 SUBSCRIPTION DEBUG END ===')
     }
