@@ -387,9 +387,9 @@ export default function SubscriptionPage() {
                     </div>
 
                     <div className="text-lg font-semibold text-purple-600">
-                      {billingCycle === 'monthly' ? plan.monthlyCredits : plan.yearlyCredits} credits
+                      {plan.monthlyCredits} credits
                       <span className="text-sm text-gray-500 block">
-                        per {billingCycle === 'monthly' ? 'month' : 'year'}
+                        every month
                       </span>
                     </div>
                   </div>
@@ -406,31 +406,31 @@ export default function SubscriptionPage() {
                   </ul>
                 </div>
                 <div className="mt-auto">
-                <button
-                  onClick={() => handleSubscribe(plan.id)}
-                  disabled={
-                    (plan.id === 'basic' && (profile?.subscription_status === 'basic' || !profile?.subscription_status)) ||
-                    profile?.subscription_status === plan.id ||
-                    isCheckoutLoading === plan.id ||
-                    (plan.id !== 'basic' && !paddleLoaded)
-                  }
-                  className={`w-full py-3 px-6 rounded-lg font-medium transition-all duration-300 ${(plan.id === 'basic' && (profile?.subscription_status === 'basic' || !profile?.subscription_status)) || profile?.subscription_status === plan.id
-                    ? 'bg-green-100 text-green-700 cursor-default'
-                    : plan.popular
-                      ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:shadow-lg'
-                      : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                    } ${(!paddleLoaded || isCheckoutLoading === plan.id) && plan.id !== 'basic' && profile?.subscription_status !== plan.id ? 'opacity-50 cursor-not-allowed' : ''}`}
-                >
-                  {(plan.id === 'basic' && (profile?.subscription_status === 'basic' || !profile?.subscription_status))
-                    ? '✓ Current Plan'
-                    : profile?.subscription_status === plan.id
+                  <button
+                    onClick={() => handleSubscribe(plan.id)}
+                    disabled={
+                      (plan.id === 'basic' && (profile?.subscription_status === 'basic' || !profile?.subscription_status)) ||
+                      profile?.subscription_status === plan.id ||
+                      isCheckoutLoading === plan.id ||
+                      (plan.id !== 'basic' && !paddleLoaded)
+                    }
+                    className={`w-full py-3 px-6 rounded-lg font-medium transition-all duration-300 ${(plan.id === 'basic' && (profile?.subscription_status === 'basic' || !profile?.subscription_status)) || profile?.subscription_status === plan.id
+                      ? 'bg-green-100 text-green-700 cursor-default'
+                      : plan.popular
+                        ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:shadow-lg'
+                        : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                      } ${(!paddleLoaded || isCheckoutLoading === plan.id) && plan.id !== 'basic' && profile?.subscription_status !== plan.id ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  >
+                    {(plan.id === 'basic' && (profile?.subscription_status === 'basic' || !profile?.subscription_status))
                       ? '✓ Current Plan'
-                      : isCheckoutLoading === plan.id
-                        ? 'Opening Checkout...'
-                        : !paddleLoaded
-                          ? 'Loading...'
-                          : 'Subscribe Now'}
-                </button>
+                      : profile?.subscription_status === plan.id
+                        ? '✓ Current Plan'
+                        : isCheckoutLoading === plan.id
+                          ? 'Opening Checkout...'
+                          : !paddleLoaded
+                            ? 'Loading...'
+                            : 'Subscribe Now'}
+                  </button>
                 </div>
               </div>
             ))}

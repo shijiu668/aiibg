@@ -36,11 +36,11 @@ export const subscriptionPlans: SubscriptionPlan[] = [
     monthlyPrice: 3.99,   // 更新为新价格
     yearlyPrice: 38.99,   // 更新为新价格
     monthlyCredits: 300,  // 保持现有积分数
-    yearlyCredits: 3600,  // 保持现有积分数
+    yearlyCredits: 300,  // 保持现有积分数
     paddleMonthlyPriceId: 'pri_01jyftxm20q7yfdag5th7c9kyy',  // 保持现有ID
     paddleYearlyPriceId: 'pri_01jyfv27cw7fn06j41zzj5t7r0',   // 保持现有ID
     features: [
-      '300 credits per month',
+      '300 credits every month',
       'Access to all abstract art generators',
       'Priority support',
       'Early access to new entertainment features'
@@ -54,11 +54,11 @@ export const subscriptionPlans: SubscriptionPlan[] = [
     monthlyPrice: 9.90,   // 更新为新价格
     yearlyPrice: 98.99,   // 更新为新价格
     monthlyCredits: 1000, // 保持现有积分数
-    yearlyCredits: 12000, // 保持现有积分数
+    yearlyCredits: 1000, // 保持现有积分数
     paddleMonthlyPriceId: 'pri_01jyfvanmgsmzzw0gpcbbvw3h3',  // 保持现有ID
     paddleYearlyPriceId: 'pri_01jyfvbkbmwvjr3vphfhg8vx08',   // 保持现有ID
     features: [
-      '1000 credits per month',
+      '1000 credits every month',
       'Access to all abstract art generators',
       'Priority support with dedicated assistance',
       'Fastest generation processing speed',

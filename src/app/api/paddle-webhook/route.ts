@@ -114,10 +114,12 @@ export async function POST(request: Request) {
       switch (event.event_type) {
         case 'subscription.created':
         case 'subscription.updated':
+        case 'subscription.activated':
           await handleSubscriptionEvent(event.data)
           break
 
         case 'subscription.canceled':
+        case 'transaction.billed':
           await handleSubscriptionCanceled(event.data)
           break
 
@@ -208,7 +210,7 @@ async function handleTransactionCompleted(transaction: any) {
   console.log('User ID:', userId)
   console.log('Transaction status:', transaction.status)
   console.log('Full transaction data:', JSON.stringify(transaction, null, 2))
-  
+
   if (!userId) {
     console.error('No user_id in transaction custom_data')
     console.log('Available custom_data:', transaction.custom_data)
@@ -231,57 +233,57 @@ async function handleTransactionCompleted(transaction: any) {
     console.log('Current user credits:', user.credits)
 
     // 计算要添加的积分
-let creditsToAdd = 0
-let subscriptionStatus = 'basic' // 默认状态
-const items = transaction.items || []
+    let creditsToAdd = 0
+    let subscriptionStatus = 'basic' // 默认状态
+    const items = transaction.items || []
 
-console.log('Transaction items count:', items.length)
+    console.log('Transaction items count:', items.length)
 
-for (const item of items) {
-  const priceId = item.price?.id
-  console.log('Processing item with price ID:', priceId)
+    for (const item of items) {
+      const priceId = item.price?.id
+      console.log('Processing item with price ID:', priceId)
 
-  switch (priceId) {
-    // Pro Plan
-    case 'pri_01jyftxm20q7yfdag5th7c9kyy': // Pro Monthly
-      creditsToAdd += 300
-      subscriptionStatus = 'pro'
-      break
-    case 'pri_01jyfv27cw7fn06j41zzj5t7r0': // Pro Yearly
-      creditsToAdd += 3600
-      subscriptionStatus = 'pro'
-      break
+      switch (priceId) {
+        // Pro Plan
+        case 'pri_01jyftxm20q7yfdag5th7c9kyy': // Pro Monthly
+          creditsToAdd += 300
+          subscriptionStatus = 'pro'
+          break
+        case 'pri_01jyfv27cw7fn06j41zzj5t7r0': // Pro Yearly
+          creditsToAdd += 300
+          subscriptionStatus = 'pro'
+          break
 
-    // Premium Plan
-    case 'pri_01jyfvanmgsmzzw0gpcbbvw3h3': // Premium Monthly
-      creditsToAdd += 1000
-      subscriptionStatus = 'premium'
-      break
-    case 'pri_01jyfvbkbmwvjr3vphfhg8vx08': // Premium Yearly
-      creditsToAdd += 12000
-      subscriptionStatus = 'premium'
-      break
+        // Premium Plan
+        case 'pri_01jyfvanmgsmzzw0gpcbbvw3h3': // Premium Monthly
+          creditsToAdd += 1000
+          subscriptionStatus = 'premium'
+          break
+        case 'pri_01jyfvbkbmwvjr3vphfhg8vx08': // Premium Yearly
+          creditsToAdd += 1000
+          subscriptionStatus = 'premium'
+          break
 
-    default:
-      console.warn('Unknown price ID:', priceId)
-  }
-}
+        default:
+          console.warn('Unknown price ID:', priceId)
+      }
+    }
 
-console.log('Credits to add:', creditsToAdd)
-console.log('Subscription status to set:', subscriptionStatus)
+    console.log('Credits to add:', creditsToAdd)
+    console.log('Subscription status to set:', subscriptionStatus)
 
-if (creditsToAdd > 0) {
-  console.log(`Adding ${creditsToAdd} credits to user ${userId} and setting subscription to ${subscriptionStatus}`)
+    if (creditsToAdd > 0) {
+      console.log(`Adding ${creditsToAdd} credits to user ${userId} and setting subscription to ${subscriptionStatus}`)
 
-  // 更新用户积分和订阅状态
-  const { error: updateError } = await supabase
-    .from('users')
-    .update({
-      credits: user.credits + creditsToAdd,
-      subscription_status: subscriptionStatus,
-      updated_at: new Date().toISOString()
-    })
-    .eq('id', userId)
+      // 更新用户积分和订阅状态
+      const { error: updateError } = await supabase
+        .from('users')
+        .update({
+          credits: user.credits + creditsToAdd,
+          subscription_status: subscriptionStatus,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', userId)
 
       if (updateError) {
         console.error('Error updating user credits:', updateError)
