@@ -159,6 +159,7 @@ export async function GET() {
 
 async function handleSubscriptionEvent(subscription: any) {
   const userId = subscription.custom_data?.user_id
+  const subscriptionId = subscription.id  // 🆕 添加这行
   console.log('Processing subscription event for user:', userId)
 
   if (!userId) {
@@ -166,6 +167,26 @@ async function handleSubscriptionEvent(subscription: any) {
     return
   }
 
+  // 🆕 检查是否已经处理过这个订阅
+  const { data: existingTransaction, error: checkError } = await supabase
+    .from('credit_transactions')
+    .select('id')
+    .eq('user_id', userId)
+    .ilike('description', `%Subscription: ${subscriptionId}%`)
+    .limit(1)
+
+  if (checkError && checkError.code !== 'PGRST116') {
+    console.error('Error checking existing transactions:', checkError)
+    return
+  }
+
+  if (existingTransaction && existingTransaction.length > 0) {
+    console.log('✅ Subscription already processed, skipping credit addition')
+
+    // 只更新订阅状态，不添加积分
+    await updateSubscriptionStatus(userId, subscription)
+    return
+  }
   try {
     // 🆕 添加积分逻辑
     let creditsToAdd = 0
@@ -309,6 +330,7 @@ async function handleSubscriptionCanceled(subscription: any) {
 
 async function handleTransactionCompleted(transaction: any) {
   const userId = transaction.custom_data?.user_id
+  const transactionId = transaction.id
   console.log('=== PROCESSING TRANSACTION COMPLETED ===')
   console.log('Transaction ID:', transaction.id)
   console.log('User ID:', userId)
@@ -318,6 +340,45 @@ async function handleTransactionCompleted(transaction: any) {
   if (!userId) {
     console.error('No user_id in transaction custom_data')
     console.log('Available custom_data:', transaction.custom_data)
+    return
+  }
+  // 🆕 检查这个交易是否已经处理过
+  const { data: existingTransaction, error: checkError } = await supabase
+    .from('credit_transactions')
+    .select('id')
+    .eq('user_id', userId)
+    .ilike('description', `%Transaction: ${transactionId}%`)
+    .limit(1)
+
+  if (checkError && checkError.code !== 'PGRST116') {
+    console.error('Error checking existing transactions:', checkError)
+    return
+  }
+
+  if (existingTransaction && existingTransaction.length > 0) {
+    console.log('✅ Transaction already processed, skipping')
+    return
+  }
+
+  // 🆕 检查这是否是订阅相关的交易
+  const items = transaction.items || []
+  let isSubscriptionTransaction = false
+
+  for (const item of items) {
+    const priceId = item.price?.id
+    if (priceId && (
+      priceId === 'pri_01jyftxm20q7yfdag5th7c9kyy' || // Pro Monthly
+      priceId === 'pri_01jyfv27cw7fn06j41zzj5t7r0' || // Pro Yearly
+      priceId === 'pri_01jyfvanmgsmzzw0gpcbbvw3h3' || // Premium Monthly
+      priceId === 'pri_01jyfvbkbmwvjr3vphfhg8vx08'    // Premium Yearly
+    )) {
+      isSubscriptionTransaction = true
+      break
+    }
+  }
+
+  if (isSubscriptionTransaction) {
+    console.log('🔄 This is a subscription transaction, will be handled in subscription.created event')
     return
   }
 
@@ -415,5 +476,23 @@ async function handleTransactionCompleted(transaction: any) {
     }
   } catch (dbError) {
     console.error('Database error in handleTransactionCompleted:', dbError)
+  }
+}
+
+// 🆕 独立的订阅状态更新函数
+async function updateSubscriptionStatus(userId: string, subscription: any) {
+  const { error } = await supabase
+    .from('users')
+    .update({
+      subscription_id: subscription.id,
+      subscription_status: subscription.status,
+      updated_at: new Date().toISOString()
+    })
+    .eq('id', userId)
+
+  if (error) {
+    console.error('Error updating subscription status:', error)
+  } else {
+    console.log('Successfully updated subscription status for user:', userId)
   }
 }
