@@ -26,29 +26,59 @@ export default function SubscriptionPage() {
 
   // Paddle.js 加载完成后的回调
   const handlePaddleLoad = () => {
-    console.log('Paddle.js loaded')
+    console.log('=== 🔍 PADDLE LOAD DEBUG ===')
+    console.log('1. Paddle.js loaded successfully')
+    console.log('2. Window.Paddle exists:', !!window.Paddle)
+
     setPaddleLoaded(true)
 
-    // 初始化 Paddle
     if (window.Paddle) {
-      window.Paddle.Environment.set(process.env.NEXT_PUBLIC_PADDLE_ENV || 'sandbox')
+      console.log('3. Setting Paddle environment...')
+      const env = process.env.NEXT_PUBLIC_PADDLE_ENV || 'sandbox'
+      console.log('4. Environment:', env)
+
+      window.Paddle.Environment.set(env)
+      console.log('5. Environment set successfully')
+
+      const token = process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN
+      console.log('6. Client token (first 20 chars):', token?.substring(0, 20))
+      console.log('7. Client token length:', token?.length)
+
       window.Paddle.Initialize({
-        token: process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN
+        token: token
       })
+      console.log('8. Paddle initialized successfully')
+
+      // 🔍 验证初始化
+      setTimeout(() => {
+        console.log('9. Post-initialization check:')
+        console.log('   - Paddle.Environment:', window.Paddle.Environment)
+        console.log('   - Paddle.Checkout available:', !!window.Paddle.Checkout)
+      }, 1000)
+    } else {
+      console.error('❌ Window.Paddle not available after load')
     }
+    console.log('=== 🔍 PADDLE LOAD DEBUG END ===')
   }
 
   const handleSubscribe = async (planId: string) => {
-    if (!user) return
+    console.log('=== 🔍 SUBSCRIPTION DEBUG START ===')
+    console.log('1. Plan ID:', planId)
+    console.log('2. User:', user)
+    console.log('3. Profile:', profile)
+    console.log('4. Paddle Loaded:', paddleLoaded)
+    console.log('5. Window.Paddle exists:', !!window.Paddle)
 
-    // 如果是 Basic Plan，直接提示用户已经拥有
-    // 如果是 Basic Plan，直接提示用户已经拥有
+    if (!user) {
+      console.log('❌ No user found')
+      return
+    }
+
     if (planId === 'basic') {
       alert('You already have the Basic Plan! This is your default free plan.')
       return
     }
 
-    // 如果用户已经订阅了当前计划
     if (profile?.subscription_status === planId) {
       const planName = planId === 'pro' ? 'Pro Plan' : planId === 'premium' ? 'Premium Plan' : planId;
       alert(`You already have the ${planName}! Your subscription is currently active.`)
@@ -56,6 +86,7 @@ export default function SubscriptionPage() {
     }
 
     if (!paddleLoaded || !window.Paddle) {
+      console.log('❌ Paddle not loaded:', { paddleLoaded, windowPaddle: !!window.Paddle })
       alert('Payment system is loading, please try again in a moment.')
       return
     }
@@ -64,16 +95,32 @@ export default function SubscriptionPage() {
 
     try {
       const plan = subscriptionPlans.find(p => p.id === planId)
-      if (!plan) return
+      console.log('6. Found plan:', plan)
+
+      if (!plan) {
+        console.log('❌ Plan not found for ID:', planId)
+        return
+      }
 
       const priceId = billingCycle === 'monthly'
         ? plan.paddleMonthlyPriceId
         : plan.paddleYearlyPriceId
 
-      console.log('Opening Paddle checkout for:', { priceId, user: user.email })
+      console.log('7. Billing cycle:', billingCycle)
+      console.log('8. Selected price ID:', priceId)
+      console.log('9. Environment variables:')
+      console.log('   - PADDLE_ENV:', process.env.NEXT_PUBLIC_PADDLE_ENV)
+      console.log('   - CLIENT_TOKEN:', process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN)
 
-      // 使用 Paddle.js 直接打开支付弹窗
-      window.Paddle.Checkout.open({
+      // 🔍 检查 Paddle 环境和初始化
+      console.log('10. Paddle Environment Check:')
+      if (window.Paddle) {
+        console.log('   - Paddle object exists')
+        console.log('   - Paddle.Environment:', window.Paddle.Environment)
+        console.log('   - Paddle.Checkout:', !!window.Paddle.Checkout)
+      }
+
+      const checkoutData = {
         items: [
           {
             priceId: priceId,
@@ -87,33 +134,41 @@ export default function SubscriptionPage() {
           user_id: user.id
         },
         settings: {
-          displayMode: 'overlay', // 弹窗模式
+          displayMode: 'overlay',
           theme: 'light',
           locale: 'en'
-        },
+        }
+      }
+
+      console.log('11. Checkout data:', JSON.stringify(checkoutData, null, 2))
+      console.log('12. Opening Paddle checkout...')
+
+      // 使用 Paddle.js 直接打开支付弹窗
+      window.Paddle.Checkout.open({
+        ...checkoutData,
         onComplete: (data: any) => {
-          console.log('Payment completed:', data)
-          // 支付完成后的处理
+          console.log('✅ Payment completed:', data)
           alert('Payment completed! Your credits will be added shortly.')
-          // 刷新页面或用户信息
           window.location.reload()
         },
         onError: (error: any) => {
-          console.error('Payment error:', error)
-          alert('Payment failed. Please try again.')
+          console.error('❌ Payment error:', error)
+          console.log('Payment error details:', JSON.stringify(error, null, 2))
+          alert(`Payment failed: ${error.message || 'Unknown error'}`)
         },
         onClose: () => {
-          console.log('Checkout closed')
+          console.log('🔒 Checkout closed')
           setIsCheckoutLoading(null)
         }
       })
 
     } catch (error: any) {
-      console.error('Checkout error:', error)
+      console.error('❌ Checkout error:', error)
+      console.log('Error stack:', error.stack)
+      console.log('Error details:', JSON.stringify(error, null, 2))
       alert(`Failed to open checkout: ${error.message}`)
     } finally {
-      // 注意：不要在这里设置 loading 为 null，因为用户可能还在支付流程中
-      // setIsCheckoutLoading(null) 应该在 onClose 回调中设置
+      console.log('=== 🔍 SUBSCRIPTION DEBUG END ===')
     }
   }
 
