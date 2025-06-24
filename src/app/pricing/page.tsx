@@ -264,12 +264,6 @@ export default function SubscriptionPage() {
               </div>
             )}
           </div>
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-8">
-            <p className="text-yellow-800 text-center">
-              🚧 Payment processing is currently being set up. Subscription functionality will be available soon.
-            </p>
-          </div>
-
           <div className="bg-green-50 border border-green-200 rounded-lg p-6 mb-8">
             <h3 className="text-lg font-semibold text-green-800 mb-3">🎯 Service Features & Deliverables</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-green-700">
@@ -412,16 +406,6 @@ export default function SubscriptionPage() {
                   </ul>
                 </div>
                 <div className="mt-auto">
-                  <button
-                    onClick={() => handleSubscribe(plan.id)}
-                    disabled={true}
-                    className="w-full py-3 px-6 rounded-lg font-medium bg-gray-400 text-white cursor-not-allowed"
-                  >
-                    Coming Soon
-                  </button>
-                </div>
-
-                {/*
                 <button
                   onClick={() => handleSubscribe(plan.id)}
                   disabled={
@@ -447,7 +431,7 @@ export default function SubscriptionPage() {
                           ? 'Loading...'
                           : 'Subscribe Now'}
                 </button>
-              */}
+                </div>
               </div>
             ))}
           </div>

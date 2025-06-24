@@ -243,21 +243,21 @@ for (const item of items) {
 
   switch (priceId) {
     // Pro Plan
-    case 'pri_01jxf820hwcqfwj2tda66jdj6b': // Pro Monthly
+    case 'pri_01jyftxm20q7yfdag5th7c9kyy': // Pro Monthly
       creditsToAdd += 300
       subscriptionStatus = 'pro'
       break
-    case 'pri_01jxf82kt83527z1bvcs8mvtwq': // Pro Yearly
+    case 'pri_01jyfv27cw7fn06j41zzj5t7r0': // Pro Yearly
       creditsToAdd += 3600
       subscriptionStatus = 'pro'
       break
 
     // Premium Plan
-    case 'pri_01jxf83w0mst0z40ve94c3dhxv': // Premium Monthly
+    case 'pri_01jyfvanmgsmzzw0gpcbbvw3h3': // Premium Monthly
       creditsToAdd += 1000
       subscriptionStatus = 'premium'
       break
-    case 'pri_01jxf84azfh6xm8yf9rcv75jjd': // Premium Yearly
+    case 'pri_01jyfvbkbmwvjr3vphfhg8vx08': // Premium Yearly
       creditsToAdd += 12000
       subscriptionStatus = 'premium'
       break

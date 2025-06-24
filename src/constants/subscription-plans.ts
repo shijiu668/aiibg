@@ -37,8 +37,8 @@ export const subscriptionPlans: SubscriptionPlan[] = [
     yearlyPrice: 38.99,   // 更新为新价格
     monthlyCredits: 300,  // 保持现有积分数
     yearlyCredits: 3600,  // 保持现有积分数
-    paddleMonthlyPriceId: 'pri_01jxf820hwcqfwj2tda66jdj6b',  // 保持现有ID
-    paddleYearlyPriceId: 'pri_01jxf82kt83527z1bvcs8mvtwq',   // 保持现有ID
+    paddleMonthlyPriceId: 'pri_01jyftxm20q7yfdag5th7c9kyy',  // 保持现有ID
+    paddleYearlyPriceId: 'pri_01jyfv27cw7fn06j41zzj5t7r0',   // 保持现有ID
     features: [
       '300 credits per month',
       'Access to all abstract art generators',
@@ -55,8 +55,8 @@ export const subscriptionPlans: SubscriptionPlan[] = [
     yearlyPrice: 98.99,   // 更新为新价格
     monthlyCredits: 1000, // 保持现有积分数
     yearlyCredits: 12000, // 保持现有积分数
-    paddleMonthlyPriceId: 'pri_01jxf83w0mst0z40ve94c3dhxv',  // 保持现有ID
-    paddleYearlyPriceId: 'pri_01jxf84azfh6xm8yf9rcv75jjd',   // 保持现有ID
+    paddleMonthlyPriceId: 'pri_01jyfvanmgsmzzw0gpcbbvw3h3',  // 保持现有ID
+    paddleYearlyPriceId: 'pri_01jyfvbkbmwvjr3vphfhg8vx08',   // 保持现有ID
     features: [
       '1000 credits per month',
       'Access to all abstract art generators',
