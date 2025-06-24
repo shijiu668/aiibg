@@ -146,6 +146,16 @@ export async function POST(request: Request) {
   }
 }
 
+export async function GET() {
+  return NextResponse.json({
+    status: 'Paddle webhook endpoint is active',
+    timestamp: new Date().toISOString(),
+    message: 'This endpoint accepts POST requests from Paddle',
+    methods: ['POST'],
+    version: '1.0'
+  })
+}
+
 async function handleSubscriptionEvent(subscription: any) {
   const userId = subscription.custom_data?.user_id
   console.log('Processing subscription event for user:', userId)
