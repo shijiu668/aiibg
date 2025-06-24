@@ -33,11 +33,11 @@ export const subscriptionPlans: SubscriptionPlan[] = [
     id: 'pro',
     name: 'Pro Plan',
     description: 'For power users',
-    monthlyPrice: 0.20,   // 更新为新价格
+    monthlyPrice: 3.99,   // 更新为新价格
     yearlyPrice: 38.99,   // 更新为新价格
     monthlyCredits: 300,  // 保持现有积分数
     yearlyCredits: 300,  // 保持现有积分数
-    paddleMonthlyPriceId: 'pri_01jygdma0q2jqdhd0g7mj5byf8',  // 保持现有ID
+    paddleMonthlyPriceId: 'pri_01jyftxm20q7yfdag5th7c9kyy',  // 保持现有ID
     paddleYearlyPriceId: 'pri_01jyfv27cw7fn06j41zzj5t7r0',   // 保持现有ID
     features: [
       '300 credits every month',

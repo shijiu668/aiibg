@@ -184,11 +184,6 @@ async function handleSubscriptionEvent(subscription: any) {
           subscriptionStatus = 'pro'
           console.log('✅ Matched Pro Monthly plan')
           break
-        case 'pri_01jygdma0q2jqdhd0g7mj5byf8': // 🆕 新增测试 Pro Monthly $0.50
-          creditsToAdd += 300
-          subscriptionStatus = 'pro'
-          console.log('✅ Matched TEST Pro Monthly plan ($0.50)')
-          break
         case 'pri_01jyfv27cw7fn06j41zzj5t7r0': // Pro Yearly
           creditsToAdd += 300
           subscriptionStatus = 'pro'
@@ -357,11 +352,6 @@ async function handleTransactionCompleted(transaction: any) {
         case 'pri_01jyftxm20q7yfdag5th7c9kyy': // Pro Monthly
           creditsToAdd += 300
           subscriptionStatus = 'pro'
-          break
-        case 'pri_01jygdma0q2jqdhd0g7mj5byf8': // 🆕 新增测试 Pro Monthly $0.50
-          creditsToAdd += 300
-          subscriptionStatus = 'pro'
-          console.log('✅ Using TEST price for Pro Monthly')
           break
         case 'pri_01jyfv27cw7fn06j41zzj5t7r0': // Pro Yearly
           creditsToAdd += 300
