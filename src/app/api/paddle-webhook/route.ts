@@ -480,12 +480,37 @@ async function handleTransactionCompleted(transaction: any) {
 }
 
 // 🆕 独立的订阅状态更新函数
+// 🆕 独立的订阅状态更新函数
 async function updateSubscriptionStatus(userId: string, subscription: any) {
+  // 🆕 根据订阅中的价格ID确定正确的订阅状态
+  let subscriptionStatus = 'basic'
+  const items = subscription.items || []
+
+  for (const item of items) {
+    const priceId = item.price?.id
+    console.log('Determining subscription status for price ID:', priceId)
+
+    switch (priceId) {
+      case 'pri_01jyftxm20q7yfdag5th7c9kyy': // Pro Monthly
+      case 'pri_01jyfv27cw7fn06j41zzj5t7r0': // Pro Yearly
+        subscriptionStatus = 'pro'
+        break
+      case 'pri_01jyfvanmgsmzzw0gpcbbvw3h3': // Premium Monthly
+      case 'pri_01jyfvbkbmwvjr3vphfhg8vx08': // Premium Yearly
+        subscriptionStatus = 'premium'
+        break
+      default:
+        console.warn('Unknown price ID for status update:', priceId)
+    }
+  }
+
+  console.log('Setting subscription status to:', subscriptionStatus)
+
   const { error } = await supabase
     .from('users')
     .update({
       subscription_id: subscription.id,
-      subscription_status: subscription.status,
+      subscription_status: subscriptionStatus, // 🆕 使用计算出的状态而不是 subscription.status
       updated_at: new Date().toISOString()
     })
     .eq('id', userId)
@@ -493,6 +518,6 @@ async function updateSubscriptionStatus(userId: string, subscription: any) {
   if (error) {
     console.error('Error updating subscription status:', error)
   } else {
-    console.log('Successfully updated subscription status for user:', userId)
+    console.log('Successfully updated subscription status for user:', userId, 'to:', subscriptionStatus)
   }
 }
