@@ -54,7 +54,7 @@ export async function GET(request: Request) {
               .insert({
                 id: data.user.id,
                 email: data.user.email!,
-                credits: 20,
+                credits: 10,
                 subscription_status: 'basic'
               })
 
@@ -62,7 +62,7 @@ export async function GET(request: Request) {
               // 记录注册奖励
               await supabase.from('credit_transactions').insert({
                 user_id: data.user.id,
-                amount: 20,
+                amount: 10,
                 type: 'earned',
                 description: 'Registration bonus'
               })

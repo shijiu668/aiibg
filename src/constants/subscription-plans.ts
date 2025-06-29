@@ -19,8 +19,8 @@ export const subscriptionPlans: SubscriptionPlan[] = [
     description: 'Perfect for getting started',
     monthlyPrice: 0,  // 免费
     yearlyPrice: 0,   // 免费
-    monthlyCredits: 20,
-    yearlyCredits: 240,
+    monthlyCredits: 10,
+    yearlyCredits: 120,
     paddleMonthlyPriceId: '',  // 免费计划无需支付
     paddleYearlyPriceId: '',   // 免费计划无需支付
     features: [
