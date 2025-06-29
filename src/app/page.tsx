@@ -570,6 +570,8 @@ export default function Home() {
                       src={`/gallery/example-${imageNum}.png`}
                       alt={`AI Generated Example ${imageNum}`}
                       className="w-full h-full object-cover"
+                      loading="lazy"
+                      decoding="async"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
                         target.src = `https://picsum.photos/192/128?random=${imageNum}`;
@@ -593,6 +595,8 @@ export default function Home() {
                       src={`/gallery/example-${imageNum}.png`}
                       alt={`AI Generated Example ${imageNum}`}
                       className="w-full h-full object-cover"
+                      loading="lazy"
+                      decoding="async"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
                         target.src = `https://picsum.photos/192/128?random=${imageNum}`;
