@@ -194,7 +194,7 @@ if (data.user && !data.session) {
       </div>
       <div>
         <p className="text-blue-800 font-medium">Waiting for email confirmation...</p>
-        <p className="text-blue-600 text-sm">Please check your email and click the confirmation link. This page will automatically update once confirmed.</p>
+        <p className="text-blue-600 text-sm">Please check your email and click the confirmation link. This page will automatically update once confirmed. If it does not automatically update, click the browser update button and then click Sign in</p>
       </div>
     </div>
   </div>
