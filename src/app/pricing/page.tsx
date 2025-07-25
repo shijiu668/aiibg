@@ -25,6 +25,7 @@ export default function SubscriptionPage() {
   const router = useRouter()
   const [showSuccessModal, setShowSuccessModal] = useState(false)
   const [countdown, setCountdown] = useState(5)
+  const [isCanceling, setIsCanceling] = useState(false);
 
   // Paddle.js 加载完成后的回调
   const handlePaddleLoad = () => {
@@ -279,6 +280,33 @@ export default function SubscriptionPage() {
     }
   }
 
+  const handleCancelSubscription = async () => {
+    if (!window.confirm('Are you sure you want to cancel your subscription? Your access will continue until the end of the current billing period.')) {
+      return;
+    }
+
+    setIsCanceling(true);
+    try {
+      const response = await fetch('/api/cancel-subscription', {
+        method: 'POST',
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Something went wrong.');
+      }
+
+      alert('Your subscription has been scheduled for cancellation.');
+      await refreshProfile(); // 刷新用户资料以更新UI
+
+    } catch (error: any) {
+      alert(`Failed to cancel subscription: ${error.message}`);
+    } finally {
+      setIsCanceling(false);
+    }
+  };
+
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center">Loading...</div>
   }
@@ -430,7 +458,7 @@ export default function SubscriptionPage() {
           {user && profile && (
             <div className="bg-white rounded-lg p-6 mb-8 shadow-md">
               <h2 className="text-xl font-semibold mb-4">Current Status</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-center">
                 <div className="text-center">
                   <div className="text-2xl font-bold gradient-text">{profile.credits}</div>
                   <div className="text-gray-600">Credits Remaining</div>
@@ -446,9 +474,21 @@ export default function SubscriptionPage() {
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-blue-600">
-                    {profile.subscription_status ? 'Active' : 'No Subscription'}
+                    {profile.subscription_status && profile.subscription_status !== 'basic' ? 'Active' : 'No Subscription'}
                   </div>
                   <div className="text-gray-600">Status</div>
+                </div>
+
+                <div className="text-center">
+                  {profile.subscription_status && profile.subscription_status !== 'basic' && (
+                    <button
+                      onClick={handleCancelSubscription}
+                      disabled={isCanceling}
+                      className="btn-orange w-full md:w-auto" // 使用 'btn-orange' 样式
+                    >
+                      {isCanceling ? 'Canceling...' : 'Cancel Subscription'}
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
