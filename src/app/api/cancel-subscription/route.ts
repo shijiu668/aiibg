@@ -1,18 +1,15 @@
 import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import * as PaddleBilling from 'paddle-billing' // Keep the namespace import
+import { Paddle } from '@paddle/paddle-node-sdk'
 import type { Database } from '@/lib/supabase'
 
-// FINAL FIX: Access the class from the .default property of the namespace
-// We use 'as any' to bypass TypeScript's static analysis error
-const paddle = new (PaddleBilling as any).default(process.env.PADDLE_API_KEY!)
+const paddle = new Paddle(process.env.PADDLE_API_KEY!)
 
 export async function POST() {
   const supabase = createServerComponentClient<Database>({ cookies })
 
   try {
-    // 1. Get user info
     const {
       data: { user },
       error: userError,
@@ -25,7 +22,6 @@ export async function POST() {
       )
     }
 
-    // 2. Get user profile
     const { data: profile, error: profileError } = await supabase
       .from('users')
       .select('subscription_id, subscription_status')
@@ -39,7 +35,6 @@ export async function POST() {
       )
     }
 
-    // 3. Check for active subscription
     if (!profile.subscription_id || (profile.subscription_status !== 'pro' && profile.subscription_status !== 'premium')) {
       return NextResponse.json(
         { error: 'No active subscription found to cancel.' },
@@ -47,15 +42,17 @@ export async function POST() {
       )
     }
 
-    // 4. Call Paddle API
-    const canceledSubscription = await paddle.subscriptions.cancel(profile.subscription_id, {
-        effectiveFrom: 'next_billing_period'
-    })
+    // ================= 修正的部分 =================
+    // 将 subscription_id 作为第一个参数，选项作为第二个参数传入
+    const canceledSubscription = await paddle.subscriptions.cancel(
+      profile.subscription_id,
+      { effectiveFrom: 'next_billing_period' }
+    )
+    // ===========================================
 
-    // 5. Update your database
     await supabase
       .from('users')
-      .update({ 
+      .update({
         subscription_status: 'canceled',
         updated_at: new Date().toISOString()
       })
@@ -63,7 +60,7 @@ export async function POST() {
 
     return NextResponse.json({
       message: 'Your subscription has been successfully canceled and will remain active until the end of the current billing period.',
-      canceledSubscriptionId: canceledSubscription.id
+      subscriptionId: canceledSubscription.id
     })
 
   } catch (error: any) {
