@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { Paddle } from 'paddle-billing' // 官方推荐的、标准的导入方式
+import Paddle from 'paddle-billing' // 最终修正：移除花括号，使用默认导入
 import type { Database } from '@/lib/supabase'
 
 // 初始化 Paddle 客户端
