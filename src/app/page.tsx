@@ -848,6 +848,17 @@ export default function Home() {
               >
                 SeekAIs - AI Tools Directory
               </a>
+
+              <span className="mx-2">•</span>
+              <a
+                href="https://artiverse.app/ai/fluxproweb-com-image-to-prompt/"
+                title="Free Image to Prompt AI"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-600 hover:text-purple-600 transition-colors"
+              >
+                Free Image to Prompt AI
+              </a >
             </div>
           </div>
         </div>
